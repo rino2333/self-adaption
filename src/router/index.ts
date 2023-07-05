@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import pinia from '@/store';
 import { useRouterStore, type Nav } from '@/store/routerStore';
 import Layout from "@/layout/index.vue";
@@ -90,7 +90,7 @@ let routes = [
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes
 });
 
@@ -120,11 +120,13 @@ const addRouter = (data: Nav[]) => {
     if (item.children && item.children.length > 0) {
       addRouter(item.children)
     } else {
-      let path = item.url.slice(1);
-      if (path.includes('?')) {
-        path = path.split('?')[0];
+      if (item.url) {
+        let path = item.url.slice(1);
+        if (path.includes('?')) {
+          path = path.split('?')[0];
+        }
+        router.addRoute('jsp', { path, component: () => import('@/views/jsp/index.vue') });
       }
-      router.addRoute('jsp', { path, component: () => import('@/views/jsp/index.vue') });
     }
   })
   router.addRoute({

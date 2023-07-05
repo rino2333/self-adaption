@@ -25,20 +25,23 @@ const sendMsg = () => {
     value: msg.value
   }
   ws.send(JSON.stringify(params));
+  msg.value = '';
 }
 
-const ws = new WebSocket('ws://192.168.110.29:3000/socket/websocket');
+const ws = new WebSocket('ws://192.168.110.147:3000/socket/websocket');
 ws.onmessage = (e) => {
   console.log(e.data);
+  if (e.data == '你链接成功了') {
+    return;
+  }
   msgList.value = JSON.parse(e.data);
   console.log(msgList.value);
-  
 }
 </script>
 
 <template>
   <el-input v-model="userName" placeholder="输入昵称"></el-input>
-  <el-input v-model="msg" placeholder="说点什么呢"></el-input>
+  <el-input v-model="msg" placeholder="说点什么呢" @keyup.enter="sendMsg"></el-input>
   <el-button @click="sendMsg">发送</el-button>
   <div>
     <ul>

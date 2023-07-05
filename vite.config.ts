@@ -39,7 +39,8 @@ export default defineConfig({
         changeOrigin: true
       },
       '/myapp': {
-        target: 'http://localhost:3000',
+        // target: 'http://localhost:3000',
+        target: 'http://192.168.110.147:3000',
         changeOrigin: true,
         // rewrite: path => path.replace(/^\/myapp/, '')
       }

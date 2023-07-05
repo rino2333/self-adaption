@@ -34,7 +34,7 @@ const changeAsideStatsus = (status: boolean) => {
 
         <router-view v-slot="{ Component }">
           <transition name="fade-transform" mode="out-in">
-            <component :is="Component" />
+            <div><component :is="Component" /></div>
           </transition>
         </router-view>
       </el-main>

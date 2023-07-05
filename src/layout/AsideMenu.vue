@@ -36,14 +36,17 @@ const setNav = async () => {
   const nav = [
     {
       path: '/demo1', 
+      code: '001', 
       name: '门户平台管理',
       children: [
         {
           path: '/demo1/table2',
+          code: '002',
           name: '在线课堂'
         },
         {
           path: '/demo1/table3',
+          code: '003',
           name: '课件学习'
         }
       ]

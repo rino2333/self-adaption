@@ -15,12 +15,13 @@ interface MenuItem {
   children?: MenuItem[]
 }
 
-export const login = (params: Login) => {
+export const login = (data: Login) => {
   return request<number>({
     method: 'post',
     // url: 'api/mobile/login', // 汉口学院登录
-    url: '/zd-admin/doLogin',
-    params
+    // url: '/zd-admin/doLogin',
+    url: '/myapp/login',
+    data
   });
 }
 
@@ -28,6 +29,7 @@ export const getMenu = () => {
   return request<MenuItem[]>({
     method: 'post',
     // url: 'api/mobile/login', // 汉口学院登录
-    url: '/zd-admin/getMenu',
+    // url: '/zd-admin/getMenu',
+    url: '/myapp/getMenu',
   });
 }
