@@ -33,3 +33,17 @@ export const getMenu = () => {
     url: '/myapp/getMenu',
   });
 }
+
+export const wsLogin = (nickname: string) => {
+  return request<MenuItem[]>({
+    method: 'get',
+    url: `/socket/myapp/wsLogin/${nickname}`,
+  });
+}
+
+export const wsLogout = (nickname: string) => {
+  return request<MenuItem[]>({
+    method: 'get',
+    url: `/socket/myapp/wsLogout/${nickname}`,
+  });
+}
