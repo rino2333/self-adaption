@@ -34,14 +34,14 @@ export const getMenu = () => {
   });
 }
 
-export const wsLogin = (nickname: string) => {
+export const wsLoginApi = (nickname: string) => {
   return request<MenuItem[]>({
     method: 'get',
     url: `/socket/myapp/wsLogin/${nickname}`,
   });
 }
 
-export const wsLogout = (nickname: string) => {
+export const wsLogoutApi = (nickname: string) => {
   return request<MenuItem[]>({
     method: 'get',
     url: `/socket/myapp/wsLogout/${nickname}`,
