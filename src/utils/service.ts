@@ -50,7 +50,7 @@ service.interceptors.response.use(
                 router.push('/login');
             }
             ElMessage.error(response.data.message);
-            return Promise.reject(response.data.message);
+            return Promise.reject(response.data);
         } else {
             // 对响应数据做点什么
             return response;

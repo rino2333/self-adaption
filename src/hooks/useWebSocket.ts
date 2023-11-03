@@ -1,77 +1,105 @@
 import { ref } from "vue";
 import { wsLoginApi, wsLogoutApi } from "@/api/login";
 import { ElMessage } from "element-plus";
+import {  type WxLoginResData } from "@/api/login";
+import { getIPs } from "@/utils/ip";
 
 interface WsMsg {
-  userName: string
-  value: string
+  userName: string;
+  value: string;
+  avatarIndex: string;
+  ip: string
 }
 
 export function useWebSocket(wsUrl: string) {
-  const ws = new WebSocket(wsUrl);
+  let ws: WebSocket;
+  let ip = ref('');
 
   const userName = ref('');
+  const avatarIndex = ref('');
   const msgList = ref<WsMsg[]>([]);
-  const userList = ref<string[]>([]);
+  const userList = ref<WxLoginResData[]>([]);
 
-  ws.onmessage = (e) => {
-    console.log(e.data);
-    const { type, data, text } = JSON.parse(e.data);
-    switch (type) {
-      case 'userList':
-        userList.value = data;
-        console.log(userList.value);
-        break;
-      case 'msg':
-        console.log(data);
-        console.log(text);
-        userList.value = data;
-        getNickname()
-        if (userName.value) {
-          wsLoginApi(userName.value).then(res => {
-            console.log(res);
-          })
+  const wsLogin = () => {
+    getIPs().then(res => {
+      console.log(res);
+      ip.value = res 
+      ws = new WebSocket(wsUrl);
+      ws.onmessage = (e) => {
+        console.log(e.data);
+        const { type, data, text } = JSON.parse(e.data);
+        switch (type) {
+          case 'userList':
+            userList.value = data;
+            console.log(userList.value);
+            break;
+          case 'inlineUserList':
+            userList.value = data;
+            console.log(data);
+            console.log(ip.value);
+            console.log(userName.value);
+            
+            if (userName.value && !userList.value.map(item => item.nickname).includes(userName.value)) {
+              // alert(123)
+              wsLogin()
+            }
+            console.log(userList.value);
+            break;
+          case 'msg':
+            console.log(data);
+            console.log(text);
+            userList.value = data;
+            if (ip.value) {
+              const params = { ip: ip.value };
+              wsLoginApi(params).then(res => {
+                console.log(res);
+                userName.value = res.data.nickname
+                avatarIndex.value = res.data.avatarIndex
+              }).catch(err => {
+                console.log(err);
+                if (err.code == 438) {
+                  userName.value = err.data.nickname
+                  avatarIndex.value = err.data.avatarIndex
+                }
+              })
+            }
+            break;
+          case 'msgList':
+            msgList.value = data;
+            console.log(msgList.value);
+            break;
+          default:
+            console.error('异常');
+            break;
         }
-        break;
-      case 'msgList':
-        msgList.value = data;
-        console.log(msgList.value);
-        break;
-      default:
-        console.error('异常');
-        break;
-    }
+      }     
+    }).catch(err => {
+      console.log(err);
+      alert(`${navigator.userAgent.indexOf('Chrome') == -1 ? '请使用chrome浏览器打开此网页，并且' : ''}在chrome地址栏输入：chrome://flags/ 进入后，搜索#enable-webrtc-hide-local-ips-with-mdns该配置，并将该属性改为disabled后，点进右下角Relaunch按钮`)
+      wsLogin()
+    })
   }
 
   const sendWsMsg = (params: WsMsg) => {
     ws.send(JSON.stringify(params));
   }
-
-  const getNickname = () => {
-    // 昵称池
-    const nickname_pool = ['张一', '张二', '张三', '张四', '张五', '张六', '张七', '张八', '张九', '张麻子'];
-
-    const new_arr = nickname_pool.filter(item => !userList.value.includes(item));
-    if (new_arr.length == 0) {
-      ElMessage.warning('聊天室人满了');
-      return;
-    }
-    // 过滤后昵称池的随机下标
-    const random_num = Math.floor(Math.random() * new_arr.length);
-    // 生成随机昵称 但不能出现重复的
-    userName.value = new_arr[random_num];
-  }
   
   const wsLogout = () => {
-    wsLogoutApi(userName.value).then(res => {
+    const params = {
+      ip: ip.value
+    }
+    wsLogoutApi(params).then(res => {
       console.log(res);
     })
   }
 
   return {
+    ip,
     userName,
+    avatarIndex,
     msgList,
     userList,
+    wsLogin,
     sendWsMsg,
     wsLogout
   }

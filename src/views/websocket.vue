@@ -3,16 +3,25 @@ import { ref, onUnmounted } from 'vue';
 import { Plus } from '@element-plus/icons-vue'
 import { useWebSocket } from "@/hooks/useWebSocket";
 import { ElMessage } from "element-plus";
-import type { UploadRequestOptions, UploadProps } from 'element-plus'
+import type { UploadRequestOptions } from 'element-plus'
 
-const wsUrl ='ws://192.168.110.57:3000/socket/websocket';
+const wsUrl ='ws://192.168.110.177:3000/socket/websocket';
 const { 
   userName,
+  avatarIndex,
+  ip,
   msgList,
   userList,
+  wsLogin,
   sendWsMsg,
   wsLogout 
 } = useWebSocket(wsUrl)
+
+wsLogin()
+
+// setTimeout(() => {
+//   wsLogin()
+// }, 5000);
 
 const msg = ref('');
 const imgUrl = ref('')
@@ -28,7 +37,9 @@ const sendMsg = () => {
   }
   const params = {
     userName: userName.value,
-    value: msg.value || imgUrl.value
+    value: msg.value || imgUrl.value,
+    avatarIndex: avatarIndex.value,
+    ip: ip.value
   }
   sendWsMsg(params)
   msg.value = '';
@@ -66,9 +77,18 @@ const getBase64 = (file: File) => {
 const dialogImageUrl = ref('')
 const dialogVisible = ref(false)
 
-const handlePictureCardPreview = (url: string) => {
-  dialogImageUrl.value = url
+const handlePictureCardPreview = (url: string, isAvatar?: boolean) => {
+ console.log(url);
+ if (isAvatar) {
+  dialogImageUrl.value = getViteImage(url)
+ } else {
+  dialogImageUrl.value = url;
+ }
   dialogVisible.value = true
+}
+
+const getViteImage = (url: string) => {
+  return new URL(`../assets/images/mochadandan/${url}.jpeg`, import.meta.url).href;
 }
 
 // 浏览器刷新或者关闭 退出ws
@@ -82,29 +102,28 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div>在线人数：{{ userList.length }}人, 当前用户：{{ userName }}</div>
-
+  <div>在线人数：{{ userList.length }}人, 当前用户：{{ userName }}, 当前IP: {{ ip }}</div>
   
   <div class="flex">
     <ul>
       <li>在线用户：</li>
       <li v-for="item in userList">
-        {{ item }}
+        {{ item.nickname }}
       </li>
     </ul>
     <ul class="chat-content">
-      <li class="text-center">匿名聊天(10)</li>
+      <li class="text-center">匿名聊天({{ userList.length }})</li>
       <li v-for="item in msgList" class="flex" :class="{ 'is-self': item.userName == userName }">
         <div v-if="item.userName == userName" class="flex-align-center">
           <img v-if="item.value.includes('data:')" @click="handlePictureCardPreview(item.value)" :src="item.value" class="img-msg" alt="">
           <div v-else class="text-msg">{{ item.value }}</div>
           <div class="user-icon">
-            {{ item.userName }}
+            <img :src="getViteImage(item.avatarIndex)"  @click="handlePictureCardPreview(item.avatarIndex, true)" alt="">
           </div>
         </div>
         <div v-else class="flex-align-center">
           <div class="user-icon">
-            {{ item.userName }}
+            <img :src="getViteImage(item.avatarIndex)"  @click="handlePictureCardPreview(item.avatarIndex, true)" alt="">
           </div>
           <img v-if="item.value.includes('data:')" @click="handlePictureCardPreview(item.value)" :src="item.value" class="img-msg" alt="">
           <div v-else class="text-msg">{{ item.value }}</div>
@@ -146,6 +165,11 @@ onUnmounted(() => {
     line-height: 50px;
     text-align: center;
     background-color: gray;
+
+    img {
+      width: 100%;
+      border-radius: 50px;
+    }
   }
 
   .text-msg {

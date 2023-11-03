@@ -15,6 +15,16 @@ interface MenuItem {
   children?: MenuItem[]
 }
 
+export interface WxLoginResData {
+  nickname: string;
+  avatarIndex: string;
+  ip: string
+}
+
+export interface WsUserData {
+  ip: string;
+}
+
 export const login = (data: Login) => {
   return request<number>({
     method: 'post',
@@ -34,16 +44,18 @@ export const getMenu = () => {
   });
 }
 
-export const wsLoginApi = (nickname: string) => {
-  return request<MenuItem[]>({
-    method: 'get',
-    url: `/socket/myapp/wsLogin/${nickname}`,
+export const wsLoginApi = (data: WsUserData) => {
+  return request<WxLoginResData>({
+    method: 'post',
+    url: `/socket/myapp/wsLogin`,
+    data
   });
 }
 
-export const wsLogoutApi = (nickname: string) => {
+export const wsLogoutApi = (data: WsUserData) => {
   return request<MenuItem[]>({
-    method: 'get',
-    url: `/socket/myapp/wsLogout/${nickname}`,
+    method: 'post',
+    url: `/socket/myapp/wsLogout`,
+    data
   });
 }
