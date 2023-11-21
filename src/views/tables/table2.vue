@@ -7,6 +7,8 @@ import { Search, Refresh, CirclePlus, Delete, Download, RefreshRight } from "@el
 import { usePagination } from "@/hooks/usePagination"
 import { useDialog } from "@/hooks/useDialog"
 
+import DiyForm from "@/components/DiyForm.vue"
+
 // import "@/mock/index.ts";
 // defineOptions({
 //   name: "ElementPlus"
@@ -135,6 +137,12 @@ const resetSearch = () => {
 const handleRefresh = () => {
   getTableData()
 }
+
+const formConfig = ref({
+  formItems: [
+    { label: 'AA', prop: 'aa' }
+  ]
+})
 //#endregion
 
 /** 监听分页参数的变化 */
@@ -144,7 +152,8 @@ const handleRefresh = () => {
 <template>
   <div class="app-container">
     <el-card shadow="never" class="search-wrapper">
-      <el-form ref="searchFormRef" :inline="true" :model="searchData">
+      <DiyForm :config="formConfig"></DiyForm>
+      <!-- <el-form ref="searchFormRef" :inline="true" :model="searchData">
         <el-form-item prop="username" label="用户名">
           <el-input v-model="searchData.username" placeholder="请输入" />
         </el-form-item>
@@ -155,7 +164,7 @@ const handleRefresh = () => {
           <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
           <el-button :icon="Refresh" @click="resetSearch">重置</el-button>
         </el-form-item>
-      </el-form>
+      </el-form> -->
     </el-card>
     <el-card v-loading="loading" shadow="never">
       <div class="toolbar-wrapper">
