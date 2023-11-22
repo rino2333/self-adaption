@@ -22,7 +22,7 @@ const { visible, changeVisible, title, setDialogTitle, handleClose } = useDialog
 //#region 增
 // const visible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
-const model = reactive({
+const model = reactive<{[key: string]: any}>({
   username: "",
   password: ""
 })
@@ -33,36 +33,69 @@ const formRules: FormRules = reactive({
 
 /** 监听分页参数的变化 */
 // watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
+
+enum TypeEnum {
+  TEXT = 'text',
+  PASSWORD = 'password',
+  TEXTAREA = 'textarea'
+}
+
+type FormSize = 'large' | 'default' | 'small'
+type ItemType = 'text' | 'password' | 'textarea' | 'select'
+
+interface ItemOption {
+  label: string
+  value: string | number
+}
+
+interface FormItem {
+  type: ItemType,
+  label: string,
+  prop: string,
+  options?: ItemOption[],
+  clearable?: boolean
+}
+
 interface Props {
   config: {
-    formItems: {
-      label: string,
-      prop: string,
-      clearabled?: boolean
-    }[]
+    inline: boolean
+    size: FormSize
+    formItems: FormItem[]
   }
 }
+
+defineProps<Props>()
 // withDefaults(defineProps<Props>())
 
-withDefaults(defineProps<Props>(), {
-  config: () => {
-    formItems: () => [
-      { label: '123', vaue: '123' }
-    ]
-  }
-});
+// withDefaults(defineProps<Props>(), {
+//   config: () => {
+//     formItems: () => [
+//       { label: '123', vaue: '123' }
+//     ]
+//   }
+// });
 </script>
 
 <template>
   <div class="app-container">
-    <el-form ref="searchFormRef" :inline="true" :model="model">
+    <el-form ref="searchFormRef" :inline="config.inline" :size="config.size" :model="model">
       <el-form-item v-for="item in config.formItems" :prop="item.prop" :label="item.label">
-        <el-input v-model="item.prop" placeholder="请输入" />
+        <el-input 
+          v-if="item.type == 'text' || item.type == 'password' || item.type == 'textarea'" 
+          :show-password="item.type == 'password'"
+          v-model="model[item.prop]" 
+          :type="item.type"
+          :placeholder="'请输入' + item.label" 
+          clearable
+        />
+        <el-select v-else-if="item.type == 'select'" v-model="model[item.prop]" :placeholder="'请选择' + item.label">
+          <el-option v-for="option in item.options" :label="option.label" :value="option.value"></el-option>
+        </el-select>
       </el-form-item>
       
       <el-form-item>
-        <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
-        <el-button :icon="Refresh" @click="resetSearch">重置</el-button>
+        <!-- <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
+        <el-button :icon="Refresh" @click="resetSearch">重置</el-button> -->
       </el-form-item>
     </el-form>
   </div>

@@ -7,7 +7,8 @@ import { Search, Refresh, CirclePlus, Delete, Download, RefreshRight } from "@el
 import { usePagination } from "@/hooks/usePagination"
 import { useDialog } from "@/hooks/useDialog"
 
-import DiyForm from "@/components/DiyForm.vue"
+import DiyForm from "@/components/DiyForm/index.vue"
+import type { FormConfig } from "@/components/DiyForm/formType"
 
 // import "@/mock/index.ts";
 // defineOptions({
@@ -138,9 +139,22 @@ const handleRefresh = () => {
   getTableData()
 }
 
-const formConfig = ref({
+const formConfig = ref<FormConfig>({
+  inline: true,
+  size: 'default',
   formItems: [
-    { label: 'AA', prop: 'aa' }
+    { type: 'text', label: 'Input', prop: 'aa' },
+    { type: 'password', label: 'Input2', prop: 'bb' },
+    { type: 'textarea', label: 'Input3', prop: 'cc' },
+    { 
+      type: 'select', 
+      label: 'Select', 
+      prop: 'dd',
+      options: [
+        { label: 'A', value: 'A' },
+        { label: 'B', value: 'B' }
+      ]
+    },
   ]
 })
 //#endregion
