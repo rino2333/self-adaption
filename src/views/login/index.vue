@@ -172,16 +172,17 @@ createCode()
     cursor: pointer;
   }
   .login-card {
-    width: 480px;
-    border-radius: 20px;
-    box-shadow: 0 0 10px #dcdfe6;
+    // width: 480px;
+    width: 34em;
+    border-radius: 1.5em;
+    box-shadow: 0 0 .8em #dcdfe6;
     background-color: #fff;
     overflow: hidden;
     .title {
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 150px;
+      height: 11em;
       img {
         height: 100%;
       }

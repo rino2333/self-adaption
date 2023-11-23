@@ -141,7 +141,7 @@ const handleRefresh = () => {
 
 const formConfig = ref<FormConfig>({
   inline: true,
-  size: 'default',
+  size: 'small',
   formItems: [
     { type: 'text', label: 'Input', prop: 'aa' },
     { type: 'password', label: 'Input2', prop: 'bb' },

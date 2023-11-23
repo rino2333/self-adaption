@@ -15,7 +15,7 @@ export interface FormItem {
 }
 
 export interface FormConfig {
-  inline: boolean
-  size: FormSize
+  inline?: boolean
+  size?: FormSize
   formItems: FormItem[]
 }

@@ -34,34 +34,10 @@ const formRules: FormRules = reactive({
 /** 监听分页参数的变化 */
 // watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
 
-enum TypeEnum {
-  TEXT = 'text',
-  PASSWORD = 'password',
-  TEXTAREA = 'textarea'
-}
-
-type FormSize = 'large' | 'default' | 'small'
-type ItemType = 'text' | 'password' | 'textarea' | 'select'
-
-interface ItemOption {
-  label: string
-  value: string | number
-}
-
-interface FormItem {
-  type: ItemType,
-  label: string,
-  prop: string,
-  options?: ItemOption[],
-  clearable?: boolean
-}
+import type { FormConfig } from "./formType"
 
 interface Props {
-  config: {
-    inline: boolean
-    size: FormSize
-    formItems: FormItem[]
-  }
+  config: FormConfig
 }
 
 defineProps<Props>()
