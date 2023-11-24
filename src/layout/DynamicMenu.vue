@@ -176,9 +176,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 60px;
-  border-bottom: 1px solid var(--el-menu-border-color);
-  font-size: 14px;
+  // font-size: 1.4em;
 
   .nav {
     flex: 1;
@@ -189,7 +187,7 @@ header {
       display: inline-flex;
       justify-content: center;
       align-items: center;
-      padding: 0 20px;
+      padding: 0 2em;
       cursor: pointer;
 
       &:hover {
@@ -205,17 +203,17 @@ header {
   }
 
   .right-menu-item {
-    padding: 0 10px;
+    padding: 0 1em;
     cursor: pointer;
     .right-menu-avatar {
       display: flex;
       align-items: center;
       outline: none;
       .el-avatar {
-        margin-right: 10px;
+        margin-right: 1em;
       }
       span {
-        font-size: 16px;
+        font-size: 1.6em;
       }
     }
   }
@@ -223,15 +221,15 @@ header {
 .logo {
   display: flex;
   align-items: center;
-  min-width: 200px;
-  height: 60px;
-  font-size: 22px;
+  font-size: 2.2em;
+  min-width: 9.1em;
+  height: 2.72em;
   font-weight: bold;
 
   img {
-    width: 60px;
-    height: 60px;
-    padding: 6px;
+    width: 2.72em;
+    height: 2.72em;
+    padding: .27em;
   }
 }
 

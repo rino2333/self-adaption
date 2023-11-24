@@ -150,7 +150,7 @@ onUnmounted(() => {
 
 <style scoped lang='scss'>
 .chat-content {
-  width: 600px;
+  width: 60em;
   background-color: #f1f1f1;
 
   .is-self {
@@ -159,30 +159,30 @@ onUnmounted(() => {
 
   .user-icon {
     flex-shrink: 0;
-    width: 50px;
-    height: 50px;
-    border-radius: 50px;
-    line-height: 50px;
+    width: 5em;
+    height: 5em;
+    border-radius: 5em;
+    line-height: 5em;
     text-align: center;
     background-color: gray;
 
     img {
       width: 100%;
-      border-radius: 50px;
+      border-radius: 5em;
     }
   }
 
   .text-msg {
-    padding: 12px;
+    padding: 1.2em;
     background-color: #fff;
-    border-radius: 6px;
-    margin: 0 8px;
+    border-radius: .6em;
+    margin: 0 .8em;
     word-break: break-all;
   }
 
   .img-msg {
-    width: 60px;
-    margin: 0 8px;
+    width: 6em;
+    margin: 0 8em;
   }
 }
 </style>
