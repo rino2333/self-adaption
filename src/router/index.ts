@@ -33,6 +33,11 @@ let routes = [
         path: "table3",
         component: () => import("@/views/tables/table3.vue"),
         name: "table3"
+      },
+      {
+        path: "draggable",
+        component: () => import("@/views/tables/draggable.vue"),
+        name: "draggable"
       }
     ]
   },

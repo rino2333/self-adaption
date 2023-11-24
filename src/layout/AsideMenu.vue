@@ -48,6 +48,11 @@ const setNav = async () => {
           url: '/demo1/table3',
           code: '003',
           name: '课件学习'
+        },
+        {
+          url: '/demo1/draggable',
+          code: 'draggable',
+          name: 'draggable'
         }
       ]
     }
