@@ -10,19 +10,19 @@
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
     <script>
-      (function(){
-        var html = document.documentElement;
-        function setFont() {
-            var cliWidth = html.clientWidth;
-            // html.style.fontSize = 12*(cliWidth/640)+'px';
-            html.style.fontSize = 10 * (cliWidth / 1920) + 'px';
-        }
-        setFont();
-        window.onresize = function() {
-          console.log('resize', html.style.fontSize);
-          setFont();
-        }
-      })();
+      // (function(){
+      //   var html = document.documentElement;
+      //   function setFont() {
+      //       var cliWidth = html.clientWidth;
+      //       // html.style.fontSize = 12*(cliWidth/640)+'px';
+      //       html.style.fontSize = 10 * (cliWidth / 1920) + 'px';
+      //   }
+      //   setFont();
+      //   window.onresize = function() {
+      //     console.log('resize', html.style.fontSize);
+      //     setFont();
+      //   }
+      // })();
     </script>
   </body>
 </html>

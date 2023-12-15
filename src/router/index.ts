@@ -8,8 +8,8 @@ let routes = [
   {
     path: '/',
     name: 'jsp',
-    redirect: '/home',
-    component: Layout,
+    // redirect: '/home',
+    component: () => import("@/views/home.vue"),
     children: [
       {
         path: "home",
@@ -99,25 +99,25 @@ const router = createRouter({
   routes
 });
 
-router.beforeEach((to, from, next) => {
-  if (to.path == '/login') {
-    next()
-  }
-  if (localStorage.getItem('token')) {
-    const routerStore = useRouterStore(pinia);
+// router.beforeEach((to, from, next) => {
+//   if (to.path == '/login') {
+//     next()
+//   }
+//   if (localStorage.getItem('token')) {
+//     const routerStore = useRouterStore(pinia);
   
-    if (status) {
-      next()
-    } else {
-      console.log(2);
-      addRouter(routerStore.nav);
+//     if (status) {
+//       next()
+//     } else {
+//       console.log(2);
+//       addRouter(routerStore.nav);
   
-      next({ ...to, replace: true });
-    }
-  } else {
-    next('/login')
-  }
-})
+//       next({ ...to, replace: true });
+//     }
+//   } else {
+//     next('/login')
+//   }
+// })
 
 let status = false;
 const addRouter = (data: Nav[]) => {
