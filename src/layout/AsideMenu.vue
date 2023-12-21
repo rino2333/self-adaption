@@ -55,6 +55,16 @@ const setNav = async () => {
           name: 'draggable'
         }
       ]
+    },
+    {
+      url: '/admin/ware', 
+      name: '商品管理',
+      // children: [
+      //   {
+      //     url: '/admin/ware',
+      //     name: '在线课堂'
+      //   },
+      // ]
     }
   ];
   routerStore.setNav(nav);

@@ -1,9 +1,10 @@
 import request from "../utils/service";
 
-interface Login {
-  j_username: string;
-  j_password: string;
-  type: string
+export interface LoginReq {
+  username: string;
+  password: string;
+  code: string
+  uuid: string
 }
 
 interface MenuItem {
@@ -25,12 +26,27 @@ export interface WsUserData {
   ip: string;
 }
 
-export const login = (data: Login) => {
-  return request<number>({
+interface QrcodeRes {
+  img: string
+  uuid: string
+}
+
+interface LoginRes {
+  token: string
+  uuid: string
+}
+
+export const qrcodeApi = () => {
+  return request<QrcodeRes>({
+    method: 'get',
+    url: '/api/common/imgYzm',
+  });
+}
+
+export const loginApi = (data: FormData) => {
+  return request<LoginRes>({
     method: 'post',
-    // url: 'api/mobile/login', // 汉口学院登录
-    // url: '/zd-admin/doLogin',
-    url: '/myapp/login',
+    url: '/api/login',
     data
   });
 }

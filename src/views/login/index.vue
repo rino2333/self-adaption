@@ -5,22 +5,15 @@ import { useRouter } from "vue-router"
 import { User, Lock, Key, Picture, Loading } from "@element-plus/icons-vue"
 // import ThemeSwitch from "@/components/ThemeSwitch/index.vue"
 import { type FormInstance, FormRules } from "element-plus"
-import { login } from "@/api/login";
 import { ElMessage } from "element-plus"
 import { useRouterStore, type Nav } from "@/store/routerStore";
-import { getMenu } from "@/api/login";
+import { type LoginReq, qrcodeApi, getMenu, loginApi } from "@/api/login";
 
 const routerStore = useRouterStore();
 routerStore.logout();
 
 // import { getLoginCodeApi } from "@/api/login"
 // import { type ILoginRequestData } from "@/api/login/types/login"
-interface loginParams {
-  j_username: string;
-  j_password: string;
-  type: string;
-  code: string;
-}
 
 const router = useRouter()
 const loginFormRef = ref<FormInstance | null>(null)
@@ -30,20 +23,20 @@ const loading = ref(false)
 /** 验证码图片 URL */
 const codeUrl = ref("")
 /** 登录表单数据 */
-const loginForm: loginParams = reactive({
-  j_username: "chutian",
-  j_password: "123456",
-  type: "TEACHER",
+const loginForm: LoginReq = reactive({
+  username: "admin",
+  password: "123456",
+  uuid: '',
   code: ''
 })
 /** 登录表单校验规则 */
 const loginFormRules: FormRules = {
-  j_username: [{ required: true, message: "请输入用户名", trigger: "blur" }],
-  j_password: [
+  username: [{ required: true, message: "请输入用户名", trigger: "blur" }],
+  password: [
     { required: true, message: "请输入密码", trigger: "blur" },
     { min: 6, max: 16, message: "长度在 6 到 16 个字符", trigger: "blur" }
   ],
-  // code: [{ required: true, message: "请输入验证码", trigger: "blur" }]
+  code: [{ required: true, message: "请输入验证码", trigger: "blur" }]
 }
 /** 登录逻辑 */
 const handleLogin = () => {
@@ -51,18 +44,17 @@ const handleLogin = () => {
     if (valid) {
       loading.value = true
       try {
-        const res = await login(loginForm);
+        const formData = new FormData();
+        for (let key in loginForm) {
+          formData.append(key, loginForm[key as keyof LoginReq])
+        }
+        const res = await loginApi(formData);
         console.log(res);
         
-        if (res.code == 0) {
-          if (routerStore.nav.length == 0) {
-            const res = await getMenu();
-            const res2 = arrFilter(res.data);
-            routerStore.setNav(res2);
-          }
+        if (res.code == 200) {
           ElMessage.success('登陆成功');
-          router.push({ path: "/" });
-          localStorage.setItem('token', "Bearer " + res.data);
+          router.push({ path: "/admin" });
+          localStorage.setItem('token', res.data.token);
         }
       } catch (error) {
         
@@ -88,8 +80,12 @@ const arrFilter = (arr: Nav[]) => {
 const createCode = () => {
   // 先清空验证码的输入
   loginForm.code = ""
+  qrcodeApi().then(res => {
+    console.log(res);
+    codeUrl.value = "data:image/jpeg;base64," + res.data.img;
+    loginForm.uuid = res.data.uuid
+  })
   // 获取验证码
-  codeUrl.value = 'http://dummyimage.com/100x40/dcdfe6/000000.png&text=V3Admin';
 }
 
 /** 初始化验证码 */
@@ -106,9 +102,9 @@ createCode()
       </div>
       <div class="content">
         <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" @keyup.enter="handleLogin">
-          <el-form-item prop="j_username">
+          <el-form-item prop="username">
             <el-input
-              v-model.trim="loginForm.j_username"
+              v-model.trim="loginForm.username"
               placeholder="用户名"
               type="text"
               tabindex="1"
@@ -116,18 +112,18 @@ createCode()
               size="large"
             />
           </el-form-item>
-          <el-form-item prop="j_password">
+          <el-form-item prop="password">
             <el-input
-              v-model.trim="loginForm.j_password"
+              v-model.trim="loginForm.password"
               placeholder="密码"
-              type="j_password"
+              type="password"
               tabindex="2"
               :prefix-icon="Lock"
               size="large"
-              show-j_password
+              show-password
             />
           </el-form-item>
-          <!-- <el-form-item prop="code">
+          <el-form-item prop="code">
             <el-input
               v-model.trim="loginForm.code"
               placeholder="验证码"
@@ -148,7 +144,7 @@ createCode()
                 </el-image>
               </template>
             </el-input>
-          </el-form-item> -->
+          </el-form-item>
           <el-button :loading="loading" type="primary" size="large" @click.prevent="handleLogin"> 登 录 </el-button>
         </el-form>
       </div>

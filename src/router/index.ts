@@ -21,6 +21,16 @@ let routes = [
     ]
   },
   {
+    path: '/admin',
+    component: Layout,
+    children: [
+      {
+        path: 'ware',
+        component: () => import("@/views/gpt/ware/index.vue"),
+      }
+    ]
+  },
+  {
     path: '/demo1',
     component: () => import('@/layout/index.vue'),
     children: [

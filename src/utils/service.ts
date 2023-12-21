@@ -4,7 +4,7 @@ import { ElMessage } from "element-plus";
 interface ResponseType<T = any> {
     code: number;
     data: T;
-    message: string;
+    msg: string;
 }
 // 创建axios实例
 const service = axios.create({
@@ -45,11 +45,11 @@ service.interceptors.response.use(
     response => {
         console.log(response);
 
-        if (response.data.code != 0) {
+        if (response.data.code != 200) {
             if (response.data.code == -100) {
                 router.push('/login');
             }
-            ElMessage.error(response.data.message);
+            ElMessage.error(response.data.msg);
             return Promise.reject(response.data);
         } else {
             // 对响应数据做点什么

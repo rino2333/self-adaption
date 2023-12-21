@@ -16,9 +16,9 @@ export default defineConfig({
     port: 8080,
     proxy: {
       '/api': {
-        target: 'https://hkxyzk-test.whxunw.com',
+        target: 'http://192.168.110.239:6001',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
+        // rewrite: (path) => path.replace(/^\/api/, '')
       },
       '/admin_ct': {
         // target: 'https://sebms-test.whxunw.com/ct-admin',
