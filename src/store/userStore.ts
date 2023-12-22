@@ -9,13 +9,20 @@ import { ref } from "vue";
 //     }
 //   }
 // })
+interface Userinfo {
+  nikeName: string;
+}
+
 export const useUserStore = defineStore('userStore', () => {
-  const name = ref('丁真');
-  const remark = ref('保持良好心情');
+  const userinfo = ref<Userinfo>();
+
+  const setUserinfo = (data: Userinfo) => {
+    userinfo.value = data;
+  };
 
   return {
-    name,
-    remark
+    userinfo,
+    setUserinfo
   }
 }, {
   persist: { // 持久化存储的方式

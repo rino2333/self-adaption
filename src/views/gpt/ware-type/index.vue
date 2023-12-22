@@ -7,6 +7,7 @@ import { Search, Refresh, CirclePlus, Delete, Download, RefreshRight } from "@el
 import { usePagination } from "@/hooks/usePagination"
 import { useDialog } from "@/hooks/useDialog"
 
+import { imgUpload } from "@/api/common";
 import { type ResItem, WareTypeData, listApi, addApi, editApi, detailApi, deleteApi, treeApi } from "@/api/ware-type"
 treeApi().then(res => {
   console.log(res);
@@ -208,6 +209,10 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         </el-form-item>
         <el-form-item prop="describe" label="类型描述">
           <el-input v-model="formData.describe" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="logo" label="类型logo">
+          <el-input v-model="formData.logo" placeholder="请输入" />
+          
         </el-form-item>
       </el-form>
       <template #footer>

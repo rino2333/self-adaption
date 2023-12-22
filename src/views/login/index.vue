@@ -1,16 +1,18 @@
 <script lang="ts" setup>
 import { reactive, ref } from "vue"
 import { useRouter } from "vue-router"
-// import { useUserStore } from "@/store/modules/user"
+import { useUserStore } from "@/store/userStore"
 import { User, Lock, Key, Picture, Loading } from "@element-plus/icons-vue"
 // import ThemeSwitch from "@/components/ThemeSwitch/index.vue"
 import { type FormInstance, FormRules } from "element-plus"
 import { ElMessage } from "element-plus"
 import { useRouterStore, type Nav } from "@/store/routerStore";
-import { type LoginReq, qrcodeApi, getMenu, loginApi } from "@/api/login";
+import { type LoginReq, qrcodeApi, loginApi } from "@/api/login";
 
 const routerStore = useRouterStore();
 routerStore.logout();
+
+const userStore = useUserStore();
 
 // import { getLoginCodeApi } from "@/api/login"
 // import { type ILoginRequestData } from "@/api/login/types/login"
@@ -54,7 +56,7 @@ const handleLogin = () => {
         if (res.code == 200) {
           ElMessage.success('登陆成功');
           router.push({ path: "/admin" });
-          localStorage.setItem('token', res.data.token);
+          userStore.setUserinfo(res.data)
         }
       } catch (error) {
         

@@ -7,25 +7,6 @@ export interface LoginReq {
   uuid: string
 }
 
-interface MenuItem {
-  name: string;
-  path: string;
-  code: string;
-  url: string;
-  isEnabled: number;
-  children?: MenuItem[]
-}
-
-export interface WxLoginResData {
-  nickname: string;
-  avatarIndex: string;
-  ip: string
-}
-
-export interface WsUserData {
-  ip: string;
-}
-
 interface QrcodeRes {
   img: string
   uuid: string
@@ -34,6 +15,7 @@ interface QrcodeRes {
 interface LoginRes {
   token: string
   uuid: string
+  nikeName: string
 }
 
 export const qrcodeApi = () => {
@@ -51,27 +33,3 @@ export const loginApi = (data: FormData) => {
   });
 }
 
-export const getMenu = () => {
-  return request<MenuItem[]>({
-    method: 'post',
-    // url: 'api/mobile/login', // 汉口学院登录
-    // url: '/zd-admin/getMenu',
-    url: '/myapp/getMenu',
-  });
-}
-
-export const wsLoginApi = (data: WsUserData) => {
-  return request<WxLoginResData>({
-    method: 'post',
-    url: `/socket/myapp/wsLogin`,
-    data
-  });
-}
-
-export const wsLogoutApi = (data: WsUserData) => {
-  return request<MenuItem[]>({
-    method: 'post',
-    url: `/socket/myapp/wsLogout`,
-    data
-  });
-}

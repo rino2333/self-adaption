@@ -10,7 +10,6 @@ import {
 } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from "vue-router";
 import { useRouterStore, type Nav } from '@/store/routerStore'
-import { getMenu } from "@/api/login";
 
 const emit = defineEmits<{
   (e: 'changeAside', status: boolean ): void
@@ -57,24 +56,16 @@ const setNav = async () => {
       ]
     },
     {
+      url: '/admin/ware-type', 
+      name: '商品类别管理',
+    },
+    {
       url: '/admin/ware', 
       name: '商品管理',
-      // children: [
-      //   {
-      //     url: '/admin/ware',
-      //     name: '在线课堂'
-      //   },
-      // ]
-    }
+    },
   ];
   routerStore.setNav(nav);
-
   console.log(routerStore.nav);
-  
-  if (routerStore.nav.length == 0) {
-    const res = await getMenu();
-    routerStore.setNav(res.data);
-  }
 }
 setNav();
 

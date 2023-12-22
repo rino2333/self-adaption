@@ -25,9 +25,13 @@ let routes = [
     component: Layout,
     children: [
       {
+        path: 'ware-type',
+        component: () => import("@/views/gpt/ware-type/index.vue"),
+      },
+      {
         path: 'ware',
         component: () => import("@/views/gpt/ware/index.vue"),
-      }
+      },
     ]
   },
   {
