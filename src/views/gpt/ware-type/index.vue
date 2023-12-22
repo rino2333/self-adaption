@@ -2,20 +2,18 @@
 import { reactive, ref, watch } from "vue"
 import { createTableDataApi, deleteTableDataApi, updateTableDataApi, getTableDataApi } from "@/api/table"
 import { type IGetTableData } from "@/api/table/types/table"
-import { type FormInstance, type FormRules, ElMessage, ElMessageBox } from "element-plus"
-import { Search, Refresh, CirclePlus, Delete, Download, RefreshRight } from "@element-plus/icons-vue"
+import { ElMessage, ElMessageBox } from "element-plus"
+import type { UploadProps, FormInstance, FormRules } from 'element-plus'
+import { Search, Refresh, CirclePlus, Delete, Download, RefreshRight, Plus } from "@element-plus/icons-vue"
 import { usePagination } from "@/hooks/usePagination"
 import { useDialog } from "@/hooks/useDialog"
 
 import { imgUpload } from "@/api/common";
-import { type ResItem, WareTypeData, listApi, addApi, editApi, detailApi, deleteApi, treeApi } from "@/api/ware-type"
-treeApi().then(res => {
-  console.log(res);
+import { type WareTypeData, listApi, addApi, editApi, detailApi, deleteApi, treeApi } from "@/api/ware-type"
+// treeApi().then(res => {
+//   console.log(res);
   
-})
-
-import DiyForm from "@/components/DiyForm/index.vue"
-import type { FormConfig } from "@/components/DiyForm/formType"
+// })
 
 const loading = ref<boolean>(false)
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
@@ -30,8 +28,38 @@ const formRef = ref<FormInstance | null>(null)
 const formData = ref<WareTypeData>({})
 const formRules: FormRules = reactive({
   name: [{ required: true, trigger: "blur", message: "请输入类型名称" }],
-  describe: [{ required: true, trigger: "blur", message: "请输入类型描述" }]
+  describe: [{ required: true, trigger: "blur", message: "请输入类型描述" }],
+  sort: [{ required: true, trigger: "blur", message: "请输入排序值" }],
+  logo: [{ required: true, trigger: "change", message: "请上传logo" }],
 })
+
+const handleChange: UploadProps['onChange'] = (uploadFile, uploadFiles) => {
+  // formData.value.logo = URL.createObjectURL(uploadFile.raw!)
+  formData.value.logo = 'https://jxjy-test.whxunw.com/center/assets/123-3c444361.jpg'
+  console.log(formData.value);
+  
+  formRef.value?.validateField('logo')
+}
+const handleAvatarSuccess: UploadProps['onSuccess'] = (
+  response,
+  uploadFile
+) => {
+  formData.value.logo = URL.createObjectURL(uploadFile.raw!)
+}
+
+const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+  console.log(rawFile.type);
+  
+  if (rawFile.type !== 'image/jpeg') {
+    ElMessage.error('Avatar picture must be JPG format!')
+    return false
+  } else if (rawFile.size / 1024 / 1024 > 2) {
+    ElMessage.error('Avatar picture size can not exceed 2MB!')
+    return false
+  }
+  return true
+}
+
 const handleCreate = () => {
   formRef.value?.validate((valid: boolean) => {
     if (valid) {
@@ -39,7 +67,6 @@ const handleCreate = () => {
         addApi(formData.value).then(() => {
           ElMessage.success("新增成功")
           changeVisible(false);
-          // visible.value = false
           getTableData()
         })
       } else {
@@ -49,7 +76,6 @@ const handleCreate = () => {
         }).then(() => {
           ElMessage.success("修改成功")
           changeVisible(false);
-          // visible.value = false
           getTableData()
         })
       }
@@ -96,7 +122,7 @@ const handleUpdate = (row: IGetTableData) => {
 //#endregion
 
 //#region 查
-const tableData = ref<ResItem[]>([])
+const tableData = ref<WareTypeData[]>([])
 const searchFormRef = ref<FormInstance | null>(null)
 const searchData = reactive({
   username: "",
@@ -144,9 +170,8 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
 <template>
   <div class="app-container">
     <el-card shadow="never" class="search-wrapper">
-      <!-- <DiyForm :config="formConfig"></DiyForm> -->
       <el-form ref="searchFormRef" :inline="true" :model="searchData">
-        <el-form-item prop="username" label="用户名">
+        <el-form-item prop="username" label="类型">
           <el-input v-model="searchData.username" placeholder="请输入" />
         </el-form-item>
         <el-form-item prop="phone" label="手机号">
@@ -210,9 +235,22 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         <el-form-item prop="describe" label="类型描述">
           <el-input v-model="formData.describe" placeholder="请输入" />
         </el-form-item>
+        <el-form-item prop="sort" label="排序">
+          <el-input-number v-model="formData.sort" placeholder="请输入" />
+        </el-form-item>
         <el-form-item prop="logo" label="类型logo">
-          <el-input v-model="formData.logo" placeholder="请输入" />
-          
+          <el-upload
+            class="avatar-uploader"
+            action="#"
+            :auto-upload="false"  
+            :show-file-list="false"
+            :on-change="handleChange"  
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload"
+          >
+            <img v-if="formData.logo" :src="formData.logo" class="avatar" />
+            <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+          </el-upload>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -244,5 +282,34 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
 .pager-wrapper {
   display: flex;
   justify-content: flex-end;
+}
+
+.avatar-uploader .avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+</style>
+
+<style>
+.avatar-uploader .el-upload {
+  border: 1px dashed var(--el-border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--el-transition-duration-fast);
+}
+
+.avatar-uploader .el-upload:hover {
+  border-color: var(--el-color-primary);
+}
+
+.el-icon.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  text-align: center;
 }
 </style>

@@ -8,14 +8,17 @@ interface ListReq {
   size?: number
 }
 
-export interface ResItem {
+export interface WareTypeData {
+  id?: string
   name?: string
   describe?: string
+  logo?: string
+  sort?: number
 }
 
 interface ListRes {
   total: number
-  records: ResItem[]
+  records: WareTypeData[]
 }
 
 export const listApi = (params: ListReq) => {
@@ -24,12 +27,6 @@ export const listApi = (params: ListReq) => {
     url: '/api/wareType/list',
     params
   });
-}
-
-export interface WareTypeData {
-  id?: string
-  name?: string
-  describe?: string
 }
 
 export const addApi = (data: WareTypeData) => {
