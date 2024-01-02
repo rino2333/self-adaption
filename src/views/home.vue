@@ -1,5 +1,27 @@
 <script setup lang="ts">
-  
+import { ref } from "vue";
+import { type WareTypeData, type WareTypeTree, treeApi,  } from "@/api/ware-type"
+import { type WareData, listApi, addApi, detailApi, deleteApi, editApi } from "@/api/ware"
+
+const wareType = ref<WareTypeData[]>([])
+treeApi().then(res => {
+  wareType.value = res.data
+  getWareData(res.data[0].id)
+})
+
+const wareData = ref<WareData[]>([])
+const getWareData = (typeId: string) => {
+  listApi({ typeId }).then(res => {
+    wareData.value = res.data.records
+  })
+}
+const activeTab = ref(1)
+const changeTab = (index: number, id: string) => {
+  activeTab.value = index
+  getWareData(id)
+}
+
+
 </script>
 
 <template>
@@ -51,7 +73,17 @@
           </svg>
           <span>选择分类</span>
         </div>
-        <div class="cate"> <div class="cate-box cate-box-select" data-key="0"> <p>人工智能系列</p> <div>商品数量：9</div> </div>  <div class="cate-box" data-key="1"> <p>海外平台系列</p> <div>商品数量：8</div> </div>  <div class="cate-box" data-key="2"> <p>日常办公系列</p> <div>商品数量：3</div> </div>  <div class="cate-box" data-key="3"> <p>极限玩家系列</p> <div>商品数量：5</div> </div> </div>
+        <div class="cate"> 
+          <div 
+            class="cate-box" 
+            :class="{ 'cate-box-select' : activeTab == index + 1 }"
+            v-for="(item, index) in wareType"
+            @click="changeTab(index + 1, item.id as string)"
+          > 
+            <div>{{ item.name }}</div> 
+            <div class="total">商品数量：9</div> 
+          </div>  
+        </div>
         <div class="goods">
           <p class="title-2">
             <svg t="1602925988984" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1945" width="17" height="17">
@@ -60,7 +92,23 @@
             </svg>
             <span>选择商品</span>
           </p>
-          <div class="goods-list"> <a href="/buy/4" class="goods-box" style="">  <div class="picture"><img src="https://sat233.com/uploads/images/8056f676f0d87309aca66305aad3a2d4.jpg" alt=""></div>  <div class="msg"> <div class="goods-name">Chat GPT 3.5 永久专属号</div> <div class="goods-price"> ￥9.80  </div> <div class="goods-num"> <div><p style="width: 36.99307616221563%;"></p></div> <span>剩余374件</span> </div> </div> </a>  <a href="/buy/38" class="goods-box" style="">  <div class="picture"><img src="https://sat233.com/uploads/images/e78cf87054d7ab7381991229ed251b68.jpg" alt=""></div>  <div class="msg"> <div class="goods-name">官网 GPT 4.0 - 共享版30天</div> <div class="goods-price"> ￥29.80  </div> <div class="goods-num"> <div><p style="width: 8.673469387755102%;"></p></div> <span>剩余68件</span> </div> </div> </a>  <a href="/buy/32" class="goods-box" style="">  <div class="picture"><img src="https://sat233.com/uploads/images/563e9fb7a0c01de0f660cb3699bfb434.jpg" alt=""></div>  <div class="msg"> <div class="goods-name">官网 GPT 4.0 - 尊享版30天</div> <div class="goods-price"> ￥50.00  </div> <div class="goods-num"> <div><p style="width: 9.731543624161073%;"></p></div> <span>剩余29件</span> </div> </div> </a>  <a href="/buy/3" class="goods-box" style="">  <div class="picture"><img src="https://sat233.com/uploads/images/0d6aa6ffb93d50437719033f316a1ffc.jpg" alt=""></div>  <div class="msg"> <div class="goods-name">官网 GPT 4.0 - 永久专属号</div> <div class="goods-price"> ￥190.00  </div> <div class="goods-num"> <div><p style="width: 23.762376237623762%;"></p></div> <span>剩余24件</span> </div> </div> </a>  <a href="/buy/10" class="goods-box" style="">  <div class="picture"><img src="https://sat233.com/uploads/images/0e9bae02ef57623224cb611de99c14b1.jpg" alt=""></div>  <div class="msg"> <div class="goods-name">Apple 美区账号</div> <div class="goods-price"> ￥19.80  </div> <div class="goods-num"> <div><p style="width: 5.069708491761723%;"></p></div> <span>剩余40件</span> </div> </div> </a>  <a href="/buy/8" class="goods-box" style="">  <div class="picture"><img src="https://sat233.com/uploads/images/2af0be26da0dbac7d5b6f7e2c946b770.jpg" alt=""></div>  <div class="msg"> <div class="goods-name">Google 美区账号</div> <div class="goods-price"> ￥19.80  </div> <div class="goods-num"> <div><p style="width: 7.215189873417721%;"></p></div> <span>剩余57件</span> </div> </div> </a>  <a href="/buy/24" class="goods-box" style="">  <div class="picture"><img src="https://sat233.com/uploads/images/a02f92839b473ec27455bc9bdd10672b.jpg" alt=""></div>  <div class="msg"> <div class="goods-name">远程协助 / 解决问题</div> <div class="goods-price"> ￥19.80  </div> <div class="goods-num"> <div><p style="width: 71.71717171717171%;"></p></div> <span>剩余71件</span> </div> </div> </a>  <a href="/buy/39" class="goods-box" style="">  <div class="picture"><img src="https://sat233.com/uploads/images/ce76442dd22175de63715239ad4e0846.jpg" alt=""></div>  <div class="msg"> <div class="goods-name">海外会员网站 / 美金代付款</div> <div class="goods-price"> ￥9.80  </div> <div class="goods-num"> <div><p style="width: 100%;"></p></div> <span>剩余99件</span> </div> </div> </a>  <a href="/buy/33" class="goods-box" style="">  <div class="picture"><img src="https://sat233.com/uploads/images/b6bb2e28df3b5954a97131e41c8ed0f7.jpg" alt=""></div>  <div class="msg"> <div class="goods-name">代注册各种 / 海外平台账号</div> <div class="goods-price"> ￥25.80  </div> <div class="goods-num"> <div><p style="width: 50%;"></p></div> <span>剩余2件</span> </div> </div> </a> </div>
+          <div class="goods-list"> 
+            <div class="goods-box" v-for="item in wareData">  
+              <div class="picture">
+                <img :src="item.logo" alt="">
+              </div>  
+              <div class="msg"> 
+                <div class="goods-name">{{ item.name }}</div> 
+                <div class="goods-price">￥{{ item.amount }}</div> 
+                <div class="goods-num"> 
+                  <div>
+                    <p style="width: 36.99307616221563%;"></p>
+                  </div> 
+                  <span>剩余374件</span> 
+                </div> 
+              </div> 
+            </div>  
+          </div>
         </div>
       </div>
     </nav>
@@ -118,10 +166,11 @@ nav {
   .cate {
     padding-top: 20px;
     margin: 0 10px;
-    font-size: 0;
   }
 
   .cate-box {
+    font-size: 12px;
+    color: #545454;
     overflow: hidden;
     display: inline-block;
     vertical-align: middle;
@@ -129,7 +178,7 @@ nav {
     background: #f1f1f1;
     border-radius: 10px;
     height: 67px;
-    padding: 0 20px;
+    padding: 12px 20px 0;
     margin: 0 10px;
     cursor: pointer;
     -webkit-user-select: none;
@@ -138,6 +187,23 @@ nav {
     user-select: none;
     position: relative;
     margin-bottom: 10px;
+
+    .total {
+      color: #999;
+    }
+  }
+
+  
+
+  .cate-box-select {
+    background-image: linear-gradient(135deg, #3C8CE7 10%, #00EAFF 100%);
+    -webkit-box-shadow: 0 7px 10px 0 rgba(54, 144, 248, .23);
+    box-shadow: 0 7px 10px 0 rgba(54, 144, 248, .23);
+    color: #fff;
+
+    .total {
+      color: #fff;
+    }
   }
 
   .goods {
@@ -188,4 +254,5 @@ nav {
     display: inline-flex;
   }
 }
+
 </style>

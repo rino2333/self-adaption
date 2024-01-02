@@ -14,6 +14,7 @@ export interface WareTypeData {
   describe?: string
   logo?: string
   sort?: number
+  status?: 'NORMAL' | 'DISABLE'
 }
 
 interface ListRes {

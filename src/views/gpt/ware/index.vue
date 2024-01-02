@@ -7,12 +7,15 @@ import { usePagination } from "@/hooks/usePagination"
 import { useDialog } from "@/hooks/useDialog"
 
 import { imgUpload } from "@/api/common";
-import { type WareTypeData, type WareTypeTree, addApi, editApi, detailApi, deleteApi, treeApi } from "@/api/ware-type"
-import { listApi } from "@/api/ware"
+import { type WareTypeData, type WareTypeTree, treeApi } from "@/api/ware-type"
+import { type WareData, listApi, addApi, detailApi, deleteApi, editApi, addAccountApi } from "@/api/ware"
 import { el } from "element-plus/es/locale"
+import AccountAddDialog from "./components/AccountAddDialog.vue"
 
-const handleNodeClick = (data: WareTypeTree) => {
-  console.log(data)
+const handleNodeClick = (node: WareTypeTree) => {
+  console.log(node)
+  // formModel.value.typeId = node.id
+  // getTableData()
 }
 
 const tree = ref<WareTypeTree[]>([])
@@ -31,15 +34,17 @@ const loading = ref<boolean>(false)
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 
 const { visible, changeVisible, title, setDialogTitle, handleClose } = useDialog({
-  title: '新增类别'
+  title: '新增商品'
 });
 
 //#region 增
 // const visible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
-const formModel = ref<WareTypeData>({})
+const formModel = ref<WareData>({})
 const formRules: FormRules = reactive({
+  typeId: [{ required: true, trigger: "change", message: "请选择商品类型" }],
   name: [{ required: true, trigger: "blur", message: "请输入类型名称" }],
+  amount: [{ required: true, trigger: "blur", message: "请输入金额" }],
   describe: [{ required: true, trigger: "blur", message: "请输入类型描述" }],
   sort: [{ required: true, trigger: "change", message: "请输入排序值" }],
   logo: [{ required: true, trigger: "change", message: "请上传logo" }],
@@ -165,7 +170,8 @@ const getTableData = () => {
   listApi({
     current: paginationData.currentPage,
     size: paginationData.pageSize,
-    name: searchData.name
+    name: searchData.name,
+    typeId: formModel.value.typeId
   })
     .then((res) => {
       paginationData.total = res.data.total
@@ -195,6 +201,11 @@ const handleRefresh = () => {
   getTableData()
 }
 
+const accountRef = ref()
+const handleAddAccount = (row: WareData) => {
+  accountRef.value.openAccount(row.id)
+}
+
 /** 监听分页参数的变化 */
 watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
 </script>
@@ -219,7 +230,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       <el-card v-loading="loading" shadow="never" class="f-1">
         <div class="toolbar-wrapper">
           <div>
-            <el-button type="primary" :icon="CirclePlus" @click="visible = true">新增类别</el-button>
+            <el-button type="primary" :icon="CirclePlus" @click="visible = true">新增商品</el-button>
             <el-button type="danger" :icon="Delete" @click="handleDelete">批量删除</el-button>
           </div>
           <div>
@@ -242,8 +253,9 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
                 />
               </template>
             </el-table-column>
-            <el-table-column fixed="right" label="操作" width="150" align="center">
+            <el-table-column fixed="right" label="操作" width="240" align="center">
               <template #default="scope">
+                <el-button type="primary" text bg size="small" @click="handleAddAccount(scope.row)">新增账密信息</el-button>
                 <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">修改</el-button>
                 <el-button type="danger" text bg size="small" @click="handleDelete(scope.row)">删除</el-button>
               </template>
@@ -272,16 +284,18 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       width="30%"
     >
       <el-form ref="formRef" :model="formModel" :rules="formRules" label-width="100px" label-position="left">
-        <el-form-item prop="name" label="类型名称">
+        <el-form-item prop="typeId" label="商品类型">
+          <el-select v-model="formModel.typeId" :placeholder="'请选择'">
+            <el-option v-for="option in tree" :label="option.name" :value="option.id"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item prop="name" label="商品名称">
           <el-input v-model="formModel.name" placeholder="请输入" />
         </el-form-item>
-        <el-form-item prop="describe" label="类型描述">
-          <el-input v-model="formModel.describe" placeholder="请输入" />
+        <el-form-item prop="amount" label="商品金额">
+          <el-input v-model="formModel.amount" placeholder="请输入" />
         </el-form-item>
-        <el-form-item prop="sort" label="排序">
-          <el-input-number v-model="formModel.sort" placeholder="请输入" />
-        </el-form-item>
-        <el-form-item prop="logo" label="类型logo">
+        <el-form-item prop="logo" label="商品logo">
           <el-upload
             class="avatar-uploader"
             action="#"
@@ -295,12 +309,17 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
             <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
           </el-upload>
         </el-form-item>
+        <el-form-item prop="describe" label="商品描述">
+          <el-input v-model="formModel.describe" placeholder="请输入" />
+        </el-form-item>
       </el-form>
       <template #footer>
         <el-button @click="visible = false">取消</el-button>
         <el-button type="primary" @click="handleCreate">确认</el-button>
       </template>
     </el-dialog>
+
+    <AccountAddDialog ref="accountRef"></AccountAddDialog>
   </div>
 </template>
 

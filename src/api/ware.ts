@@ -1,20 +1,28 @@
 import request from "../utils/service";
 
 interface ListReq {
-  current?: string
-  size?: string
+  current?: number
+  size?: number
+  name?: string
+  typeId?: string
 }
 
 export interface WareData {
-  readonly id: string
-  name: string
+  readonly id?: string
+  name?: string
   describe?: string
   typeId?: string
   logo?: string
+  amount?: string
+}
+
+interface ListRes {
+  total: number
+  records: WareData[]
 }
 
 export const listApi = (params: ListReq) => {
-  return request<ListReq>({
+  return request<ListRes>({
     method: 'get',
     url: '/api/ware/list',
     params
@@ -53,9 +61,16 @@ export const deleteApi = (ids: string) => {
   });
 }
 
-export const treeApi = () => {
+export interface Account {
+  loginName: string
+  password: string
+  wareId: string
+}
+
+export const addAccountApi = (data: Account) => {
   return request<ListRes>({
-    method: 'get',
-    url: '/api/ware/tree',
+    method: 'post',
+    url: '/api/ware/detail/add',
+    data
   });
 }
