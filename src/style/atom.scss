@@ -13,6 +13,23 @@
   align-items: center;
 }
 
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.f-1 {
+  flex: 1;
+}
+
+.f-4 {
+  flex: 4;
+}
+
+.app-container {
+  height: 100%;
+}
+
 .fade-transform-leave-active,
 .fade-transform-enter-active {
   transition: all 0.5s;

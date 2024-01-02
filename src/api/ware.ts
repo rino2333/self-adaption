@@ -6,20 +6,11 @@ interface ListReq {
 }
 
 export interface WareData {
-  id?: string
-  name?: string
+  readonly id: string
+  name: string
   describe?: string
   typeId?: string
   logo?: string
-//   number} params.amount 商品金额
-//  * @param {object} params.createTime 创建时间
-//  * @param {number} params.creatorId 创建人
-//  * @param {number} params.id 
-//  * @param {string} params.logo 商品logo
-//  * @param {number} params.modifiorId 修改人
-//  * @param {object} params.modifyTime 修改时间
-//  * @param {string} params.shipWay 出货方式
-//  * @param {string} params.typeName 类型名称
 }
 
 export const listApi = (params: ListReq) => {

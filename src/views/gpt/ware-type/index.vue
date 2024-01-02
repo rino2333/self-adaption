@@ -1,7 +1,5 @@
 <script lang="ts" setup>
 import { reactive, ref, watch } from "vue"
-import { createTableDataApi, deleteTableDataApi, updateTableDataApi, getTableDataApi } from "@/api/table"
-import { type IGetTableData } from "@/api/table/types/table"
 import { ElMessage, ElMessageBox } from "element-plus"
 import type { UploadProps, FormInstance, FormRules } from 'element-plus'
 import { Search, Refresh, CirclePlus, Delete, Download, RefreshRight, Plus } from "@element-plus/icons-vue"
@@ -10,6 +8,7 @@ import { useDialog } from "@/hooks/useDialog"
 
 import { imgUpload } from "@/api/common";
 import { type WareTypeData, listApi, addApi, editApi, detailApi, deleteApi, treeApi } from "@/api/ware-type"
+import { el } from "element-plus/es/locale"
 // treeApi().then(res => {
 //   console.log(res);
   
@@ -25,18 +24,25 @@ const { visible, changeVisible, title, setDialogTitle, handleClose } = useDialog
 //#region 增
 // const visible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
-const formData = ref<WareTypeData>({})
+const formModel = ref<WareTypeData>({})
 const formRules: FormRules = reactive({
   name: [{ required: true, trigger: "blur", message: "请输入类型名称" }],
   describe: [{ required: true, trigger: "blur", message: "请输入类型描述" }],
-  sort: [{ required: true, trigger: "blur", message: "请输入排序值" }],
+  sort: [{ required: true, trigger: "change", message: "请输入排序值" }],
   logo: [{ required: true, trigger: "change", message: "请上传logo" }],
 })
 
 const handleChange: UploadProps['onChange'] = (uploadFile, uploadFiles) => {
-  // formData.value.logo = URL.createObjectURL(uploadFile.raw!)
-  formData.value.logo = 'https://jxjy-test.whxunw.com/center/assets/123-3c444361.jpg'
-  console.log(formData.value);
+  // formModel.value.logo = URL.createObjectURL(uploadFile.raw!)
+  formModel.value.logo = 'https://jxjy-test.whxunw.com/center/assets/123-3c444361.jpg'
+  console.log(formModel.value);
+  console.log(uploadFile.raw);
+  // const formData = new FormData()
+  // formData.append("file", uploadFile.raw as File)
+  // imgUpload(formData).then(res => {
+  //   console.log(res);
+  // })
+
   
   formRef.value?.validateField('logo')
 }
@@ -44,7 +50,7 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = (
   response,
   uploadFile
 ) => {
-  formData.value.logo = URL.createObjectURL(uploadFile.raw!)
+  formModel.value.logo = URL.createObjectURL(uploadFile.raw!)
 }
 
 const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
@@ -64,7 +70,7 @@ const handleCreate = () => {
   formRef.value?.validate((valid: boolean) => {
     if (valid) {
       if (currentUpdateId.value === undefined) {
-        addApi(formData.value).then(() => {
+        addApi(formModel.value).then(() => {
           ElMessage.success("新增成功")
           changeVisible(false);
           getTableData()
@@ -72,7 +78,7 @@ const handleCreate = () => {
       } else {
         editApi({
           id: currentUpdateId.value,
-          ...formData.value
+          ...formModel.value
         }).then(() => {
           ElMessage.success("修改成功")
           changeVisible(false);
@@ -86,19 +92,33 @@ const handleCreate = () => {
 }
 const resetForm = () => {
   setDialogTitle('新建类别');
+  formRef.value?.resetFields()
   currentUpdateId.value = undefined
-  formData.value = {}
 }
 //#endregion
 
 //#region 删
-const handleDelete = (row: IGetTableData) => {
+const multipleSelection = ref<WareTypeData[]>([])
+const handleSelectionChange = (val: WareTypeData[]) => {
+  multipleSelection.value = val
+}
+const handleDelete = (row: WareTypeData) => {
+  let ids = ''
+  if (row.id) {
+    ids = row.id
+  } else {
+    ids = multipleSelection.value.map(item => item.id).join(',')
+    if (!ids) {
+      ElMessage.warning('至少勾选一项')
+      return
+    }
+  }
   ElMessageBox.confirm(`确认删除？`, "提示", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
     type: "warning"
   }).then(() => {
-    deleteApi(row.id).then(() => {
+    deleteApi(ids).then(() => {
       ElMessage.success("删除成功")
       getTableData()
     })
@@ -108,16 +128,15 @@ const handleDelete = (row: IGetTableData) => {
 
 //#region 改
 const currentUpdateId = ref<undefined | string>(undefined)
-const handleUpdate = (row: IGetTableData) => {
-  setDialogTitle('修改商品类别');
-  currentUpdateId.value = row.id
-  detailApi(row.id).then(res => {
-    console.log(res);
-    
-    formData.value = res.data
-  })
-  // visible.value = true
-  changeVisible(true);
+const handleUpdate = (row: WareTypeData) => {
+  if (row.id) {
+    setDialogTitle('修改商品类别');
+    currentUpdateId.value = row.id
+    detailApi(row.id).then(res => {
+      formModel.value = res.data
+    })
+    changeVisible(true);
+  }
 }
 //#endregion
 
@@ -125,7 +144,7 @@ const handleUpdate = (row: IGetTableData) => {
 const tableData = ref<WareTypeData[]>([])
 const searchFormRef = ref<FormInstance | null>(null)
 const searchData = reactive({
-  username: "",
+  name: "",
   phone: ""
 })
 const getTableData = () => {
@@ -133,7 +152,7 @@ const getTableData = () => {
   listApi({
     current: paginationData.currentPage,
     size: paginationData.pageSize,
-    name: searchData.username || undefined
+    name: searchData.name
   })
     .then((res) => {
       paginationData.total = res.data.total
@@ -171,11 +190,8 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
   <div class="app-container">
     <el-card shadow="never" class="search-wrapper">
       <el-form ref="searchFormRef" :inline="true" :model="searchData">
-        <el-form-item prop="username" label="类型">
-          <el-input v-model="searchData.username" placeholder="请输入" />
-        </el-form-item>
-        <el-form-item prop="phone" label="手机号">
-          <el-input v-model="searchData.phone" placeholder="请输入" />
+        <el-form-item prop="name" label="商品类型名称">
+          <el-input v-model="searchData.name" placeholder="请输入" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
@@ -187,7 +203,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       <div class="toolbar-wrapper">
         <div>
           <el-button type="primary" :icon="CirclePlus" @click="visible = true">新增类别</el-button>
-          <el-button type="danger" :icon="Delete">批量删除</el-button>
+          <el-button type="danger" :icon="Delete" @click="handleDelete">批量删除</el-button>
         </div>
         <div>
           <el-tooltip content="刷新表格">
@@ -196,10 +212,19 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         </div>
       </div>
       <div class="table-wrapper">
-        <el-table :data="tableData">
+        <el-table :data="tableData" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="50" align="center" />
           <el-table-column prop="name" label="商品类型名称" align="center" />
           <el-table-column prop="describe" label="商品类型描述" align="center" />
+          <el-table-column prop="describe" label="logo" align="center">
+            <template #default="scope">
+              <el-image
+                style="height: 60px;"
+                :src="scope.row.logo"
+                :preview-src-list="[scope.row.logo]"
+              />
+            </template>
+          </el-table-column>
           <el-table-column fixed="right" label="操作" width="150" align="center">
             <template #default="scope">
               <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">修改</el-button>
@@ -228,15 +253,15 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       @close="handleClose(resetForm)"
       width="30%"
     >
-      <el-form ref="formRef" :model="formData" :rules="formRules" label-width="100px" label-position="left">
+      <el-form ref="formRef" :model="formModel" :rules="formRules" label-width="100px" label-position="left">
         <el-form-item prop="name" label="类型名称">
-          <el-input v-model="formData.name" placeholder="请输入" />
+          <el-input v-model="formModel.name" placeholder="请输入" />
         </el-form-item>
         <el-form-item prop="describe" label="类型描述">
-          <el-input v-model="formData.describe" placeholder="请输入" />
+          <el-input v-model="formModel.describe" placeholder="请输入" />
         </el-form-item>
         <el-form-item prop="sort" label="排序">
-          <el-input-number v-model="formData.sort" placeholder="请输入" />
+          <el-input-number v-model="formModel.sort" placeholder="请输入" />
         </el-form-item>
         <el-form-item prop="logo" label="类型logo">
           <el-upload
@@ -248,7 +273,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
           >
-            <img v-if="formData.logo" :src="formData.logo" class="avatar" />
+            <img v-if="formModel.logo" :src="formModel.logo" class="avatar" />
             <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
           </el-upload>
         </el-form-item>

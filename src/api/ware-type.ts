@@ -9,7 +9,7 @@ interface ListReq {
 }
 
 export interface WareTypeData {
-  id?: string
+  readonly id?: string
   name?: string
   describe?: string
   logo?: string
@@ -61,8 +61,13 @@ export const deleteApi = (ids: string) => {
   });
 }
 
+export interface WareTypeTree {
+  name:string 
+  id: string
+}
+
 export const treeApi = () => {
-  return request<ListRes>({
+  return request<WareTypeTree[]>({
     method: 'get',
     url: '/api/wareType/tree',
   });

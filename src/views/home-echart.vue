@@ -288,8 +288,8 @@ onMounted(() => {
                 <div class="welcome suspension">
                     <img class="welcome-img" :src="headerSvg" alt="" />
                     <div class="welcome-text">
-                        <div class="welcome-title">{{ userStore.name }}</div>
-                        <div class="welcome-note">{{ userStore.remark }}</div>
+                        <div class="welcome-title">{{ userStore.userinfo?.nikeName }}</div>
+                        <!-- <div class="welcome-note">{{ userStore.remark }}</div> -->
                     </div>
                 </div>
             </el-col>
