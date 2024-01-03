@@ -43,12 +43,16 @@ const handleCreate = () => {
       addAccountApi(formModel.value).then(res => {
         console.log(res);
         ElMessage.success('添加成功')
+        resetForm()
       })
     }
   })
 }
 
-const resetForm = () => {}
+const resetForm = () => {
+  changeVisible(false)
+  formRef.value.resetFields()
+}
 </script>
 
 <template>
@@ -59,10 +63,10 @@ const resetForm = () => {}
     width="30%"
   >
     <el-form ref="formRef" :model="formModel" :rules="formRules" label-width="100px" label-position="left">
-      <el-form-item prop="name" label="登录名">
+      <el-form-item prop="loginName" label="登录名">
         <el-input v-model="formModel.loginName" placeholder="请输入" />
       </el-form-item>
-      <el-form-item prop="amount" label="密码">
+      <el-form-item prop="password" label="密码">
         <el-input v-model="formModel.password" placeholder="请输入" />
       </el-form-item>
     </el-form>

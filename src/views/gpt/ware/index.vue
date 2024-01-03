@@ -8,9 +8,10 @@ import { useDialog } from "@/hooks/useDialog"
 
 import { imgUpload } from "@/api/common";
 import { type WareTypeData, type WareTypeTree, treeApi } from "@/api/ware-type"
-import { type WareData, listApi, addApi, detailApi, deleteApi, editApi, addAccountApi } from "@/api/ware"
+import { type WareData, type WareForm,listApi, addApi, detailApi, deleteApi, editApi, enableApi } from "@/api/ware"
 import { el } from "element-plus/es/locale"
 import AccountAddDialog from "./components/AccountAddDialog.vue"
+import AccountDialog from "./components/AccountDialog.vue"
 
 const handleNodeClick = (node: WareTypeTree) => {
   console.log(node)
@@ -40,7 +41,7 @@ const { visible, changeVisible, title, setDialogTitle, handleClose } = useDialog
 //#region 增
 // const visible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
-const formModel = ref<WareData>({})
+const formModel = ref<WareForm>({})
 const formRules: FormRules = reactive({
   typeId: [{ required: true, trigger: "change", message: "请选择商品类型" }],
   name: [{ required: true, trigger: "blur", message: "请输入类型名称" }],
@@ -116,11 +117,11 @@ const resetForm = () => {
 //#endregion
 
 //#region 删
-const multipleSelection = ref<WareTypeData[]>([])
-const handleSelectionChange = (val: WareTypeData[]) => {
+const multipleSelection = ref<WareData[]>([])
+const handleSelectionChange = (val: WareData[]) => {
   multipleSelection.value = val
 }
-const handleDelete = (row: WareTypeData) => {
+const handleDelete = (row: WareData) => {
   let ids = ''
   if (row.id) {
     ids = row.id
@@ -146,7 +147,7 @@ const handleDelete = (row: WareTypeData) => {
 
 //#region 改
 const currentUpdateId = ref<undefined | string>(undefined)
-const handleUpdate = (row: WareTypeData) => {
+const handleUpdate = (row: WareData) => {
   if (row.id) {
     setDialogTitle('修改商品类别');
     currentUpdateId.value = row.id
@@ -159,7 +160,7 @@ const handleUpdate = (row: WareTypeData) => {
 //#endregion
 
 //#region 查
-const tableData = ref<WareTypeData[]>([])
+const tableData = ref<WareData[]>([])
 const searchFormRef = ref<FormInstance | null>(null)
 const searchData = reactive({
   name: "",
@@ -201,9 +202,27 @@ const handleRefresh = () => {
   getTableData()
 }
 
-const accountRef = ref()
+const accountAddRef = ref()
 const handleAddAccount = (row: WareData) => {
+  accountAddRef.value.openAccount(row.id)
+}
+
+const accountRef = ref()
+const handleAccount = (row: WareData) => {
   accountRef.value.openAccount(row.id)
+}
+
+const handleEnable = (row: WareData) => {
+  console.log(row.status);
+  
+  const params = {
+    id: row.id,
+    status: row.status
+  }
+  enableApi(params).then(res => {
+    console.log(res);
+    getTableData()
+  })
 }
 
 /** 监听分页参数的变化 */
@@ -242,8 +261,13 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         <div class="table-wrapper">
           <el-table :data="tableData" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="50" align="center" />
-            <el-table-column prop="name" label="商品类型名称" align="center" />
-            <el-table-column prop="describe" label="商品类型描述" align="center" />
+            <el-table-column prop="name" label="商品名称" align="center" />
+            <el-table-column prop="describe" label="商品描述" align="center" />
+            <el-table-column prop="typeName" label="商品类型" align="center">
+              <template #default="scope">
+                <el-tag>{{ scope.row.typeName }}</el-tag>
+              </template>
+            </el-table-column>
             <el-table-column prop="describe" label="logo" align="center">
               <template #default="scope">
                 <el-image
@@ -253,9 +277,20 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
                 />
               </template>
             </el-table-column>
+            <el-table-column prop="status" label="状态" align="center">
+              <template #default="scope">
+                <el-switch
+                  v-model="scope.row.status"
+                  active-value="NORMAL"
+                  inactive-value="DISABLE"
+                  @change="handleEnable(scope.row)"
+                />
+              </template>
+            </el-table-column>
             <el-table-column fixed="right" label="操作" width="240" align="center">
               <template #default="scope">
                 <el-button type="primary" text bg size="small" @click="handleAddAccount(scope.row)">新增账密信息</el-button>
+                <el-button type="primary" text bg size="small" @click="handleAccount(scope.row)">查看账密信息</el-button>
                 <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">修改</el-button>
                 <el-button type="danger" text bg size="small" @click="handleDelete(scope.row)">删除</el-button>
               </template>
@@ -319,7 +354,8 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       </template>
     </el-dialog>
 
-    <AccountAddDialog ref="accountRef"></AccountAddDialog>
+    <AccountAddDialog ref="accountAddRef"></AccountAddDialog>
+    <AccountDialog ref="accountRef"></AccountDialog>
   </div>
 </template>
 

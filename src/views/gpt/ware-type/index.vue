@@ -190,8 +190,7 @@ const handleEnable = (row: WareTypeData) => {
     id: row.id,
     status: row.status
   }
-  enableApi(params).then(res => {
-    console.log(res);
+  enableApi(params).then(() => {
     getTableData()
   })
 }

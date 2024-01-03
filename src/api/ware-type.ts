@@ -69,12 +69,12 @@ export const deleteApi = (ids: string) => {
   });
 }
 
-interface EnableRes {
+export interface EnableRes {
   id: string, 
   status: WareTypeEnable
 }
 export const enableApi = (params: EnableRes) => {
-  return request<ListRes>({
+  return request({
     method: 'put',
     url: '/api/wareType/enable',
     params

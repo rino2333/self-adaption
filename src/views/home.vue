@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { type WareTypeData, type WareTypeTree, treeApi,  } from "@/api/ware-type"
 import { type WareData, listApi, addApi, detailApi, deleteApi, editApi } from "@/api/ware"
-import { type H5WareType, h5TypeApi } from "@/api/h5"
+import { type H5WareType, h5TypeApi, h5WareListApi } from "@/api/h5"
 
 const router = useRouter()
 
@@ -15,7 +15,10 @@ const wareType = ref<H5WareType[]>([])
 
 const wareData = ref<WareData[]>([])
 const getWareData = (typeId: string) => {
-  listApi({ typeId }).then(res => {
+  // listApi({ typeId }).then(res => {
+  //   wareData.value = res.data.records
+  // })
+  h5WareListApi(typeId).then(res => {
     wareData.value = res.data.records
   })
 }
@@ -57,12 +60,12 @@ const changeTab = (index: number, id: string) => {
             <b><font color="#c24f4a">&nbsp; &nbsp;人工在线时间：早9:00-凌晨2:00</font></b>
             <br>
           </p>
-          <p>
+          <!-- <p>
             <b><a href="https://play.google.com/store/apps/details?id=com.openai.chatgpt&amp;pli=1" target="_blank">点击安装安卓APP</a>&nbsp; &nbsp; &nbsp;<a href="https://apps.apple.com/us/app/chatgpt/id6448311069" target="_blank">点击安装苹果APP</a>&nbsp; &nbsp; &nbsp;<a href="https://chat.openai.com/auth/login" target="_blank">点击跳转官网</a><br></b></p><p>
               <i><font color="#c24f4a">12月13日13:29通知：</font>
                 <font color="#000000">付款后请勿切换页面，等待25秒会更新付款状态并自动发货，若仍未发货，请联系本站微信客服，人工在线处理！</font>
               </i>
-            </p>
+            </p> -->
         </div>
       </div>
     </article>
@@ -100,7 +103,7 @@ const changeTab = (index: number, id: string) => {
             <div 
               class="goods-box" 
               v-for="item in wareData"
-              @click="router.push('/detail')"
+              @click="router.push('/detail?id=' + item.id)"
             >  
               <div class="picture">
                 <img :src="item.logo" alt="">
@@ -110,9 +113,9 @@ const changeTab = (index: number, id: string) => {
                 <div class="goods-price">￥{{ item.amount }}</div> 
                 <div class="goods-num"> 
                   <div>
-                    <p style="width: 36.99307616221563%;"></p>
+                    <div style="width: 36.99307616221563%;"></div>
                   </div> 
-                  <span>剩余374件</span> 
+                  <span>剩余{{ item.count }}件</span> 
                 </div> 
               </div> 
             </div>  
@@ -161,8 +164,7 @@ nav {
     -webkit-box-shadow: 0 7px 29px 0 rgba(18, 52, 91, .11);
     box-shadow: 0 7px 29px 0 rgba(18, 52, 91, .11);
     border-radius: 6px;
-    padding-top: 14px;
-    padding-bottom: 20px;
+    padding: 14px 20px;
   }
 
   .title {
@@ -171,40 +173,33 @@ nav {
     font-size: 18px;
     font-weight: 600;
     color: #545454;
-    margin: 0 20px;
+    span {
+      margin-left: 6px;
+    }
+    // margin: 0 20px;
   }
 
   .cate {
+    display: flex;
+    flex-wrap: wrap;
     padding-top: 20px;
-    margin: 0 10px;
   }
 
   .cate-box {
+    width: calc(50% - 6px);
     font-size: 12px;
     color: #545454;
-    overflow: hidden;
-    display: inline-block;
-    vertical-align: middle;
-    min-width: 130px;
     background: #f1f1f1;
     border-radius: 10px;
-    height: 67px;
-    padding: 12px 20px 0;
-    margin: 0 10px;
+    padding: 12px 20px 16px;
     cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
-    position: relative;
-    margin-bottom: 10px;
+    margin: 0 6px 10px 0;
 
     .total {
       color: #999;
     }
   }
-
-  
 
   .cate-box-select {
     background-image: linear-gradient(135deg, #3C8CE7 10%, #00EAFF 100%);
@@ -218,7 +213,7 @@ nav {
   }
 
   .goods {
-    margin-top: 10px;
+    margin: 10px 0;
     border-top: 1px solid #f7f7f7;
     padding-top: 10px;
 
@@ -247,22 +242,61 @@ nav {
   .goods-box {
     padding: 18px;
     vertical-align: middle;
-    min-width: 185px;
+    // min-width: 185px;
     min-height: 80px;
     background: #fff;
     border: 2px solid #f1f4fb;
     -webkit-box-shadow: 0 4px 10px 0 rgba(135, 142, 154, .14);
     box-shadow: 0 4px 10px 0 rgba(135, 142, 154, .14);
     border-radius: 10px;
-    margin-right: 11px;
     margin-bottom: 10px;
     cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
     position: relative;
-    display: inline-flex;
+    display: flex;
+  }
+
+  .goods-name {
+    margin-bottom: 10px;
+    color: #545454;
+    font-size: 12px;
+    font-weight: 400;
+    margin-top: 5px;
+  }
+
+  .goods-price {
+    color: #3C8CE7;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .goods-num {
+    margin-top: 3px;
+
+    div {
+      display: inline-block;
+      width: 53px;
+      height: 5px;
+      background: #f3f3f3;
+      position: relative;
+      border-radius: 3px;
+
+      div {
+        display: inline-block;
+        position: absolute;
+        width: 40%;
+        height: 100%;
+        background: linear-gradient(55deg, #65d69e, #31dd92);
+        border-radius: 3px;
+      }
+    }
+
+    span {
+      color: #0db26a;
+      font-size: 12px;
+      margin-left: 10px;
+      margin-right: 18px;
+    }
   }
 }
 

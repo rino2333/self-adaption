@@ -1,4 +1,5 @@
 import request from "../utils/service";
+import { EnableRes, WareTypeEnable } from "./ware-type";
 
 interface ListReq {
   current?: number
@@ -7,16 +8,21 @@ interface ListReq {
   typeId?: string
 }
 
-export interface WareData {
-  readonly id?: string
+export interface WareForm {
   name?: string
   describe?: string
   typeId?: string
   logo?: string
   amount?: string
+  count?: string
 }
 
-interface ListRes {
+export interface WareData extends WareForm {
+  readonly id: string
+  status: WareTypeEnable
+}
+
+export interface ListRes {
   total: number
   records: WareData[]
 }
@@ -29,7 +35,7 @@ export const listApi = (params: ListReq) => {
   });
 }
 
-export const addApi = (data: WareData) => {
+export const addApi = (data: WareForm) => {
   return request<ListRes>({
     method: 'post',
     url: '/api/ware/add',
@@ -45,7 +51,10 @@ export const detailApi = (id: string) => {
   });
 }
 
-export const editApi = (data: WareData) => {
+interface editRes extends WareForm {
+  readonly id: string
+}
+export const editApi = (data: editRes) => {
   return request<ListRes>({
     method: 'put',
     url: '/api/ware/edit',
@@ -61,16 +70,35 @@ export const deleteApi = (ids: string) => {
   });
 }
 
+export const enableApi = (params: EnableRes) => {
+  return request<ListRes>({
+    method: 'put',
+    url: '/api/ware/enable',
+    params
+  });
+}
+
 export interface Account {
   loginName: string
   password: string
   wareId: string
 }
 
+interface AccountList {
+  records: Account[]
+}
 export const addAccountApi = (data: Account) => {
   return request<ListRes>({
     method: 'post',
     url: '/api/ware/detail/add',
     data
+  });
+}
+
+export const AccountListApi = (params: { wareId: string }) => {
+  return request<AccountList>({
+    method: 'get',
+    url: '/api/ware/detail/list',
+    params
   });
 }
