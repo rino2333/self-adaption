@@ -7,7 +7,7 @@ import { usePagination } from "@/hooks/usePagination"
 import { useDialog } from "@/hooks/useDialog"
 
 import { imgUpload } from "@/api/common";
-import { type WareTypeData, listApi, addApi, editApi, detailApi, deleteApi, treeApi } from "@/api/ware-type"
+import { type WareTypeForm, type WareTypeData, listApi, addApi, editApi, detailApi, deleteApi, treeApi, enableApi } from "@/api/ware-type"
 import { el } from "element-plus/es/locale"
 // treeApi().then(res => {
 //   console.log(res);
@@ -24,9 +24,7 @@ const { visible, changeVisible, title, setDialogTitle, handleClose } = useDialog
 //#region 增
 // const visible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
-const formModel = ref<WareTypeData>({
-  status: 'NORMAL'
-})
+const formModel = ref<WareTypeForm>({})
 const formRules: FormRules = reactive({
   name: [{ required: true, trigger: "blur", message: "请输入类型名称" }],
   describe: [{ required: true, trigger: "blur", message: "请输入类型描述" }],
@@ -185,6 +183,19 @@ const handleRefresh = () => {
   getTableData()
 }
 
+const handleEnable = (row: WareTypeData) => {
+  console.log(row.status);
+  
+  const params = {
+    id: row.id,
+    status: row.status
+  }
+  enableApi(params).then(res => {
+    console.log(res);
+    getTableData()
+  })
+}
+
 /** 监听分页参数的变化 */
 watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
 </script>
@@ -234,6 +245,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
                 v-model="scope.row.status"
                 active-value="NORMAL"
                 inactive-value="DISABLE"
+                @change="handleEnable(scope.row)"
               />
             </template>
           </el-table-column>
@@ -275,13 +287,13 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         <el-form-item prop="sort" label="排序">
           <el-input-number v-model="formModel.sort" placeholder="请输入" />
         </el-form-item>
-        <el-form-item prop="status" label="状态">
+        <!-- <el-form-item prop="status" label="状态">
           <el-switch
             v-model="formModel.status"
             active-value="NORMAL"
             inactive-value="DISABLE"
           />
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item prop="logo" label="类型logo">
           <el-upload
             class="avatar-uploader"

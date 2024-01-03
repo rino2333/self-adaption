@@ -14,8 +14,8 @@ import AccountAddDialog from "./components/AccountAddDialog.vue"
 
 const handleNodeClick = (node: WareTypeTree) => {
   console.log(node)
-  // formModel.value.typeId = node.id
-  // getTableData()
+  formModel.value.typeId = node.id
+  getTableData()
 }
 
 const tree = ref<WareTypeTree[]>([])

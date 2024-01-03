@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 import { type WareTypeData, type WareTypeTree, treeApi,  } from "@/api/ware-type"
 import { type WareData, listApi, addApi, detailApi, deleteApi, editApi } from "@/api/ware"
+import { type H5WareType, h5TypeApi } from "@/api/h5"
 
-const wareType = ref<WareTypeData[]>([])
-treeApi().then(res => {
+const router = useRouter()
+
+const wareType = ref<H5WareType[]>([])
+  h5TypeApi().then(res => {
   wareType.value = res.data
-  getWareData(res.data[0].id)
+  getWareData(wareType.value[0].id)
 })
 
 const wareData = ref<WareData[]>([])
@@ -81,11 +85,11 @@ const changeTab = (index: number, id: string) => {
             @click="changeTab(index + 1, item.id as string)"
           > 
             <div>{{ item.name }}</div> 
-            <div class="total">商品数量：9</div> 
+            <div class="total">商品数量：{{ item.count }}</div> 
           </div>  
         </div>
         <div class="goods">
-          <p class="title-2">
+          <p class="title">
             <svg t="1602925988984" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1945" width="17" height="17">
                 <path d="M803.84 883.712h-163.84v-81.92h133.12l118.784-393.216-178.176 95.232-55.296-15.36L512 240.64 365.568 488.448l-55.296 15.36-178.176-95.232 118.784 393.216h133.12v81.92h-163.84l-38.912-28.672L25.6 336.896l58.368-47.104 230.4 122.88 162.816-272.384h69.632l162.816 272.384 230.4-122.88 58.368 47.104-155.648 518.144z" fill="#3C8CE7" p-id="1946" data-spm-anchor-id="a313x.7781069.0.i17" class=""></path>
                 <path d="M305.152 620.544h61.44v61.44h-61.44zM481.28 620.544h61.44v61.44h-61.44zM657.408 620.544h61.44v61.44h-61.44z" fill="#00EAFF" p-id="1947" data-spm-anchor-id="a313x.7781069.0.i14" class=""></path>
@@ -93,7 +97,11 @@ const changeTab = (index: number, id: string) => {
             <span>选择商品</span>
           </p>
           <div class="goods-list"> 
-            <div class="goods-box" v-for="item in wareData">  
+            <div 
+              class="goods-box" 
+              v-for="item in wareData"
+              @click="router.push('/detail')"
+            >  
               <div class="picture">
                 <img :src="item.logo" alt="">
               </div>  
@@ -158,9 +166,12 @@ nav {
   }
 
   .title {
+    display: flex;
+    align-items: center;
     font-size: 18px;
     font-weight: 600;
     color: #545454;
+    margin: 0 20px;
   }
 
   .cate {

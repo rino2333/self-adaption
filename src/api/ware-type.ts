@@ -8,13 +8,17 @@ interface ListReq {
   size?: number
 }
 
-export interface WareTypeData {
-  readonly id?: string
+export type WareTypeEnable = 'NORMAL' | 'DISABLE'
+
+export interface WareTypeForm {
   name?: string
   describe?: string
   logo?: string
   sort?: number
-  status?: 'NORMAL' | 'DISABLE'
+}
+export interface WareTypeData extends WareTypeForm {
+  readonly id: string
+  status: WareTypeEnable
 }
 
 interface ListRes {
@@ -30,7 +34,7 @@ export const listApi = (params: ListReq) => {
   });
 }
 
-export const addApi = (data: WareTypeData) => {
+export const addApi = (data: WareTypeForm) => {
   return request<ListRes>({
     method: 'post',
     url: '/api/wareType/add',
@@ -46,7 +50,10 @@ export const detailApi = (id: string) => {
   });
 }
 
-export const editApi = (data: WareTypeData) => {
+interface editRes extends WareTypeForm {
+  readonly id: string
+}
+export const editApi = (data: editRes) => {
   return request<ListRes>({
     method: 'put',
     url: '/api/wareType/edit',
@@ -59,6 +66,18 @@ export const deleteApi = (ids: string) => {
     method: 'delete',
     url: '/api/wareType/delete',
     params: { ids }
+  });
+}
+
+interface EnableRes {
+  id: string, 
+  status: WareTypeEnable
+}
+export const enableApi = (params: EnableRes) => {
+  return request<ListRes>({
+    method: 'put',
+    url: '/api/wareType/enable',
+    params
   });
 }
 

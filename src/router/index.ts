@@ -21,6 +21,10 @@ let routes = [
     ]
   },
   {
+    path: '/detail',
+    component: () => import("@/views/detail.vue"),
+  },
+  {
     path: '/admin',
     component: Layout,
     children: [
