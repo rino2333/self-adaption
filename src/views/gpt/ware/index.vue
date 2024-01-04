@@ -252,7 +252,51 @@ const handleEnable = (row: WareData) => {
 
 const editorConfig = { 
   placeholder: '请输入内容...',
-
+  MENU_CONF: {                // 配置上传服务器地址
+    uploadImage: {
+      // 小于该值就插入 base64 格式（而不上传），默认为 0
+      base64LimitSize: 5 * 1024, // 5kb
+      // 单个文件的最大体积限制，默认为 2M
+      // maxFileSize: 1 * 1024 * 1024, // 1M
+      // // 最多可上传几个文件，默认为 100
+      // maxNumberOfFiles: 5,
+      // 选择文件时的类型限制，默认为 ['image/*'] 。如不想限制，则设置为 []
+      allowedFileTypes: ['image/*'],
+      // 自定义上传
+      async customUpload(file, insertFn) { // 文件上传
+        try {
+            console.log(file);
+            const formData = new FormData()
+            formData.append('file', file)
+            imgUpload(formData).then(res => {
+              console.log(res.data);
+              insertFn(res.data, '', res.data)
+              ElMessage({
+                type: 'success',
+                message: '上传附件成功！',
+              })
+            })
+            
+            //更新临时token
+            // let urlData = null;
+            // //上传
+            // let nununu = await S3Demo.putObject(file, config.data.data.bucketName, 'wangeditor').then(function(resolve){
+            //     console.log(resolve)
+            //     urlData = resolve;
+            //     insertFn(urlData, '', urlData)
+            //     ElMessage({
+            //       type: 'success',
+            //       message: '上传附件成功！',
+            //     })
+            // })
+        } catch (e) {
+            console.log('222')
+            ElMessage.error('上传附件失败！');
+        }
+         
+      }
+    }
+  }
 }
 
 /** 监听分页参数的变化 */
