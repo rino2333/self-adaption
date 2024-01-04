@@ -12,14 +12,12 @@ const { visible, changeVisible, title, setDialogTitle, handleClose } = useDialog
 });
 
 const formModel = ref<Account>({
-  loginName: '',
-  password: '',
+  content: '',
   wareId: ''
 })
 
 const formRules: FormRules = reactive({
-  loginName: [{ required: true, trigger: "blur", message: "请输入账号" }],
-  password: [{ required: true, trigger: "blur", message: "请输入密码" }],
+  content: [{ required: true, trigger: "blur", message: "请输入内容" }],
 })
 
 const openAccount = (id: string) => {
@@ -40,7 +38,11 @@ const handleCreate = () => {
   // }
   formRef.value.validate((valid: boolean) => {
     if (valid) {
-      addAccountApi(formModel.value).then(res => {
+      const formData = new FormData()
+      for (const key in formModel.value) {
+        formData.append(key, formModel.value[key as keyof Account])
+      }
+      addAccountApi(formData).then(res => {
         console.log(res);
         ElMessage.success('添加成功')
         resetForm()
@@ -63,11 +65,8 @@ const resetForm = () => {
     width="30%"
   >
     <el-form ref="formRef" :model="formModel" :rules="formRules" label-width="100px" label-position="left">
-      <el-form-item prop="loginName" label="登录名">
-        <el-input v-model="formModel.loginName" placeholder="请输入" />
-      </el-form-item>
-      <el-form-item prop="password" label="密码">
-        <el-input v-model="formModel.password" placeholder="请输入" />
+      <el-form-item prop="content" label="内容">
+        <el-input v-model="formModel.content" placeholder="请输入" />
       </el-form-item>
     </el-form>
     <template #footer>

@@ -36,6 +36,10 @@ let routes = [
         path: 'ware',
         component: () => import("@/views/gpt/ware/index.vue"),
       },
+      {
+        path: 'config',
+        component: () => import("@/views/gpt/config/index.vue"),
+      },
     ]
   },
   {

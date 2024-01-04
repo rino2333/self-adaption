@@ -63,6 +63,10 @@ const setNav = async () => {
       url: '/admin/ware', 
       name: '商品管理',
     },
+    {
+      url: '/admin/config', 
+      name: '系统配置',
+    },
   ];
   routerStore.setNav(nav);
   console.log(routerStore.nav);

@@ -12,6 +12,7 @@ import { type WareData, type WareForm,listApi, addApi, detailApi, deleteApi, edi
 import { el } from "element-plus/es/locale"
 import AccountAddDialog from "./components/AccountAddDialog.vue"
 import AccountDialog from "./components/AccountDialog.vue"
+import ImportAccountDialog from "./components/ImportAccountDialog.vue"
 
 const handleNodeClick = (node: WareTypeTree) => {
   console.log(node)
@@ -53,14 +54,14 @@ const formRules: FormRules = reactive({
 
 const handleChange: UploadProps['onChange'] = (uploadFile, uploadFiles) => {
   // formModel.value.logo = URL.createObjectURL(uploadFile.raw!)
-  formModel.value.logo = 'https://jxjy-test.whxunw.com/center/assets/123-3c444361.jpg'
-  console.log(formModel.value);
-  console.log(uploadFile.raw);
-  // const formData = new FormData()
-  // formData.append("file", uploadFile.raw as File)
-  // imgUpload(formData).then(res => {
-  //   console.log(res);
-  // })
+  // formModel.value.logo = 'https://jxjy-test.whxunw.com/center/assets/123-3c444361.jpg'
+  // console.log(formModel.value);
+  // console.log(uploadFile.raw);
+  const formData = new FormData()
+  formData.append("file", uploadFile.raw as File)
+  imgUpload(formData).then(res => {
+    console.log(res);
+  })
 
   
   formRef.value?.validateField('logo')
@@ -212,6 +213,11 @@ const handleAccount = (row: WareData) => {
   accountRef.value.openAccount(row.id)
 }
 
+const importRef = ref()
+const handleImportAccount = (row: WareData) => {
+  importRef.value.openAccount(row.id)
+}
+
 const handleEnable = (row: WareData) => {
   console.log(row.status);
   
@@ -289,8 +295,9 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
             </el-table-column>
             <el-table-column fixed="right" label="操作" width="240" align="center">
               <template #default="scope">
-                <el-button type="primary" text bg size="small" @click="handleAddAccount(scope.row)">新增账密信息</el-button>
-                <el-button type="primary" text bg size="small" @click="handleAccount(scope.row)">查看账密信息</el-button>
+                <el-button type="primary" text bg size="small" @click="handleAddAccount(scope.row)">新增账密</el-button>
+                <el-button type="primary" text bg size="small" @click="handleImportAccount(scope.row)">导入账密</el-button>
+                <el-button type="primary" text bg size="small" @click="handleAccount(scope.row)">查看账密</el-button>
                 <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">修改</el-button>
                 <el-button type="danger" text bg size="small" @click="handleDelete(scope.row)">删除</el-button>
               </template>
@@ -356,6 +363,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
 
     <AccountAddDialog ref="accountAddRef"></AccountAddDialog>
     <AccountDialog ref="accountRef"></AccountDialog>
+    <ImportAccountDialog ref="importRef"></ImportAccountDialog>
   </div>
 </template>
 

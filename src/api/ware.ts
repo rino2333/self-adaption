@@ -79,15 +79,17 @@ export const enableApi = (params: EnableRes) => {
 }
 
 export interface Account {
-  loginName: string
-  password: string
+  content: string
+  // password: string
   wareId: string
+  id?: string
 }
 
 interface AccountList {
   records: Account[]
+  total: number
 }
-export const addAccountApi = (data: Account) => {
+export const addAccountApi = (data: FormData) => {
   return request<ListRes>({
     method: 'post',
     url: '/api/ware/detail/add',
@@ -95,10 +97,26 @@ export const addAccountApi = (data: Account) => {
   });
 }
 
-export const AccountListApi = (params: { wareId: string }) => {
+export const AccountListApi = (params: Account) => {
   return request<AccountList>({
     method: 'get',
     url: '/api/ware/detail/list',
     params
+  });
+}
+
+export const importAccountApi = (data: FormData) => {
+  return request({
+    method: 'post',
+    url: '/api/ware/detail/import',
+    data
+  });
+}
+
+export const deleteAccountApi = (id: string) => {
+  return request({
+    method: 'post',
+    url: '/api/ware/detail/delete',
+    params: { id }
   });
 }
