@@ -44,7 +44,7 @@ const changeTab = (index: number, id: string) => {
           <p class="card-title">
             <i class="fa fa-bullhorn"></i>  温馨提示                 
           </p>
-          <marquee>请您在下单前仔细阅读商品详情，自行备好科学工具，本站不提供任何VPN、梯子等相关的工具和方法。</marquee>
+          <marquee style="color: red;">请您在下单前仔细阅读商品详情，自行备好科学工具，本站不提供任何VPN、梯子等相关的工具和方法。</marquee>
         </div>
         <div class="card-block">
           <p>免责声明：本站提供的账号资源，且限用来专业知识技能学习、游戏下载、外贸交流、网络营销等，用户若擅自利用本站资源从事任何违反本国（地区）法律法规的活动，由此引起的一切后果与本站无关。

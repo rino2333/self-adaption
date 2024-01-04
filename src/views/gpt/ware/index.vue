@@ -14,6 +14,24 @@ import AccountAddDialog from "./components/AccountAddDialog.vue"
 import AccountDialog from "./components/AccountDialog.vue"
 import ImportAccountDialog from "./components/ImportAccountDialog.vue"
 
+import '@wangeditor/editor/dist/css/style.css' // 引入 css
+
+import { onBeforeUnmount, shallowRef, onMounted } from 'vue'
+import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+
+const editorRef = shallowRef()
+
+const editerCreate = (editor) => {
+  console.log('created', editor);
+  editorRef.value = editor; // 记录 editor 实例，重要！
+};
+
+onBeforeUnmount(() => {
+  const editor = editorRef.value
+  if (editor == null) return
+  editor.destroy()
+})
+
 const handleNodeClick = (node: WareTypeTree) => {
   console.log(node)
   formModel.value.typeId = node.id
@@ -60,7 +78,8 @@ const handleChange: UploadProps['onChange'] = (uploadFile, uploadFiles) => {
   const formData = new FormData()
   formData.append("file", uploadFile.raw as File)
   imgUpload(formData).then(res => {
-    console.log(res);
+    console.log(res.data);
+    formModel.value.logo = res.data
   })
 
   
@@ -231,6 +250,11 @@ const handleEnable = (row: WareData) => {
   })
 }
 
+const editorConfig = { 
+  placeholder: '请输入内容...',
+
+}
+
 /** 监听分页参数的变化 */
 watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
 </script>
@@ -268,7 +292,16 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
           <el-table :data="tableData" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="50" align="center" />
             <el-table-column prop="name" label="商品名称" align="center" />
-            <el-table-column prop="describe" label="商品描述" align="center" />
+            <el-table-column prop="amount" label="商品金额" align="center">
+              <template #default="scope">
+                <el-tag type="success">￥{{ scope.row.amount }}</el-tag>
+              </template>
+            </el-table-column>
+            <!-- <el-table-column prop="describe" label="商品描述" align="center" show-overflow-tooltip>
+              <template #default="scope">
+                <div v-html="scope.row.describe"></div>
+              </template>
+            </el-table-column> -->
             <el-table-column prop="typeName" label="商品类型" align="center">
               <template #default="scope">
                 <el-tag>{{ scope.row.typeName }}</el-tag>
@@ -323,7 +356,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       v-model="visible"
       :title="title"
       @close="handleClose(resetForm)"
-      width="30%"
+      width="60%"
     >
       <el-form ref="formRef" :model="formModel" :rules="formRules" label-width="100px" label-position="left">
         <el-form-item prop="typeId" label="商品类型">
@@ -352,7 +385,22 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
           </el-upload>
         </el-form-item>
         <el-form-item prop="describe" label="商品描述">
-          <el-input v-model="formModel.describe" placeholder="请输入" />
+          <!-- <el-input v-model="formModel.describe" placeholder="请输入" /> -->
+          <div style="border: 1px solid #ccc">
+            <Toolbar
+              style="border-bottom: 1px solid #ccc"
+              :editor="editorRef"
+              :defaultConfig="{}"
+              :mode="'default'"
+            />
+            <Editor
+              style="height: 500px; overflow-y: hidden;"
+              v-model="formModel.describe"
+              :defaultConfig="editorConfig"
+              :mode="'default'"
+              @onCreated="editerCreate"
+            />
+          </div>
         </el-form-item>
       </el-form>
       <template #footer>

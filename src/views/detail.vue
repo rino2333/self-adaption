@@ -5,8 +5,6 @@ import { type WareTypeData, type WareTypeTree, treeApi,  } from "@/api/ware-type
 import { type WareData, type WareForm, listApi, addApi, detailApi, deleteApi, editApi } from "@/api/ware"
 import { type H5WareType, h5TypeApi, h5WareDetailApi, createOrderApi } from "@/api/h5"
 
-
-
 const route = useRoute()
 const router = useRouter()
 
@@ -105,6 +103,96 @@ const handleBuy = () => {
           </div>
         </div>
       </div>
+
+      <div class="main-box">
+                    <div class="title" style="border-bottom: 1px solid #f7f7f7;padding-bottom: 5px">
+                        <svg t="1602951214662" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1513" width="20" height="20">
+                            <path d="M791.552 1002.496L513.024 875.52l-91.136 45.056-35.84-73.728 107.52-53.248 35.84-1.024L766.976 901.12V242.688H257.024v559.104h-81.92V201.728l40.96-40.96h591.872l40.96 40.96v762.88z" fill="#3C8CE7" p-id="1514" data-spm-anchor-id="a313x.7781069.0.i7" class="selected"></path>
+                            <path d="M481.28 21.504h61.44v309.248h-61.44z" fill="#00EAFF" p-id="1515" data-spm-anchor-id="a313x.7781069.0.i8" class=""></path>
+                            <path d="M512 518.144c-63.488 0-114.688-51.2-114.688-114.688 0-63.488 51.2-114.688 114.688-114.688s114.688 51.2 114.688 114.688c0 63.488-51.2 114.688-114.688 114.688z m0-167.936c-29.696 0-53.248 23.552-53.248 53.248 0 29.696 23.552 53.248 53.248 53.248s53.248-23.552 53.248-53.248c0-29.696-23.552-53.248-53.248-53.248z" fill="#3C8CE7" p-id="1516" data-spm-anchor-id="a313x.7781069.0.i11" class="selected"></path>
+                        </svg>
+                        <span>商品描述</span>
+                    </div>
+                    <div class="intro">
+                      <div style="padding: 0 16px;" v-html="wareInfo.describe"></div>
+                        <!-- <p><strong><span class="ne-text" style="font-size: 19px;">NO.1/ 商品介绍</span></strong></p>
+<div class="lake-content">
+<p id="u69bf8d1c" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: center;"><strong>默认发：</strong><strong>GPT / 4.0&nbsp; Plus 官网直登账号 </strong><strong>30天&nbsp;</strong></p>
+<p class="ne-p" style="margin: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; min-height: 24px; text-align: center;"><strong>约 6-9 人</strong><strong>合租</strong><strong> / 不支持二次分享朋友使用</strong></p>
+<p class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: center;"><strong>（共用每3小时40条回复/官方限制）</strong></p>
+<p class="ne-p" style="margin: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; min-height: 24px; text-align: center;"><span style="color: #e67e23;"><strong>正规充值 / 从未封号 / 封号包赔</strong></span></p>
+<p class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: center;"><span style="color: #e67e23;"><strong>凡人&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;超人</strong></span></p>
+<p class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: center;"><strong>无此功能&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;智能绘画</strong></p>
+<p class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: center;"><strong>不支持语音&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;谈电子恋爱</strong></p>
+<p class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: center;"><strong>不能识别图片&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;拍照识图答题</strong></p>
+<p class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: center;"><strong><span style="font-size: 14pt;"><em>3 . 5</em>&nbsp; &nbsp;<span style="color: #e03e2d;"><span style="color: #e67e23; font-size: 18pt;">V S&nbsp;&nbsp;</span><span style="color: #e67e23; font-size: 18pt;"><span style="color: #e03e2d;">&nbsp;</span></span></span><em>4 . 0</em></span></strong></p>
+<p class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: center;"><strong>不支持创建AI&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;创建自己的AI</strong></p>
+<p class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: center;"><strong>去年老旧知识库&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;最新实时知识库</strong></p>
+<p class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: center;"><strong>基础回复/效果不好&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;学术辅导/商业分析</strong></p>
+<p class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: center;"><strong>功能</strong><strong>单一</strong><strong> / 毫无新意&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</strong><strong>模型多元</strong><strong>&nbsp;/ 爱不释手</strong></p>
+<p class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: center;">&nbsp;</p>
+</div>
+<div class="lake-content">
+<p class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px;"><strong><span class="ne-text" style="font-size: 19px;">NO.2/&nbsp; 请往下划 /&nbsp;<span style="color: #e67e23;">快捷登入</span></span></strong><strong><span class="ne-text" style="font-size: 19px;">&nbsp;/ 先开梯子</span></strong></p>
+<p class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px;">&nbsp;</p>
+<h4 class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: left;"><span style="background-color: #00cbfe;"><strong><a href="https://sat233.com/buy/29" target="_blank" rel="noopener"><span style="color: #ffffff; font-size: 14pt; background-color: #00cbfe;">&nbsp;&gt;点击领取梯子&lt;&nbsp;</span></a></strong></span></h4>
+<h4 id="uc1de6d5a" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: left;">&nbsp;</h4>
+<div class="lake-content">
+<h4 class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: left;"><span style="background-color: #00cbfe;"><strong><a href="https://v.douyin.com/i81RsSfc/ " target="_blank" rel="noopener"><span style="color: #ffffff; font-size: 14pt; background-color: #00cbfe;">&nbsp;&gt;观看电子恋爱&lt;&nbsp;</span></a></strong></span></h4>
+<h4 id="uc1de6d5a" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: left;">&nbsp;</h4>
+<h4 class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: left;"><span style="background-color: #2dc26b;"><strong><a href="http://b23.tv/qsmFbVf" target="_blank" rel="noopener"><span style="color: #ffffff; font-size: 14pt; background-color: #2dc26b;">&nbsp;&gt;点击了解工具&lt;&nbsp;</span></a></strong></span></h4>
+<h4 id="uc1de6d5a" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: left;">&nbsp;</h4>
+<h4 class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: left;"><span style="background-color: #2dc26b;"><strong><a href="https://chat.openai.com/auth/login" target="_blank" rel="noopener"><span style="color: #ffffff; font-size: 14pt; background-color: #2dc26b;">&nbsp;&gt;点击进入官网&lt;&nbsp;</span></a></strong></span></h4>
+<h4 id="uc1de6d5a" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: left;">&nbsp;</h4>
+<h4 class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: left;"><span style="background-color: #e67e23;"><strong><a href="https://apps.apple.com/us/app/chatgpt/id6448311069" target="_blank" rel="noopener"><span style="color: #ffffff; font-size: 14pt; background-color: #e67e23;">&nbsp;&gt;苹果点此安装&lt;&nbsp;</span></a></strong></span></h4>
+<h4 class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: left;">&nbsp;</h4>
+<h4 class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: left;"><span style="background-color: #e67e23;"><strong><a href="https://play.google.com/store/apps/details?id=com.openai.chatgpt&amp;pli=1" target="_blank" rel="noopener"><span style="color: #ffffff; font-size: 14pt; background-color: #e67e23;">&nbsp;&gt;安卓点此安装&lt;&nbsp;</span></a></strong></span></h4>
+<h4 id="uc1de6d5a" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: left;">&nbsp;</h4>
+<h4 class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: left;"><strong><span style="background-color: #00cbfe;"><a href="https://play.google.com/store/apps/details?id=com.openai.chatgpt&amp;pli=1" target="_blank" rel="noopener"><span style="color: #ffffff; font-size: 14pt; background-color: #00cbfe;">&nbsp;&gt;安装谷歌商店&lt;&nbsp;</span></a></span></strong></h4>
+<h4 id="uc1de6d5a" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: left;">&nbsp;</h4>
+<h4 class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: left;"><strong><span style="background-color: #00cbfe;"><a href="https://sat233.com/buy/41" target="_blank" rel="noopener"><span style="color: #ffffff; font-size: 14pt; background-color: #00cbfe;">&nbsp;&gt;点击安装插件&lt;&nbsp;</span></a></span></strong></h4>
+<h4 id="uc1de6d5a" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: left;">&nbsp;</h4>
+<h4 class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: left;"><span style="background-color: #2dc26b;"><strong><a href="https://t.me/+MQnfGx8HITAxNTA1" target="_blank" rel="noopener"><span style="color: #ffffff; font-size: 14pt; background-color: #2dc26b;">&nbsp;&gt;点击加入群聊&lt;&nbsp;</span></a></strong></span></h4>
+<h4 id="uc1de6d5a" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: left;">&nbsp;</h4>
+<h4 class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: left;"><span style="background-color: #2dc26b;"><strong><a href="https://www.deeplearning.ai/short-courses/" target="_blank" rel="noopener"><span style="color: #ffffff; font-size: 14pt; background-color: #2dc26b;">&nbsp;&gt;点击官方教程&lt;&nbsp;</span></a></strong></span></h4>
+<h4 id="uc1de6d5a" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: left;">&nbsp;</h4>
+<h4 id="uc1de6d5a" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: left;"><span style="background-color: #2dc26b;"><strong><a href="https://platform.openai.com/account/api-keys" target="_blank" rel="noopener"><span style="color: #ffffff; font-size: 18.6667px; background-color: #2dc26b;">&nbsp;&gt;点击创建 Api&lt;&nbsp;</span></a></strong></span></h4>
+</div>
+<div class="lake-content">
+<h4 class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: left;">&nbsp;</h4>
+</div>
+<div class="lake-content">
+<p class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: center;">（小贴士 / 苹果下载需美区ID账号 /安卓下载需谷歌账号和谷歌商店）</p>
+<p class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: center;">&nbsp;</p>
+</div>
+<h4 id="uc1de6d5a" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: center;"><strong><span style="font-size: 12pt;"><a href="https://sat233.com/buy/10" target="_blank" rel="noopener"><span style="color: #ffffff; background-color: #00cbfe;">&nbsp;&gt;点击获取&nbsp;<span style="font-size: 12pt;">Apale ID</span>&nbsp;账号&lt;&nbsp;</span></a></span></strong></h4>
+<p>&nbsp;</p>
+<h4 id="uc1de6d5a" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px; text-align: center;"><strong><span style="font-size: 12pt;"><a href="https://sat233.com/buy/8" target="_blank" rel="noopener"><span style="color: #ffffff; background-color: #00cbfe;">&nbsp;&gt;点击获取&nbsp; Google&nbsp; 账号&lt;&nbsp;</span></a></span></strong></h4>
+<h1 id="ue46e75a0" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px;"><strong><span class="ne-text" style="font-size: 19px;">NO.3/ 使用过程的常见问题 ?</span></strong></h1>
+<p id="u3e84bc94" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px;">&nbsp;</p>
+<p id="u5d6169db" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px;"><strong><span class="ne-text" style="font-size: 16px;">A</span><span class="ne-text">：问题：苹果/平板/安卓/等<span style="color: #e67e23;">使用问题</span>&nbsp;？</span></strong></p>
+<p id="ua6ef8c07" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px;"><strong><span class="ne-text" style="font-size: 16px;">B</span><span class="ne-text">：解答：</span></strong><strong>GPT有APP和网页，能上网的设备都可以登入</strong></p>
+<p class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px;">&nbsp;</p>
+<p id="uc19a8e61" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px;"><strong><span class="ne-text" style="font-size: 16px;">A</span><span class="ne-text">：问题：PLUS / 多人合租 会不会封号 ？</span></strong></p>
+<p id="u14c33621" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px;"><strong><span class="ne-text" style="font-size: 16px;">B</span><span class="ne-text">：原因：<span style="color: #e67e23;">封号都是因为非正规的黑市渠道充值导致</span></span></strong></p>
+<p id="ufd5c42b2" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px;"><strong><span class="ne-text" style="font-size: 16px;">C</span><span class="ne-text">：解决：我们只做正规充值 从未封号 封号包赔</span></strong></p>
+<p class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px;">&nbsp;</p>
+<p id="uc19a8e61" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px;"><strong><span class="ne-text" style="font-size: 16px;">A</span><span class="ne-text">：显示：<span style="color: #e67e23;">登入失败</span>或显示各种奇怪的<span style="color: #e67e23;">英文提示</span>？</span></strong></p>
+<p id="u14c33621" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px;"><strong><span class="ne-text" style="font-size: 16px;">B</span><span class="ne-text">：原因：登入不上基本都是 节点不支持 登入问题</span></strong></p>
+<p id="ufd5c42b2" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px;"><strong><span class="ne-text" style="font-size: 16px;">C</span><span class="ne-text">：解决：开启系统代理&nbsp;<span style="color: #e67e23;">切换节点</span>&nbsp;重启软件登入即可</span></strong></p>
+<p id="u73fb4b02" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px;">&nbsp;</p>
+<p id="u64489181" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px;"><strong><span class="ne-text" style="font-size: 16px;">A</span><span class="ne-text">：问题：需要魔法吗 /&nbsp;<span style="color: #e67e23;">没有梯子怎么办</span>&nbsp;？</span></strong></p>
+<p id="u10688b96" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px;"><strong><span class="ne-text" style="font-size: 16px;">B</span><span class="ne-text">：回答：GPT属于海外网站，需自主魔法上网能力</span></strong></p>
+<p id="u90de1b15" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px;"><strong>C：解决：不会操作？<span style="color: #ffffff; background-color: #00cbfe;"><a style="color: #ffffff; background-color: #00cbfe;" href="https://sat233.com/buy/24">&nbsp; &gt;点击此处/电脑远程&lt;&nbsp;&nbsp;</a></span>&nbsp;</strong></p>
+<p id="uc19a8e61" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px;">&nbsp;</p>
+<p id="uc2c3f60d" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px;"><strong>A：问题：为什么要选择我们家 ？</strong></p>
+<p id="u16038c5a" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px;"><strong>B：回答：<span style="color: #e67e23;">同产品我们价格最低，同价位我们服务最棒</span></strong></p>
+<p class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px;"><strong>C：便捷：<span style="color: #e67e23;">我们提供</span>&nbsp;<span style="color: #2dc26b;">下载 - 安装 - 到使用&nbsp;</span><span style="color: #e67e23;">的全流程</span></strong></p>
+<p class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px;"><strong>D：安全：<span style="color: #e67e23;">正规充值从未封号，人工客服全天在线解答</span></strong></p>
+<p id="uc2c3f60d" class="ne-p" style="margin: 0px; padding: 0px; min-height: 24px;"><strong>G：</strong><strong>避坑：<span style="color: #e67e23;">选我们能让你避免 <span style="color: #e03e2d;">封号跑路 / 无人售后</span> 的风险</span></strong></p>
+</div> -->
+                    </div>
+                </div>
     </nav>
   </div>
 </template>
