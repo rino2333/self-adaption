@@ -28,8 +28,8 @@ interface ZfForm {
 //#region 增
 // const visible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
-const formModel = ref({
-  category: '',
+const formModel = ref<any>({
+  category: 'ALIPAY',
   APPID: '',
   PRIVATE_KEY: '',
   ALIPAY_PUBLIC_KEY: '',

@@ -21,7 +21,7 @@ import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 
 const editorRef = shallowRef()
 
-const editerCreate = (editor) => {
+const editerCreate = (editor: any) => {
   console.log('created', editor);
   editorRef.value = editor; // 记录 editor 实例，重要！
 };
@@ -263,7 +263,7 @@ const editorConfig = {
       // 选择文件时的类型限制，默认为 ['image/*'] 。如不想限制，则设置为 []
       allowedFileTypes: ['image/*'],
       // 自定义上传
-      async customUpload(file, insertFn) { // 文件上传
+      async customUpload(file: File, insertFn: any) { // 文件上传
         try {
             console.log(file);
             const formData = new FormData()

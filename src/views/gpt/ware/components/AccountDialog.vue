@@ -5,7 +5,7 @@ import { Search, Refresh } from "@element-plus/icons-vue"
 import type { UploadProps, FormInstance, FormRules } from 'element-plus'
 import { ElMessage, ElMessageBox } from "element-plus"
 
-import { addAccountApi, type Account, AccountListApi, deleteAccountApi } from "@/api/ware"
+import { addAccountApi, type Account, type AccountData, AccountListApi, deleteAccountApi } from "@/api/ware"
 
 import { useDialog } from "@/hooks/useDialog"
 import { usePagination } from "@/hooks/usePagination"
@@ -56,7 +56,7 @@ const openAccount = (wareId: string) => {
   changeVisible(true)
 }
 
-const handleDelete = (row: Account) => {
+const handleDelete = (row: AccountData) => {
   ElMessageBox.confirm(
     '确定删除该数据吗?',
     {
@@ -66,7 +66,7 @@ const handleDelete = (row: Account) => {
     }
   )
     .then(() => {
-      deleteAccountApi(row.id as string).then(() => {
+      deleteAccountApi(row.id).then(() => {
         ElMessage.success('删除成功')
         getTableData()
       })

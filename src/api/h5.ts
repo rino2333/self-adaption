@@ -70,7 +70,7 @@ export const createOrderApi = (params: { id: string, number: string }) => {
 }
 
 export const payApi = (orderNo: string) => {
-  return request<WareData>({
+  return request<string>({
     method: 'get',
     url: '/api/h5/goPay?no=' + orderNo,
   });

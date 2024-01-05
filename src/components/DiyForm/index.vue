@@ -6,6 +6,8 @@ import { type FormInstance, type FormRules, ElMessage, ElMessageBox } from "elem
 import { Search, Refresh, CirclePlus, Delete, Download, RefreshRight } from "@element-plus/icons-vue"
 import { usePagination } from "@/hooks/usePagination"
 import { useDialog } from "@/hooks/useDialog"
+import type { FormConfig } from "./formType"
+
 
 // import "@/mock/index.ts";
 // defineOptions({
@@ -34,7 +36,6 @@ const formRules: FormRules = reactive({
 /** 监听分页参数的变化 */
 // watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
 
-import type { FormConfig } from "./formType"
 
 interface Props {
   config: FormConfig

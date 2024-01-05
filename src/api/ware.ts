@@ -17,8 +17,8 @@ export interface WareForm {
 }
 
 export interface WareData extends WareForm {
-  readonly id?: string
-  status?: Enable
+  readonly id: string
+  status: Enable
 }
 
 export interface ListRes {
@@ -81,7 +81,10 @@ export interface Account {
   content: string
   // password: string
   wareId: string
-  id?: string
+}
+
+export interface AccountData extends Account {
+  id: string
 }
 
 interface AccountList {
