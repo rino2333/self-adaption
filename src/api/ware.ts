@@ -1,5 +1,4 @@
 import request from "../utils/service";
-import { EnableRes, WareTypeEnable } from "./ware-type";
 
 interface ListReq {
   current?: number
@@ -18,8 +17,8 @@ export interface WareForm {
 }
 
 export interface WareData extends WareForm {
-  readonly id: string
-  status: WareTypeEnable
+  readonly id?: string
+  status?: Enable
 }
 
 export interface ListRes {
@@ -70,7 +69,7 @@ export const deleteApi = (ids: string) => {
   });
 }
 
-export const enableApi = (params: EnableRes) => {
+export const enableApi = (params: EnableReq) => {
   return request<ListRes>({
     method: 'put',
     url: '/api/ware/enable',

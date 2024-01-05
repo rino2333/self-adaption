@@ -1,95 +1,60 @@
 import request from "../utils/service";
 
-interface ListReq {
-  name?: string
-  describe?: string
-  parentId?: string
-  current?: number
-  size?: number
+type ConfigCategory = 'BASIC' | 'FTMP' | 'ALIPAY' | 'WXPAY'
+
+export enum CategoryEnum {
+  BASIC = 'BASIC',
+  FTMP = 'FTMP',
+  ALIPAY = 'ALIPAY',
+  WXPAY = 'WXPAY'
 }
 
-export type WareTypeEnable = 'NORMAL' | 'DISABLE'
-
-export interface WareTypeForm {
-  name?: string
-  describe?: string
-  logo?: string
-  sort?: number
-}
-export interface WareTypeData extends WareTypeForm {
-  readonly id: string
-  status: WareTypeEnable
+export interface ConfigForm {
+  category: ConfigCategory
+  details: string
 }
 
-interface ListRes {
-  total: number
-  records: WareTypeData[]
+interface ConfigData extends ConfigForm {
+  id: string
 }
 
-export const listApi = (data: ListReq) => {
-  return request<ListRes>({
+export const listApi = (category?: ConfigCategory) => {
+  return request({
     method: 'post',
     url: '/api/sysConfig/list',
-    data
+    data: {
+      category
+    }
   });
 }
 
-export const addApi = (data: WareTypeForm) => {
-  return request<ListRes>({
+export const addApi = (data: ConfigForm) => {
+  return request({
     method: 'post',
-    url: '/api/wareType/add',
+    url: '/api/sysConfig/add',
     data
   });
 }
 
-export const detailApi = (id: string) => {
-  return request<WareTypeData>({
-    method: 'get',
-    url: '/api/wareType/getById',
-    params: { id }
-  });
-}
-
-interface editRes extends WareTypeForm {
-  readonly id: string
-}
-export const editApi = (data: editRes) => {
-  return request<ListRes>({
-    method: 'put',
-    url: '/api/wareType/edit',
+export const editApi = (data: ConfigData) => {
+  return request({
+    method: 'post',
+    url: '/api/sysConfig/edit',
     data
   });
 }
 
 export const deleteApi = (ids: string) => {
-  return request<ListRes>({
-    method: 'delete',
-    url: '/api/wareType/delete',
-    params: { ids }
-  });
-}
-
-export interface EnableRes {
-  id: string, 
-  status: WareTypeEnable
-}
-export const enableApi = (params: EnableRes) => {
   return request({
-    method: 'put',
-    url: '/api/wareType/enable',
-    params
+    method: 'get',
+    url: '/api/sysConfig/delete?ids=' + ids,
   });
 }
 
-export interface WareTypeTree {
-  name:string 
-  id: string
-}
-
-export const treeApi = () => {
-  return request<WareTypeTree[]>({
+export const detailApi = (id: string) => {
+  return request<ConfigData>({
     method: 'get',
-    url: '/api/wareType/tree',
+    url: '/api/sysConfig/detail?id=' + id,
   });
 }
 

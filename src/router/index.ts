@@ -13,9 +13,9 @@ let routes = [
     children: [
       {
         path: "home",
-        // component: () => import("@/views/home.vue"),
+        component: () => import("@/views/home.vue"),
         // component: () => import("@/views/pinia.vue"),
-        component: () => import("@/views/websocket.vue"),
+        // component: () => import("@/views/websocket.vue"),
         name: "home"
       }
     ]
@@ -39,6 +39,10 @@ let routes = [
       {
         path: 'config',
         component: () => import("@/views/gpt/config/index.vue"),
+      },
+      {
+        path: 'order',
+        component: () => import("@/views/gpt/order/index.vue"),
       },
     ]
   },

@@ -8,8 +8,6 @@ interface ListReq {
   size?: number
 }
 
-export type WareTypeEnable = 'NORMAL' | 'DISABLE'
-
 export interface WareTypeForm {
   name?: string
   describe?: string
@@ -18,7 +16,7 @@ export interface WareTypeForm {
 }
 export interface WareTypeData extends WareTypeForm {
   readonly id: string
-  status: WareTypeEnable
+  status: Enable
 }
 
 interface ListRes {
@@ -69,11 +67,7 @@ export const deleteApi = (ids: string) => {
   });
 }
 
-export interface EnableRes {
-  id: string, 
-  status: WareTypeEnable
-}
-export const enableApi = (params: EnableRes) => {
+export const enableApi = (params: EnableReq) => {
   return request({
     method: 'put',
     url: '/api/wareType/enable',

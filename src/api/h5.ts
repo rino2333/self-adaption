@@ -9,8 +9,6 @@ interface ListReq {
   size?: number
 }
 
-export type WareTypeEnable = 'NORMAL' | 'DISABLE'
-
 export interface H5WareType {
   readonly id: string
   name?: string
@@ -21,7 +19,7 @@ export interface H5WareType {
 }
 // export interface WareTypeData extends WareTypeForm {
 //   readonly id: string
-//   status: WareTypeEnable
+//   status: Enable
 // }
 
 
@@ -51,15 +49,29 @@ export const h5WareListApi = (id: string) => {
 export const h5WareDetailApi = (id: string) => {
   return request<WareData>({
     method: 'get',
-    url: '/api/h5/getChildType',
-    params: { id }
+    url: '/api/h5/getWareDetail?id=' + id,
+  });
+}
+
+export const enableApi = (params: EnableReq) => {
+  return request({
+    method: 'put',
+    url: '/api/wareType/enable',
+    params
   });
 }
 
 export const createOrderApi = (params: { id: string, number: string }) => {
-  return request<WareData>({
+  return request<string>({
     method: 'get',
     url: '/api/h5/createOrder',
     params
+  });
+}
+
+export const payApi = (orderNo: string) => {
+  return request<WareData>({
+    method: 'get',
+    url: '/api/h5/goPay?no=' + orderNo,
   });
 }

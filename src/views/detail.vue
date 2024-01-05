@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { type WareTypeData, type WareTypeTree, treeApi,  } from "@/api/ware-type"
 import { type WareData, type WareForm, listApi, addApi, detailApi, deleteApi, editApi } from "@/api/ware"
-import { type H5WareType, h5TypeApi, h5WareDetailApi, createOrderApi } from "@/api/h5"
+import { type H5WareType, h5WareDetailApi, createOrderApi, payApi } from "@/api/h5"
 
 const route = useRoute()
 const router = useRouter()
@@ -14,11 +14,7 @@ id = route.query.id as string
 const wareInfo = ref<WareData>({})
 const getDetail = () => {
   if (id) {
-    // h5WareDetailApi(route.query.id).then(res => {
-    //   console.log(res);
-      
-    // })
-    detailApi(id).then(res => {
+    h5WareDetailApi(id).then(res => {
       console.log(res);
       wareInfo.value = res.data
     }) 
@@ -32,13 +28,23 @@ const handleBuy = () => {
     number: '1'
   }
   createOrderApi(params).then(res => {
-    console.log(res);
-    
+    console.log(res.data);
+    payApi(res.data).then(resp => {
+      console.log(resp);
+      let aliSubmitDiv: HTMLAnchorElement = document.getElementById("ali_submit_div");
+      aliSubmitDiv.innerHTML = resp.data;
+      let formedom = document.querySelector('form[name=punchout_form]')
+      // let formId = "alipcpayform_" + res.data;
+      // let formedom = document.getElementById(formId);
+      // formedom.submit();
+    })
   })
 }
 </script>
 
 <template>
+  <div style="display: none" id="ali_submit_div"></div>
+
   <div class="page">
     <header class="flex-align-center">
       <img src="../assets/images/123.jpg" alt="">

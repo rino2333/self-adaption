@@ -2,94 +2,59 @@
 import { reactive, ref, watch } from "vue"
 import { ElMessage, ElMessageBox } from "element-plus"
 import type { UploadProps, FormInstance, FormRules } from 'element-plus'
-import { Search, Refresh, CirclePlus, Delete, Download, RefreshRight, Plus } from "@element-plus/icons-vue"
+import { Search, Refresh, CirclePlus, Delete, RefreshRight, Plus } from "@element-plus/icons-vue"
 import { usePagination } from "@/hooks/usePagination"
 import { useDialog } from "@/hooks/useDialog"
 
-import { imgUpload } from "@/api/common";
-import { type WareTypeForm, type WareTypeData, addApi, editApi, detailApi, deleteApi, treeApi, enableApi } from "@/api/ware-type"
-import { listApi } from "@/api/config";
-import { el } from "element-plus/es/locale"
-// treeApi().then(res => {
-//   console.log(res);
-  
-// })
+import { type WareTypeForm, type WareTypeData, treeApi, enableApi } from "@/api/ware-type"
+import { type ConfigForm, listApi, addApi, editApi, detailApi, deleteApi, CategoryEnum } from "@/api/config";
 
 const loading = ref<boolean>(false)
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 
 const { visible, changeVisible, title, setDialogTitle, handleClose } = useDialog({
-  title: '新增类别'
+  title: '新增配置'
 });
 
 interface ZfForm {
-  app_id: string
-  app_secret: string
-  mch_id: string
+  APPID: string
+  PRIVATE_KEY: string
+  ALIPAY_PUBLIC_KEY: string
   api_key: string
-  notify_url: string
-  return_url: string
+  NOTIFY_URL: string
+  RETURN_URL: string
 }
 
 //#region 增
 // const visible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
-const formModel = reactive({
-  app_id: '',
-  app_secret: '',
-  mch_id: '',
+const formModel = ref({
+  category: '',
+  APPID: '',
+  PRIVATE_KEY: '',
+  ALIPAY_PUBLIC_KEY: '',
   api_key: '',
-  notify_url: '',
-  return_url: ''
+  NOTIFY_URL: '',
+  RETURN_URL: ''
 })
 const formRules: FormRules = reactive({
-  app_id: [{ required: true, trigger: "blur", message: "请输入app_id" }],
-  app_secret: [{ required: true, trigger: "blur", message: "请输入app_secret" }],
-  mch_id: [{ required: true, trigger: "blur", message: "请输入mch_id" }],
+  category: [{ required: true, trigger: "change", message: "请选择配置类型" }],
+  APPID: [{ required: true, trigger: "blur", message: "请输入APPID" }],
+  PRIVATE_KEY: [{ required: true, trigger: "blur", message: "请输入PRIVATE_KEY" }],
+  ALIPAY_PUBLIC_KEY: [{ required: true, trigger: "blur", message: "请输入ALIPAY_PUBLIC_KEY" }],
   api_key: [{ required: true, trigger: "blur", message: "请输入api_key" }],
-  notify_url: [{ required: true, trigger: "blur", message: "请输入notify_url" }],
-  return_url: [{ required: true, trigger: "blur", message: "请输入return_url" }],
+  NOTIFY_URL: [{ required: true, trigger: "blur", message: "请输入NOTIFY_URL" }],
+  RETURN_URL: [{ required: true, trigger: "blur", message: "请输入RETURN_URL" }],
 })
-
-const handleChange: UploadProps['onChange'] = (uploadFile, uploadFiles) => {
-  // formModel.value.logo = URL.createObjectURL(uploadFile.raw!)
-  formModel.value.logo = 'https://jxjy-test.whxunw.com/center/assets/123-3c444361.jpg'
-  console.log(formModel.value);
-  console.log(uploadFile.raw);
-  // const formData = new FormData()
-  // formData.append("file", uploadFile.raw as File)
-  // imgUpload(formData).then(res => {
-  //   console.log(res);
-  // })
-
-  
-  formRef.value?.validateField('logo')
-}
-const handleAvatarSuccess: UploadProps['onSuccess'] = (
-  response,
-  uploadFile
-) => {
-  formModel.value.logo = URL.createObjectURL(uploadFile.raw!)
-}
-
-const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
-  console.log(rawFile.type);
-  
-  if (rawFile.type !== 'image/jpeg') {
-    ElMessage.error('Avatar picture must be JPG format!')
-    return false
-  } else if (rawFile.size / 1024 / 1024 > 2) {
-    ElMessage.error('Avatar picture size can not exceed 2MB!')
-    return false
-  }
-  return true
-}
 
 const handleCreate = () => {
   formRef.value?.validate((valid: boolean) => {
     if (valid) {
       if (currentUpdateId.value === undefined) {
-        addApi(formModel.value).then(() => {
+        addApi({
+          details: JSON.stringify(formModel.value),
+          category: formModel.value.category
+        }).then(() => {
           ElMessage.success("新增成功")
           changeVisible(false);
           getTableData()
@@ -97,7 +62,8 @@ const handleCreate = () => {
       } else {
         editApi({
           id: currentUpdateId.value,
-          ...formModel.value
+          details: JSON.stringify(formModel.value),
+          category: formModel.value.category
         }).then(() => {
           ElMessage.success("修改成功")
           changeVisible(false);
@@ -152,7 +118,10 @@ const handleUpdate = (row: WareTypeData) => {
     setDialogTitle('修改商品类别');
     currentUpdateId.value = row.id
     detailApi(row.id).then(res => {
-      formModel.value = res.data
+      formModel.value = {
+        ...res.data,
+        ...JSON.parse(res.data.details)
+      }
     })
     changeVisible(true);
   }
@@ -168,14 +137,10 @@ const searchData = reactive({
 })
 const getTableData = () => {
   loading.value = true
-  listApi({
-    current: paginationData.currentPage,
-    size: paginationData.pageSize,
-    name: searchData.name
-  })
+  listApi()
     .then((res) => {
       paginationData.total = res.data.total
-      tableData.value = res.data.records;
+      tableData.value = res.data;
     })
     .catch(() => {
       tableData.value = []
@@ -221,7 +186,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
   <div class="app-container">
     <el-card shadow="never" class="search-wrapper">
       <el-form ref="searchFormRef" :inline="true" :model="searchData">
-        <el-form-item prop="name" label="商品类型名称">
+        <el-form-item prop="name" label="配置类型">
           <el-input v-model="searchData.name" placeholder="请输入" />
         </el-form-item>
         <el-form-item>
@@ -234,7 +199,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       <div class="toolbar-wrapper">
         <div>
           <el-button type="primary" :icon="CirclePlus" @click="visible = true">新增配置</el-button>
-          <el-button type="danger" :icon="Delete" @click="handleDelete">批量删除</el-button>
+          <!-- <el-button type="danger" :icon="Delete" @click="handleDelete">批量删除</el-button> -->
         </div>
         <div>
           <el-tooltip content="刷新表格">
@@ -244,18 +209,9 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       </div>
       <div class="table-wrapper">
         <el-table :data="tableData" @selection-change="handleSelectionChange">
-          <el-table-column type="selection" width="50" align="center" />
-          <el-table-column prop="name" label="商品类型名称" align="center" />
-          <el-table-column prop="describe" label="商品类型描述" align="center" />
-          <el-table-column prop="describe" label="logo" align="center">
-            <template #default="scope">
-              <el-image
-                style="height: 60px;"
-                :src="scope.row.logo"
-                :preview-src-list="[scope.row.logo]"
-              />
-            </template>
-          </el-table-column>
+          <el-table-column type="index" label="序号" width="80" align="center" />
+          <el-table-column prop="id" label="id" align="center" />
+          <el-table-column prop="category" label="配置类型" align="center" />
           <el-table-column prop="status" label="状态" align="center">
             <template #default="scope">
               <el-switch
@@ -292,26 +248,31 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       v-model="visible"
       :title="title"
       @close="handleClose(resetForm)"
-      width="30%"
+      width="60%"
     >
-      <el-form ref="formRef" :model="formModel" :rules="formRules" label-width="100px" label-position="left">
-        <el-form-item prop="app_id" label="app_id">
-          <el-input v-model="formModel.app_id" placeholder="请输入" />
+      <el-form ref="formRef" :model="formModel" :rules="formRules" label-width="160px" label-position="left">
+        <el-form-item prop="category" label="配置类型">
+          <el-select v-model="formModel.category" placeholder="请选择">
+            <el-option v-for="item in CategoryEnum" :label="item" :value="item"></el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item prop="app_secret" label="app_secret">
-          <el-input v-model="formModel.app_secret" placeholder="请输入" />
+        <el-form-item prop="APPID" label="APPID">
+          <el-input v-model="formModel.APPID" placeholder="请输入" />
         </el-form-item>
-        <el-form-item prop="mch_id" label="mch_id">
-          <el-input v-model="formModel.mch_id" placeholder="请输入" />
+        <el-form-item prop="PRIVATE_KEY" label="PRIVATE_KEY">
+          <el-input v-model="formModel.PRIVATE_KEY" type="textarea" :rows="3" placeholder="请输入" />
         </el-form-item>
-        <el-form-item prop="api_key" label="api_key">
+        <el-form-item prop="ALIPAY_PUBLIC_KEY" label="ALIPAY_PUBLIC_KEY">
+          <el-input v-model="formModel.ALIPAY_PUBLIC_KEY" type="textarea" :rows="3" placeholder="请输入" />
+        </el-form-item>
+        <!-- <el-form-item prop="api_key" label="api_key">
           <el-input v-model="formModel.api_key" placeholder="请输入" />
+        </el-form-item> -->
+        <el-form-item prop="NOTIFY_URL" label="NOTIFY_URL">
+          <el-input v-model="formModel.NOTIFY_URL" placeholder="请输入" />
         </el-form-item>
-        <el-form-item prop="notify_url" label="notify_url">
-          <el-input v-model="formModel.notify_url" placeholder="请输入" />
-        </el-form-item>
-        <el-form-item prop="return_url" label="return_url">
-          <el-input v-model="formModel.return_url" placeholder="请输入" />
+        <el-form-item prop="RETURN_URL" label="RETURN_URL">
+          <el-input v-model="formModel.RETURN_URL" placeholder="请输入" />
         </el-form-item>
       </el-form>
       <template #footer>

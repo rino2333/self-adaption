@@ -64,6 +64,10 @@ const setNav = async () => {
       name: '商品管理',
     },
     {
+      url: '/admin/order', 
+      name: '订单管理',
+    },
+    {
       url: '/admin/config', 
       name: '系统配置',
     },
