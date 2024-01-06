@@ -276,24 +276,10 @@ const editorConfig = {
                 message: '上传附件成功！',
               })
             })
-            
-            //更新临时token
-            // let urlData = null;
-            // //上传
-            // let nununu = await S3Demo.putObject(file, config.data.data.bucketName, 'wangeditor').then(function(resolve){
-            //     console.log(resolve)
-            //     urlData = resolve;
-            //     insertFn(urlData, '', urlData)
-            //     ElMessage({
-            //       type: 'success',
-            //       message: '上传附件成功！',
-            //     })
-            // })
         } catch (e) {
             console.log('222')
             ElMessage.error('上传附件失败！');
         }
-         
       }
     }
   }
@@ -338,7 +324,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
             <el-table-column prop="name" label="商品名称" align="center" />
             <el-table-column prop="amount" label="商品金额" align="center">
               <template #default="scope">
-                <el-tag type="success">￥{{ scope.row.amount }}</el-tag>
+                <el-tag>￥{{ scope.row.amount }}</el-tag>
               </template>
             </el-table-column>
             <!-- <el-table-column prop="describe" label="商品描述" align="center" show-overflow-tooltip>
@@ -348,7 +334,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
             </el-table-column> -->
             <el-table-column prop="typeName" label="商品类型" align="center">
               <template #default="scope">
-                <el-tag>{{ scope.row.typeName }}</el-tag>
+                <el-tag type="success">{{ scope.row.typeName }}</el-tag>
               </template>
             </el-table-column>
             <el-table-column prop="describe" label="logo" align="center">

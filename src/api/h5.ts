@@ -1,14 +1,6 @@
 import request from "../utils/service";
 import type { WareData, ListRes } from "./ware"
 
-interface ListReq {
-  name?: string
-  describe?: string
-  parentId?: string
-  current?: number
-  size?: number
-}
-
 export interface H5WareType {
   readonly id: string
   name?: string
@@ -17,18 +9,6 @@ export interface H5WareType {
   logo?: string
   sort?: number
 }
-// export interface WareTypeData extends WareTypeForm {
-//   readonly id: string
-//   status: Enable
-// }
-
-
-// interface ListRes {
-//   total: number
-//   records: WareTypeData[]
-// }
-
-
 
 export const h5TypeApi = () => {
   return request<H5WareType[]>({
@@ -73,5 +53,12 @@ export const payApi = (orderNo: string) => {
   return request<string>({
     method: 'get',
     url: '/api/h5/goPay?no=' + orderNo,
+  });
+}
+
+export const isPayApi = (orderNo: string) => {
+  return request<string>({
+    method: 'get',
+    url: '/api/h5/isPayed?no=' + orderNo,
   });
 }

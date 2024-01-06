@@ -87,12 +87,6 @@ const handleBuy = () => {
                       <span class="price-num">{{ wareInfo.amount }}</span>
                   </div>
 
-                  <!-- <el-form>
-                    <el-form-item label="">
-                      <el-input>购买数量：</el-input>
-                    </el-form-item>
-                  </el-form> -->
-                
                   <div class="pay notSelection">
                     <input type="hidden" name="payway" lay-verify="payway" value="1">
                       <div class="pay-type  pay-select " data-type="zfbf2f" data-id="1" data-name="支付宝当面付">
@@ -118,12 +112,23 @@ const handleBuy = () => {
             <span>商品描述</span>
         </div>
         <div class="intro">
-          <div style="padding: 0 16px;" v-html="wareInfo.describe"></div>
+          <div class="ware-describe" style="padding: 0 16px;" v-html="wareInfo.describe"></div>
         </div>
     </div>
     </nav>
   </div>
 </template>
+
+<style lang="scss">
+.ware-describe {
+  padding: 0 16px;
+
+  img {
+    width: 100%;
+  }
+}
+ 
+</style>
 
 <style scoped lang="scss">
 .page {

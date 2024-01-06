@@ -1,11 +1,20 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useRouter } from "vue-router";
-import { type WareTypeData, type WareTypeTree, treeApi,  } from "@/api/ware-type"
-import { type WareData, listApi, addApi, detailApi, deleteApi, editApi } from "@/api/ware"
-import { type H5WareType, h5TypeApi, h5WareListApi } from "@/api/h5"
+import { useRoute, useRouter } from "vue-router";
+import { type WareData } from "@/api/ware"
+import { type H5WareType, h5TypeApi, h5WareListApi, isPayApi } from "@/api/h5"
 
+const route = useRoute()
 const router = useRouter()
+
+console.log(route.query.out_trade_no);
+const isPay = () => {
+  const no = route.query.out_trade_no
+  if (typeof no == 'string') {
+    isPayApi(no)
+  }
+}
+isPay()
 
 const wareType = ref<H5WareType[]>([])
   h5TypeApi().then(res => {
