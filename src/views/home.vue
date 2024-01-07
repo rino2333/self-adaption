@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { ElMessageBox } from 'element-plus'
 import { type WareData } from "@/api/ware"
 import { type H5WareType, h5TypeApi, h5WareListApi, isPayApi } from "@/api/h5"
 
@@ -11,7 +12,17 @@ console.log(route.query.out_trade_no);
 const isPay = () => {
   const no = route.query.out_trade_no
   if (typeof no == 'string') {
-    isPayApi(no)
+    isPayApi(no).then(res => {
+      if (res.data.status == 'PAID') {
+        ElMessageBox.confirm(`${res.data.detail.content}`, "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }).then(() => {
+          
+        })
+      }
+    })
   }
 }
 isPay()

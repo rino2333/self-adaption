@@ -18,7 +18,8 @@ const { visible, changeVisible, title, setDialogTitle, handleClose } = useDialog
 
 const searchData = reactive({
   content: "",
-  wareId: ''
+  wareId: '',
+  status: ''
 })
 const searchFormRef = ref<FormInstance | null>(null)
 
@@ -78,7 +79,9 @@ defineExpose({
   changeVisible
 })
 
-const resetForm = () => {}
+const resetForm = () => {
+  searchFormRef.value?.resetFields()
+}
 const handleCreate = () => {}
 
 watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData)
@@ -95,6 +98,12 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       <el-form-item prop="content" label="内容">
         <el-input v-model="searchData.content" placeholder="请输入" />
       </el-form-item>
+      <el-form-item prop="status" label="状态">
+        <el-select v-model="searchData.status" placeholder="请选择" clearable>
+          <el-option label="未售" value="NORMAL"></el-option>
+          <el-option label="已售" value="DISABLE"></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
         <el-button :icon="Refresh" @click="resetSearch">重置</el-button>
@@ -102,7 +111,13 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
     </el-form>
     <el-table :data="tableData">
       <!-- <el-table-column type="selection" width="50" align="center" /> -->
+      <el-table-column type="index" width="80" label="序号" align="center" />
       <el-table-column prop="content" label="账密信息" align="center" />
+      <el-table-column prop="status" label="账密状态" align="center">
+        <template #default="scope">
+          <el-tag :type="scope.row.status == 'DISABLE' ? 'success' : 'info'">{{ scope.row.status == 'DISABLE' ? '已售出' : '未售出' }}</el-tag>
+        </template>
+      </el-table-column>
       <!-- <el-table-column prop="password" label="商品类型描述" align="center" /> -->
       <el-table-column fixed="right" width="80" label="操作" align="center">
         <template #default="scope">

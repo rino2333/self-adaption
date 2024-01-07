@@ -210,7 +210,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       <div class="table-wrapper">
         <el-table :data="tableData" @selection-change="handleSelectionChange">
           <el-table-column type="index" label="序号" width="80" align="center" />
-          <el-table-column prop="id" label="id" align="center" />
+          <!-- <el-table-column prop="id" label="id" align="center" /> -->
           <el-table-column prop="category" label="配置类型" align="center" />
           <el-table-column prop="status" label="状态" align="center">
             <template #default="scope">

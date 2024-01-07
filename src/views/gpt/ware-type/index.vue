@@ -227,9 +227,10 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       <div class="table-wrapper">
         <el-table :data="tableData" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="50" align="center" />
+          <el-table-column type="index" width="80" label="序号" align="center" />
           <el-table-column prop="name" label="商品类型名称" align="center" />
           <el-table-column prop="describe" label="商品类型描述" align="center" />
-          <el-table-column prop="describe" label="logo" align="center">
+          <!-- <el-table-column prop="describe" label="logo" align="center">
             <template #default="scope">
               <el-image
                 style="height: 60px;"
@@ -237,7 +238,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
                 :preview-src-list="[scope.row.logo]"
               />
             </template>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column prop="status" label="状态" align="center">
             <template #default="scope">
               <el-switch
@@ -293,7 +294,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
             inactive-value="DISABLE"
           />
         </el-form-item> -->
-        <el-form-item prop="logo" label="类型logo">
+        <!-- <el-form-item prop="logo" label="类型logo">
           <el-upload
             class="avatar-uploader"
             action="#"
@@ -306,7 +307,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
             <img v-if="formModel.logo" :src="formModel.logo" class="avatar" />
             <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
           </el-upload>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <template #footer>
         <el-button @click="visible = false">取消</el-button>

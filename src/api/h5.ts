@@ -1,5 +1,6 @@
 import request from "../utils/service";
 import type { WareData, ListRes } from "./ware"
+import { OrderEnum } from "./order"
 
 export interface H5WareType {
   readonly id: string
@@ -8,6 +9,13 @@ export interface H5WareType {
   describe?: string
   logo?: string
   sort?: number
+}
+
+interface PayDetail {
+  status: keyof typeof OrderEnum
+  detail: {
+    content: string
+  }
 }
 
 export const h5TypeApi = () => {
@@ -56,8 +64,9 @@ export const payApi = (orderNo: string) => {
   });
 }
 
+
 export const isPayApi = (orderNo: string) => {
-  return request<string>({
+  return request<PayDetail>({
     method: 'get',
     url: '/api/h5/isPayed?no=' + orderNo,
   });

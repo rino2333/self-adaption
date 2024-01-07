@@ -80,10 +80,8 @@ const handleChange: UploadProps['onChange'] = (uploadFile, uploadFiles) => {
   imgUpload(formData).then(res => {
     console.log(res.data);
     formModel.value.logo = res.data
+    formRef.value?.validateField('logo')
   })
-
-  
-  formRef.value?.validateField('logo')
 }
 const handleAvatarSuccess: UploadProps['onSuccess'] = (
   response,
@@ -297,7 +295,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
     <div style="width: 80%;" class="flex-column">
       <el-card shadow="never" class="search-wrapper">
         <el-form ref="searchFormRef" :inline="true" :model="searchData">
-          <el-form-item prop="name" label="商品类型名称">
+          <el-form-item prop="name" label="商品名称">
             <el-input v-model="searchData.name" placeholder="请输入" />
           </el-form-item>
           <el-form-item>
@@ -321,6 +319,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         <div class="table-wrapper">
           <el-table :data="tableData" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="50" align="center" />
+            <el-table-column type="index" width="80" label="序号" align="center" />
             <el-table-column prop="name" label="商品名称" align="center" />
             <el-table-column prop="amount" label="商品金额" align="center">
               <template #default="scope">

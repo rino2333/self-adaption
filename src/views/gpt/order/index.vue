@@ -80,6 +80,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
               <el-tag :type="scope.row.status === 'PAID' ? 'success' : 'warning'">{{ (OrderEnum as Record<string, string>)[scope.row.status] }}</el-tag>
             </template>
           </el-table-column>
+          <el-table-column prop="createTime" label="创建时间" align="center" />
         </el-table>
       </div>
       <div class="pager-wrapper">

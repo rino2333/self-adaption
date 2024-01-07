@@ -3,7 +3,7 @@ import { ref, computed } from 'vue'
 import { useRoute, useRouter } from "vue-router";
 import { useRouterStore } from '@/store/routerStore'
 import { useUserStore } from '@/store/userStore'
-import { UserFilled } from "@element-plus/icons-vue";
+import { UserFilled, ArrowDown } from "@element-plus/icons-vue";
 
 const route = useRoute(); 
 const router = useRouter(); 
@@ -153,6 +153,9 @@ const logout = () => {
         <!-- <el-avatar :icon="UserFilled" :size="30" /> -->
         <el-avatar src="/123.jpg" :size="30" />
         <span>{{ userStore.userinfo?.nikeName }}</span>
+        <el-icon class="el-icon--right">
+          <arrow-down />
+        </el-icon>
       </div>
       <template #dropdown>
         <el-dropdown-menu>
