@@ -212,7 +212,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         </el-form-item>
       </el-form>
     </el-card>
-    <el-card v-loading="loading" shadow="never">
+    <el-card v-loading="loading" shadow="never" class="fill-table">
       <div class="toolbar-wrapper">
         <div>
           <el-button type="primary" :icon="CirclePlus" @click="visible = true">新增类别</el-button>

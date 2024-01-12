@@ -27,7 +27,7 @@ const codeUrl = ref("")
 /** 登录表单数据 */
 const loginForm: LoginReq = reactive({
   username: "admin",
-  password: "123456",
+  password: "Hx111222",
   uuid: '',
   code: ''
 })

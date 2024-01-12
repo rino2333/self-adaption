@@ -26,8 +26,13 @@ let routes = [
   },
   {
     path: '/admin',
+    redirect: '/admin/workbench',
     component: Layout,
     children: [
+      {
+        path: 'workbench',
+        component: () => import("@/views/home-echart.vue"),
+      },
       {
         path: 'ware-type',
         component: () => import("@/views/gpt/ware-type/index.vue"),

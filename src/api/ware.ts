@@ -12,6 +12,7 @@ export interface WareForm {
   describe?: string
   typeId?: string
   logo?: string
+  sort?: string
   amount?: string
   count?: string
 }

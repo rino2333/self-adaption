@@ -34,26 +34,8 @@ const handleClose = (key: string, keyPath: string[]) => {
 const setNav = async () => {
   const nav = [
     {
-      url: '/demo1', 
-      code: '001', 
-      name: '门户平台管理',
-      children: [
-        {
-          url: '/demo1/table2',
-          code: '002',
-          name: '在线课堂'
-        },
-        {
-          url: '/demo1/table3',
-          code: '003',
-          name: '课件学习'
-        },
-        {
-          url: '/demo1/draggable',
-          code: 'draggable',
-          name: 'draggable'
-        }
-      ]
+      url: '/admin/workbench', 
+      name: '工作台',
     },
     {
       url: '/admin/ware-type', 

@@ -17,40 +17,11 @@ export default defineConfig({
     proxy: {
       '/api': {
         // target: 'http://192.168.110.239:6001',
-        target: 'http://139.196.174.228',
+        // target: 'http://139.196.174.228',
+        target: 'http://gpt012.com',
         changeOrigin: true,
         // rewrite: (path) => path.replace(/^\/api/, '')
       },
-      '/admin_ct': {
-        // target: 'https://sebms-test.whxunw.com/ct-admin',
-        // target: 'http://192.168.110.63:8080',
-        target: 'http://192.168.110.119:8080',
-        changeOrigin: true,
-        // rewrite: (path) => path.replace(/^\/jsp/, '')
-      },
-      '/zd-admin': {
-        target: 'https://sebms-test.whxunw.com/zd-admin',
-        // target: 'http://192.168.110.65:8080',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/zd-admin/, '')
-      },
-      '/htgl': {
-        target: 'https://portalmng-test.whxunw.com/',
-        // target: 'http://192.168.110.151:9090/',
-        changeOrigin: true
-      },
-      '/myapp': {
-        target: 'http://localhost:3000',
-        // target: 'http://192.168.110.147:3000',
-        changeOrigin: true,
-        // rewrite: path => path.replace(/^\/myapp/, '')
-      },
-      '/socket': {
-        target: 'http://localhost:3000',
-        // target: 'http://192.168.110.147:3000',
-        changeOrigin: true,
-        // rewrite: path => path.replace(/^\/socket/, '')
-      }
     },
     // hmr: true
   }

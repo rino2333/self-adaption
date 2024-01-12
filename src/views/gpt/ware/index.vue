@@ -288,7 +288,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
 </script>
 
 <template>
-  <div class="app-container flex">
+  <div class="h-100 flex">
     <el-card shadow="never" class="tree-card">
       <el-tree :data="tree" :props="defaultProps" @node-click="handleNodeClick" />
     </el-card>
@@ -304,7 +304,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
           </el-form-item>
         </el-form>
       </el-card>
-      <el-card v-loading="loading" shadow="never" class="f-1">
+      <el-card v-loading="loading" shadow="never" class="fill-table">
         <div class="toolbar-wrapper">
           <div>
             <el-button type="primary" :icon="CirclePlus" @click="visible = true">新增商品</el-button>
@@ -326,11 +326,6 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
                 <el-tag>￥{{ scope.row.amount }}</el-tag>
               </template>
             </el-table-column>
-            <!-- <el-table-column prop="describe" label="商品描述" align="center" show-overflow-tooltip>
-              <template #default="scope">
-                <div v-html="scope.row.describe"></div>
-              </template>
-            </el-table-column> -->
             <el-table-column prop="typeName" label="商品类型" align="center">
               <template #default="scope">
                 <el-tag type="success">{{ scope.row.typeName }}</el-tag>
@@ -342,6 +337,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
                   style="height: 60px;"
                   :src="scope.row.logo"
                   :preview-src-list="[scope.row.logo]"
+                  preview-teleported="true"
                 />
               </template>
             </el-table-column>
@@ -398,6 +394,9 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         </el-form-item>
         <el-form-item prop="amount" label="商品金额">
           <el-input v-model="formModel.amount" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="sort" label="排序">
+          <el-input-number v-model="formModel.sort" placeholder="请输入" />
         </el-form-item>
         <el-form-item prop="logo" label="商品logo">
           <el-upload
