@@ -64,7 +64,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         </el-form-item>
       </el-form>
     </el-card>
-    <el-card v-loading="loading" shadow="never">
+    <el-card v-loading="loading" shadow="never" class="fill-table">
       <div class="table-wrapper">
         <el-table :data="tableData">
           <el-table-column type="index" width="80" label="序号" align="center" />
