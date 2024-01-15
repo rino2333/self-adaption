@@ -49,7 +49,7 @@ export const enableApi = (params: EnableReq) => {
   });
 }
 
-export const createOrderApi = (params: { id: string, number: string }) => {
+export const createOrderApi = (params: { id: string, number: string, mobile: string }) => {
   return request<string>({
     method: 'get',
     url: '/api/h5/createOrder',
@@ -64,10 +64,16 @@ export const payApi = (orderNo: string) => {
   });
 }
 
-
 export const isPayApi = (orderNo: string) => {
   return request<PayDetail>({
     method: 'get',
     url: '/api/h5/isPayed?no=' + orderNo,
+  });
+}
+
+export const orderDetailApi = (mobile: string) => {
+  return request<PayDetail>({
+    method: 'get',
+    url: '/api/h5/getOrderDetail?mobile=' + mobile,
   });
 }

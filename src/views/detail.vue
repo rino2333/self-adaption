@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { ElMessage, ElMessageBox } from "element-plus"
 import { type WareTypeData, type WareTypeTree, treeApi,  } from "@/api/ware-type"
 import { type WareData, type WareForm, listApi, addApi, detailApi, deleteApi, editApi } from "@/api/ware"
 import { type H5WareType, h5WareDetailApi, createOrderApi, payApi } from "@/api/h5"
@@ -22,10 +23,16 @@ const getDetail = () => {
 }
 getDetail()
 
+const mobile = ref('')
 const handleBuy = () => {
+  if (!mobile.value) {
+    ElMessage.warning('请先输入手机号码！')
+    return
+  }
   const params = {
     id,
-    number: '1'
+    number: '1',
+    mobile: mobile.value
   }
   createOrderApi(params).then(res => {
     console.log(res.data);
@@ -85,6 +92,13 @@ const handleBuy = () => {
                   <div class="price">
                       <span class="price-sign">￥</span>
                       <span class="price-num">{{ wareInfo.amount }}</span>
+                  </div>
+
+                  <div class="entry">
+                      <span class="l-msg"><span style="color: red;">* </span>手机号:</span>
+                      <label class="input">
+                          <input v-model="mobile" type="text" name="order_sn" lay-verify="required" placeholder="请输入正确手机号码" autocomplete="off">
+                      </label>
                   </div>
 
                   <div class="pay notSelection">
@@ -210,6 +224,32 @@ nav {
       .price-num {
         color: #e4393c;
         font-size: 22px;
+      }
+
+      .entry {
+        .l-msg {
+          color: #999;
+          width: 72px;
+          display: inline-block;
+          vertical-align: middle;
+          font-size: 14px;
+        }
+
+        input {
+          display: inline-block;
+          padding: 0 5px;
+          height: 35px;
+          width: calc(100% - 95px);
+          font-weight: 500;
+          font-size: 14px;
+          color: #999;
+          background: #fff;
+          border: 1px solid #f0f0f0;
+          -webkit-box-shadow: 0 4px 10px 0 rgba(135, 142, 154, .07);
+          box-shadow: 0 4px 10px 0 rgba(135, 142, 154, .07);
+          border-radius: 4px;
+          overflow: hidden;
+        }
       }
 
       .pay {

@@ -25,6 +25,10 @@ let routes = [
     component: () => import("@/views/detail.vue"),
   },
   {
+    path: '/order-search',
+    component: () => import("@/views/order-search.vue"),
+  },
+  {
     path: '/admin',
     redirect: '/admin/workbench',
     component: Layout,
