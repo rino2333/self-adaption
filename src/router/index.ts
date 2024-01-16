@@ -7,26 +7,22 @@ import Layout from "@/layout/index.vue";
 let routes = [
   {
     path: '/',
-    name: 'jsp',
-    // redirect: '/home',
-    component: () => import("@/views/home.vue"),
+    redirect: '/index',
+    component: () => import("@/views/h5/index.vue"),
     children: [
       {
-        path: "home",
-        component: () => import("@/views/home.vue"),
-        // component: () => import("@/views/pinia.vue"),
-        // component: () => import("@/views/websocket.vue"),
-        name: "home"
+        path: "index",
+        component: () => import("@/views/h5/home/index.vue"),
+      },
+      {
+        path: '/detail',
+        component: () => import("@/views/h5/detail/index.vue"),
+      },
+      {
+        path: '/order-search',
+        component: () => import("@/views/h5/order-search/index.vue"),
       }
     ]
-  },
-  {
-    path: '/detail',
-    component: () => import("@/views/detail.vue"),
-  },
-  {
-    path: '/order-search',
-    component: () => import("@/views/order-search.vue"),
   },
   {
     path: '/admin',
