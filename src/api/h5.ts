@@ -18,6 +18,13 @@ interface PayDetail {
   }
 }
 
+export interface OrderDetail {
+  content: string
+  amount: number
+  orderNo: string
+  name: string
+}
+
 export const h5TypeApi = () => {
   return request<H5WareType[]>({
     method: 'get',
@@ -72,7 +79,7 @@ export const isPayApi = (orderNo: string) => {
 }
 
 export const orderDetailApi = (mobile: string) => {
-  return request<PayDetail>({
+  return request<OrderDetail[]>({
     method: 'get',
     url: '/api/h5/getOrderDetail?mobile=' + mobile,
   });

@@ -28,7 +28,7 @@ getDetail()
 const mobile = ref('')
 const handleBuy = () => {
   if (!mobile.value) {
-    ElMessage.warning('请先输入手机号码！')
+    ElMessage.warning('请先输入邮箱！')
     return
   }
   const params = {
@@ -91,9 +91,9 @@ const handleBuy = () => {
                 </div>
 
                 <div class="entry">
-                    <span class="l-msg"><span style="color: red;">* </span>手机号:</span>
+                    <span class="l-msg"><span style="color: red;">* </span>邮箱:</span>
                     <label class="input">
-                        <input v-model="mobile" type="text" name="order_sn" lay-verify="required" placeholder="请输入正确手机号码" autocomplete="off">
+                        <input v-model="mobile" type="text" name="order_sn" lay-verify="required" placeholder="请输入正确邮箱" autocomplete="off">
                     </label>
                 </div>
 

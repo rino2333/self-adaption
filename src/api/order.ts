@@ -3,7 +3,7 @@ import request from "../utils/service";
 export enum OrderEnum {
   UNPAID = '未支付',
   PAID = '已支付',
-  CANCELED = '取消支付'
+  CANCELED = '订单超时'
 }
 
 interface ListReq {

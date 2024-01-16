@@ -14,13 +14,14 @@ const tableData = ref<OrderData[]>([])
 const searchFormRef = ref<FormInstance | null>(null)
 const searchData = reactive({
   name: "",
+  status: ''
 })
 const getTableData = () => {
   loading.value = true
   listApi({
     current: paginationData.currentPage,
     size: paginationData.pageSize,
-    name: searchData.name
+    ...searchData
   })
     .then((res) => {
       paginationData.total = res.data.total
@@ -58,6 +59,11 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         <el-form-item prop="name" label="商品名称">
           <el-input v-model="searchData.name" placeholder="请输入" />
         </el-form-item>
+        <el-form-item prop="status" label="支付状态">
+          <el-select v-model="searchData.status" placeholder="请选择">
+            <el-option v-for="item in Object.keys(OrderEnum)" :label="OrderEnum[item as keyof typeof OrderEnum]" :value="item"></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
           <el-button :icon="Refresh" @click="resetSearch">重置</el-button>
@@ -70,16 +76,17 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
           <el-table-column type="index" width="80" label="序号" align="center" />
           <el-table-column prop="name" label="商品名称" align="center" />
           <el-table-column prop="no" label="订单号" align="center" />
-          <el-table-column prop="amount" label="金额" align="center">
+          <el-table-column prop="amount" label="金额" width="100" align="center">
             <template #default="scope">
               <el-tag>￥{{ scope.row.amount }}</el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="status" label="状态" align="center">
+          <el-table-column prop="status" label="状态" width="100" align="center">
             <template #default="scope">
               <el-tag :type="scope.row.status === 'PAID' ? 'success' : 'warning'">{{ (OrderEnum as Record<string, string>)[scope.row.status] }}</el-tag>
             </template>
           </el-table-column>
+          <el-table-column prop="payTime" label="支付时间" align="center" />
           <el-table-column prop="createTime" label="创建时间" align="center" />
         </el-table>
       </div>

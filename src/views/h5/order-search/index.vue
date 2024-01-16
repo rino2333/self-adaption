@@ -2,11 +2,10 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus"
-import { orderDetailApi } from "@/api/h5"
-
-const router = useRouter()
+import { type OrderDetail, orderDetailApi } from "@/api/h5"
 
 const mobile = ref('')
+const orderList = ref<OrderDetail[]>([])
 const getOrderDetail = () => {
   if (!mobile.value) {
     ElMessage.warning('请输入邮箱')
@@ -14,6 +13,7 @@ const getOrderDetail = () => {
   }
   orderDetailApi(mobile.value).then(res => {
     console.log(res);
+    orderList.value = res.data
   })
 }
 </script>
@@ -37,7 +37,7 @@ const getOrderDetail = () => {
           <div class="layui-tab-item layui-show">
             <input type="hidden" name="_token" value="2eoG3fj5sRrZescaIhC5tRp3hnyqpM3U5mFn91hr">
             <div class="entry">
-              <span class="l-msg">联系方式:</span>
+              <span class="l-msg">邮箱:</span>
               <label class="input">
                 <input v-model="mobile" type="text" name="order_sn" lay-verify="required" placeholder="" autocomplete="off">
               </label>
@@ -53,13 +53,13 @@ const getOrderDetail = () => {
     </div>
   </div>
 
-  <div class="main-box">
+  <div class="main-box" v-for="(item, index) in orderList">
     <div class="pay-title">
       <svg style="margin-bottom: -6px;" t="1603120404646" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1611" width="27" height="27">
         <path d="M320.512 428.032h382.976v61.44H320.512zM320.512 616.448h320.512v61.44H320.512z" fill="#00EAFF" p-id="1612" data-spm-anchor-id="a313x.7781069.0.i3" class="selected"></path>
         <path d="M802.816 937.984H221.184l-40.96-40.96V126.976l40.96-40.96h346.112l26.624 10.24 137.216 117.76 98.304 79.872 15.36 31.744v571.392l-41.984 40.96z m-540.672-81.92h500.736V345.088L677.888 276.48 550.912 167.936H262.144v688.128z" fill="#3C8CE7" p-id="1613" data-spm-anchor-id="a313x.7781069.0.i0" class=""></path>
       </svg>
-      订单详情
+      订单{{ index + 1 }}
     </div>
     <div class="layui-card-body info-box">
       <div class="layui-row order-list">
@@ -67,43 +67,27 @@ const getOrderDetail = () => {
           <ul class="info-ui">
             <li>
                 <strong>订单编号:</strong>
-                N6WVSKU8P8ZYYPYK
+                {{ item.orderNo }}
             </li>
             <li>
-                <strong>订单名称:</strong>
-                哆唻A梦的百宝袋 x 1
+                <strong>订单名称</strong>
+                {{ item.name }}
             </li>
             <li>
-              <strong>购买数量:</strong> 
-              1
+                <strong>订单内容:</strong>
+                {{ item.content }}
             </li>
-            <li>
+            <!-- <li>
               <strong>订单创建时间:</strong> 2023-12-07 21:52:02
+            </li> -->
+            <li>
+                <strong>实际支付价格:</strong>
+                <span class="small-tips tips-green">￥{{ item.amount }}</span>
             </li>
             <li>
-              <strong>下单邮箱:</strong> 
-              123456@qq.com
+              <strong>订单状态:</strong>
+              <span class="small-tips tips-green">已完成</span>
             </li>
-          </ul>
-        </div>
-        <div class="layui-col-md4">
-          <ul class="info-ui">
-              <li>
-                <strong>订单类型:</strong>
-                <span class="small-tips tips-green">自动发货</span>
-              </li>
-              <li>
-                  <strong>实际支付价格:</strong>
-                  <span class="small-tips tips-green">￥0.00</span>
-              </li>
-              <li>
-                <strong>订单状态:</strong>
-                <span class="small-tips tips-green">已完成</span>
-              </li>
-              <li>
-                <strong>支付方式:</strong> 
-                支付宝当面付
-              </li>
           </ul>
         </div>
       </div>
@@ -170,6 +154,32 @@ const getOrderDetail = () => {
     user-select: none;
     box-shadow: 0 5px 6px 0 rgba(73, 105, 230, .22);
     background-image: linear-gradient(135deg, #3C8CE7 10%, #00EAFF 100%);
+  }
+
+  .info-box {
+    padding: 0 16px;
+    color: #737373;
+    font-size: 14px;
+    word-break: break-all;
+
+    strong {
+      line-height: 24px;
+      margin-bottom: 3px;
+      display: inline-block;
+    }
+
+    .tips-green {
+      background: #dff7ea;
+      color: #28C76F;
+    }
+    .small-tips {
+      display: inline-block;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 11px;
+      margin-left: 5px;
+      line-height: initial;
+    }
   }
 }
 
