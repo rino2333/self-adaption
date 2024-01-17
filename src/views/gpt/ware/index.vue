@@ -341,6 +341,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
                 />
               </template>
             </el-table-column>
+            <el-table-column prop="sort" label="排序" width="100" align="center" />
             <el-table-column prop="status" label="状态" align="center">
               <template #default="scope">
                 <el-switch
