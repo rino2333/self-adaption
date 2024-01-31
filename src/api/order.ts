@@ -14,6 +14,7 @@ interface ListReq {
 
 export interface OrderData {
   status: keyof typeof OrderEnum
+  no: string
 }
 
 interface ListRes {
@@ -26,6 +27,13 @@ export const listApi = (params: ListReq) => {
     method: 'get',
     url: '/api/order/list',
     params
+  });
+}
+
+export const detailApi = (no: string) => {
+  return request<{ content: string }>({
+    method: 'get',
+    url: '/api/order/detail?no=' + no,
   });
 }
 

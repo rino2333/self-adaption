@@ -18,7 +18,7 @@ export default defineConfig({
       '/api': {
         // target: 'http://192.168.110.239:6001',
         // target: 'http://139.196.174.228',
-        target: 'http://gpt012.com',
+        target: 'https://gpt012.com',
         changeOrigin: true,
         // rewrite: (path) => path.replace(/^\/api/, '')
       },

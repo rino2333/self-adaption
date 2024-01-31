@@ -115,7 +115,7 @@ const handleDelete = (row: WareTypeData) => {
 const currentUpdateId = ref<undefined | string>(undefined)
 const handleUpdate = (row: WareTypeData) => {
   if (row.id) {
-    setDialogTitle('修改商品类别');
+    setDialogTitle('修改配置');
     currentUpdateId.value = row.id
     detailApi(row.id).then(res => {
       formModel.value = {

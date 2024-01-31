@@ -191,7 +191,7 @@ header {
       display: inline-flex;
       justify-content: center;
       align-items: center;
-      padding: 0 2em;
+      padding: 0 20px;
       cursor: pointer;
 
       &:hover {
@@ -207,17 +207,17 @@ header {
   }
 
   .right-menu-item {
-    padding: 0 1em;
+    padding: 0 10px;
     cursor: pointer;
     .right-menu-avatar {
       display: flex;
       align-items: center;
       outline: none;
       .el-avatar {
-        margin-right: 1em;
+        margin-right: 10px;
       }
       span {
-        font-size: 1.6em;
+        font-size: 16px;
       }
     }
   }
@@ -225,15 +225,14 @@ header {
 .logo {
   display: flex;
   align-items: center;
-  font-size: 2.2em;
-  min-width: 9.1em;
-  height: 2.72em;
+  font-size: 22px;
+  min-width: 90px;
   font-weight: bold;
 
   img {
-    width: 2.72em;
-    height: 2.72em;
-    padding: .27em;
+    width: 60px;
+    height: 60px;
+    padding: 6px;
   }
 }
 

@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import { reactive, ref, watch } from "vue"
-import type { FormInstance } from 'element-plus'
+import type { FormInstance, Action } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { Search, Refresh } from "@element-plus/icons-vue"
 import { usePagination } from "@/hooks/usePagination"
 
-import { listApi, OrderEnum, type OrderData } from "@/api/order";
+import { listApi, detailApi, OrderEnum, type OrderData } from "@/api/order";
 
 const loading = ref<boolean>(false)
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
@@ -48,6 +49,15 @@ const resetSearch = () => {
   paginationData.currentPage = 1
 }
 
+const handleDetail = (row: OrderData) => {
+  detailApi(row.no).then(res => {
+    console.log(res.data);
+    ElMessageBox.alert(res.data.content, '账密详情', {
+    confirmButtonText: 'OK',
+  })
+  })
+}
+
 /** 监听分页参数的变化 */
 watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
 </script>
@@ -88,6 +98,11 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
           </el-table-column>
           <el-table-column prop="payTime" label="支付时间" align="center" />
           <el-table-column prop="createTime" label="创建时间" align="center" />
+          <el-table-column fixed="right" label="操作" width="150" align="center">
+            <template #default="scope">
+              <el-button type="primary" text bg size="small" @click="handleDetail(scope.row)">详情</el-button>
+            </template>
+          </el-table-column>
         </el-table>
       </div>
       <div class="pager-wrapper">

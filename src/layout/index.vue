@@ -52,7 +52,7 @@ const changeAsideStatsus = (status: boolean) => {
   }
 
   .el-header {
-    height: 6em;
+    height: 60px;
     border-bottom: .1em solid var(--el-menu-border-color);
     padding: 0;
   }

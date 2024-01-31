@@ -140,7 +140,7 @@ const changeIcon = () => {
 
 <style scoped lang='scss'>
 .el-scrollbar {
-  height: calc(100vh - 6em);
+  height: calc(100vh - 60px);
 
   :deep(.scrollbar-wrapper) {
     height: 100%;
@@ -156,7 +156,7 @@ const changeIcon = () => {
 }
 
 .icon {
-  padding: 1.2em 0;
+  padding: 12px 0;
 
   i {
     cursor: pointer;
@@ -164,6 +164,6 @@ const changeIcon = () => {
 }
 
 .el-menu:not(.el-menu--collapse) {
-  width: 24em;
+  width: 200px;
 }
 </style>
