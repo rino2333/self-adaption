@@ -8,7 +8,7 @@ const mobile = ref('')
 const orderList = ref<OrderDetail[]>([])
 const getOrderDetail = () => {
   if (!mobile.value) {
-    ElMessage.warning('请输入邮箱')
+    ElMessage.warning('内容不能为空')
     return
   }
   orderDetailApi(mobile.value).then(res => {
@@ -29,7 +29,7 @@ const getOrderDetail = () => {
     </div>
     <div class="layui-card-body">
       <p style="color: #3C8CE7;font-size: 18px;font-weight: 700; text-align: center;margin: 20px 0">
-        输入邮箱查询订单
+        输入 邮箱或 支付宝商家订单号
       </p>
       <div class="layui-tab">
         <div class="layui-tab-content" style="text-align: center">
@@ -37,7 +37,7 @@ const getOrderDetail = () => {
           <div class="layui-tab-item layui-show">
             <input type="hidden" name="_token" value="2eoG3fj5sRrZescaIhC5tRp3hnyqpM3U5mFn91hr">
             <div class="entry">
-              <span class="l-msg">邮箱:</span>
+              <!-- <span class="l-msg">邮箱:</span> -->
               <label class="input">
                 <input v-model="mobile" type="text" name="order_sn" lay-verify="required" placeholder="" autocomplete="off">
               </label>
