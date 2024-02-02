@@ -25,6 +25,10 @@ let routes = [
     ]
   },
   {
+    path: '/alipay',
+    component: () => import("@/views/gpt/alipay/index.vue"),
+  },
+  {
     path: '/admin',
     redirect: '/admin/workbench',
     component: Layout,
@@ -48,7 +52,7 @@ let routes = [
       {
         path: 'order',
         component: () => import("@/views/gpt/order/index.vue"),
-      },
+      }
     ]
   },
   {

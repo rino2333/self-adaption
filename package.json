@@ -16,6 +16,7 @@
     "element-plus": "^2.3.3",
     "pinia": "^2.0.34",
     "pinia-plugin-persist": "^1.0.0",
+    "qrcode.vue": "^3.4.1",
     "sass": "^1.61.0",
     "sass-loader": "^13.2.2",
     "vue": "^3.2.47",

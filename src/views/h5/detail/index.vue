@@ -25,6 +25,7 @@ const getDetail = () => {
 }
 getDetail()
 
+const disabled = ref(false)
 const mobile = ref('')
 const handleBuy = () => {
   if (!mobile.value) {
@@ -36,15 +37,23 @@ const handleBuy = () => {
     number: '1',
     mobile: mobile.value
   }
+  disabled.value = true
   createOrderApi(params).then(res => {
     console.log(res.data);
     payApi(res.data).then(resp => {
-      console.log(resp);
-      let aliSubmitDiv = document.getElementById("ali_submit_div") as HTMLElement;
-      aliSubmitDiv.innerHTML = resp.data;
-      let formedom = document.querySelector('form[name=punchout_form]') as HTMLFormElement;
-      formedom.submit();
+      console.log(resp.data);
+      if (resp.data) {
+        let obj = JSON.parse(resp.data)
+        var url = obj.alipay_trade_precreate_response.qr_code
+        router.push({ path: 'alipay', query: { id: res.data, url, amount: wareInfo.value.amount }})
+      }
+      // let aliSubmitDiv = document.getElementById("ali_submit_div") as HTMLElement;
+      // aliSubmitDiv.innerHTML = resp.data;
+      // let formedom = document.querySelector('form[name=punchout_form]') as HTMLFormElement;
+      // formedom.submit();
     })
+  }).finally(() => {
+    disabled.value = false
   })
 }
 </script>
@@ -105,7 +114,7 @@ const handleBuy = () => {
             </div>
         </div>
         <div class="layui-col-sm12 buy" style="text-align: center">
-            <button @click="handleBuy">
+            <button @click="handleBuy" :disabled="disabled">
               <span>下单</span>
             </button>
         </div>
