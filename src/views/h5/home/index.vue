@@ -5,27 +5,27 @@ import { ElMessageBox } from 'element-plus'
 import { type WareData } from "@/api/ware"
 import { type H5WareType, h5TypeApi, h5WareListApi, isPayApi } from "@/api/h5"
 
-const route = useRoute()
+// const route = useRoute()
 const router = useRouter()
 
-console.log(route.query.out_trade_no);
-const isPay = () => {
-  const no = route.query.out_trade_no
-  if (typeof no == 'string') {
-    isPayApi(no).then(res => {
-      if (res.data.status == 'PAID') {
-        ElMessageBox.confirm(`${res.data.detail.content}`, "请保存好账号信息", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "success"
-        }).then(() => {
+// console.log(route.query.out_trade_no);
+// const isPay = () => {
+//   const no = route.query.out_trade_no
+//   if (typeof no == 'string') {
+//     isPayApi(no).then(res => {
+//       if (res.data.status == 'PAID') {
+//         ElMessageBox.confirm(`${res.data.detail.content}`, "请保存好账号信息", {
+//           confirmButtonText: "确定",
+//           cancelButtonText: "取消",
+//           type: "success"
+//         }).then(() => {
           
-        })
-      }
-    })
-  }
-}
-isPay()
+//         })
+//       }
+//     })
+//   }
+// }
+// isPay()
 
 const wareType = ref<H5WareType[]>([])
   h5TypeApi().then(res => {
