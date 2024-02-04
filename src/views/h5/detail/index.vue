@@ -70,54 +70,54 @@ const handleBuy = () => {
         </svg>
         <span>商品详情</span>
       </div>
-      <div class="layui-col-md4 layui-col-sm12">
+      <div class="layui-col-md4 layui-col-sm12 pc">
           <div class="goods-img">
               <img class="viewer-pictures" :src="wareInfo.logo" alt="">
           </div>
-      </div>
-      
-      <div class="layui-form layui-form-pane">
-        <input type="hidden" name="_token" value="unmylEfNKy5NxLYuuYitLk1FIdEGteSlQUPUYr4z">
-        <input type="hidden" name="gid" value="4">
-        <div class="layui-col-md8 layui-col-sm12">
-            <div class="goods-msg">
-                <div class="goods-name">
-                    <svg style="vertical-align: middle;" t="1602941112468" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1512" width="25" height="25" data-spm-anchor-id="a313x.7781069.0.i14">
-                        <path d="M727.04 750.592h-68.608v-81.92H686.08V249.856L512 99.328 337.92 253.952v414.72h28.672v81.92H296.96l-40.96-40.96V235.52l13.312-30.72 215.04-190.464h54.272l215.04 186.368 14.336 30.72v478.208z" fill="#3C8CE7" p-id="1513" data-spm-anchor-id="a313x.7781069.0.i12" class=""></path>
-                        <path d="M869.376 638.976l-147.456-18.432-35.84-40.96V350.208l69.632-28.672 147.456 147.456 12.288 28.672v99.328l-46.08 41.984zM768 543.744l65.536 8.192v-35.84L768 449.536v94.208zM154.624 638.976l-46.08-40.96v-99.328l12.288-28.672 147.456-147.456 69.632 28.672v229.376l-35.84 40.96-147.456 17.408z m35.84-123.904v35.84L256 542.72v-94.208l-65.536 66.56z" fill="#3C8CE7" p-id="1514" data-spm-anchor-id="a313x.7781069.0.i15" class=""></path>
-                        <path d="M512 465.92m-67.584 0a67.584 67.584 0 1 0 135.168 0 67.584 67.584 0 1 0-135.168 0Z" fill="#3C8CE7" p-id="1515" data-spm-anchor-id="a313x.7781069.0.i16" class=""></path>
-                        <path d="M479.232 660.48h58.368v233.472h-58.368zM391.168 723.968h58.368v157.696h-58.368zM461.824 922.624h58.368v88.064h-58.368zM574.464 748.544h58.368v188.416h-58.368z" fill="#00EAFF" p-id="1516" data-spm-anchor-id="a313x.7781069.0.i17" class="selected"></path>
-                    </svg>
-                    <span>
-                      {{ wareInfo.name }}
-                      <span class="small-tips tips-green">自动发货</span>
-                      <span class="small-tips tips-blue">库存(742)</span>
-                    </span>
-                </div>
-                <div class="price">
-                    <span class="price-sign">￥</span>
-                    <span class="price-num">{{ wareInfo.amount }}</span>
-                </div>
 
-                <div class="entry">
-                    <span class="l-msg"><span style="color: red;">* </span>邮箱:</span>
-                    <label class="input">
-                        <input v-model="mobile" type="text" name="order_sn" lay-verify="required" placeholder="请输入正确邮箱" autocomplete="off">
-                    </label>
-                </div>
+          <div class="email-form">
+            <input type="hidden" name="_token" value="unmylEfNKy5NxLYuuYitLk1FIdEGteSlQUPUYr4z">
+            <input type="hidden" name="gid" value="4">
+            <div class="layui-col-md8 layui-col-sm12">
+                <div class="goods-msg">
+                    <div class="goods-name">
+                        <svg style="vertical-align: middle;" t="1602941112468" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1512" width="25" height="25" data-spm-anchor-id="a313x.7781069.0.i14">
+                            <path d="M727.04 750.592h-68.608v-81.92H686.08V249.856L512 99.328 337.92 253.952v414.72h28.672v81.92H296.96l-40.96-40.96V235.52l13.312-30.72 215.04-190.464h54.272l215.04 186.368 14.336 30.72v478.208z" fill="#3C8CE7" p-id="1513" data-spm-anchor-id="a313x.7781069.0.i12" class=""></path>
+                            <path d="M869.376 638.976l-147.456-18.432-35.84-40.96V350.208l69.632-28.672 147.456 147.456 12.288 28.672v99.328l-46.08 41.984zM768 543.744l65.536 8.192v-35.84L768 449.536v94.208zM154.624 638.976l-46.08-40.96v-99.328l12.288-28.672 147.456-147.456 69.632 28.672v229.376l-35.84 40.96-147.456 17.408z m35.84-123.904v35.84L256 542.72v-94.208l-65.536 66.56z" fill="#3C8CE7" p-id="1514" data-spm-anchor-id="a313x.7781069.0.i15" class=""></path>
+                            <path d="M512 465.92m-67.584 0a67.584 67.584 0 1 0 135.168 0 67.584 67.584 0 1 0-135.168 0Z" fill="#3C8CE7" p-id="1515" data-spm-anchor-id="a313x.7781069.0.i16" class=""></path>
+                            <path d="M479.232 660.48h58.368v233.472h-58.368zM391.168 723.968h58.368v157.696h-58.368zM461.824 922.624h58.368v88.064h-58.368zM574.464 748.544h58.368v188.416h-58.368z" fill="#00EAFF" p-id="1516" data-spm-anchor-id="a313x.7781069.0.i17" class="selected"></path>
+                        </svg>
+                        <span>
+                          {{ wareInfo.name }}
+                          <span class="small-tips tips-green">自动发货</span>
+                          <span class="small-tips tips-blue">库存(742)</span>
+                        </span>
+                    </div>
+                    <div class="price">
+                        <span class="price-sign">￥</span>
+                        <span class="price-num">{{ wareInfo.amount }}</span>
+                    </div>
 
-                <div class="pay notSelection">
-                  <input type="hidden" name="payway" lay-verify="payway" value="1">
-                    <div class="pay-type  pay-select " data-type="zfbf2f" data-id="1" data-name="支付宝当面付">
-                      <svg t="1602939269695" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1127" width="32" height="32"><path d="M902.095 652.871l-250.96-84.392s19.287-28.87 39.874-85.472c20.59-56.606 23.539-87.689 23.539-87.689l-162.454-1.339v-55.487l196.739-1.387v-39.227H552.055v-89.29h-96.358v89.294H272.133v39.227l183.564-1.304v59.513h-147.24v31.079h303.064s-3.337 25.223-14.955 56.606c-11.615 31.38-23.58 58.862-23.58 58.862s-142.3-49.804-217.285-49.804c-74.985 0-166.182 30.123-175.024 117.55-8.8 87.383 42.481 134.716 114.728 152.139 72.256 17.513 138.962-0.173 197.04-28.607 58.087-28.391 115.081-92.933 115.081-92.933l292.486 142.041c-11.932 69.3-72.067 119.914-142.387 119.844H266.37c-79.714 0.078-144.392-64.483-144.466-144.194V266.374c-0.074-79.72 64.493-144.399 144.205-144.47h491.519c79.714-0.073 144.396 64.49 144.466 144.203v386.764z m-365.76-48.895s-91.302 115.262-198.879 115.262c-107.623 0-130.218-54.767-130.218-94.155 0-39.34 22.373-82.144 113.943-88.333 91.519-6.18 215.2 67.226 215.2 67.226h-0.047z" fill="#02A9F1" p-id="1128" data-spm-anchor-id="a313x.7781069.0.i1" class="selected"></path></svg> 支付宝当面付</div>
+                    <div class="entry">
+                        <span class="l-msg"><span style="color: red;">* </span>邮箱:</span>
+                        <label class="input">
+                            <input v-model="mobile" type="text" name="order_sn" lay-verify="required" placeholder="请输入正确邮箱" autocomplete="off">
+                        </label>
+                    </div>
+
+                    <div class="pay notSelection">
+                      <input type="hidden" name="payway" lay-verify="payway" value="1">
+                        <div class="pay-type  pay-select " data-type="zfbf2f" data-id="1" data-name="支付宝当面付">
+                          <svg t="1602939269695" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1127" width="32" height="32"><path d="M902.095 652.871l-250.96-84.392s19.287-28.87 39.874-85.472c20.59-56.606 23.539-87.689 23.539-87.689l-162.454-1.339v-55.487l196.739-1.387v-39.227H552.055v-89.29h-96.358v89.294H272.133v39.227l183.564-1.304v59.513h-147.24v31.079h303.064s-3.337 25.223-14.955 56.606c-11.615 31.38-23.58 58.862-23.58 58.862s-142.3-49.804-217.285-49.804c-74.985 0-166.182 30.123-175.024 117.55-8.8 87.383 42.481 134.716 114.728 152.139 72.256 17.513 138.962-0.173 197.04-28.607 58.087-28.391 115.081-92.933 115.081-92.933l292.486 142.041c-11.932 69.3-72.067 119.914-142.387 119.844H266.37c-79.714 0.078-144.392-64.483-144.466-144.194V266.374c-0.074-79.72 64.493-144.399 144.205-144.47h491.519c79.714-0.073 144.396 64.49 144.466 144.203v386.764z m-365.76-48.895s-91.302 115.262-198.879 115.262c-107.623 0-130.218-54.767-130.218-94.155 0-39.34 22.373-82.144 113.943-88.333 91.519-6.18 215.2 67.226 215.2 67.226h-0.047z" fill="#02A9F1" p-id="1128" data-spm-anchor-id="a313x.7781069.0.i1" class="selected"></path></svg> 支付宝当面付</div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="layui-col-sm12 buy" style="text-align: center">
-            <button @click="handleBuy" :disabled="disabled">
-              <span>下单</span>
-            </button>
-        </div>
+            <div class="layui-col-sm12 buy" style="text-align: center">
+                <button @click="handleBuy" :disabled="disabled">
+                  <span>下单</span>
+                </button>
+            </div>
+          </div>
       </div>
     </div>
 
@@ -299,24 +299,15 @@ nav {
     margin-right: 10px;
     margin-top: 10px;
     width: calc(100% - 30px);
-    height: 0;
-    position: relative;
-    padding-bottom: calc(100% - 40px);
-
+    
     img {
       width: calc(100% - 10px);
       box-shadow: 0 5px 6px 0 rgba(73, 105, 230, .22);
       border-radius: 5px;
       margin-top: 5px;
-      /* padding: 5px; */
-      height: 100%;
-      position: absolute;
-      object-fit: cover;
+      padding: 5px; 
     }
   }
-
-  
- 
 
   .title-2 {
     margin-bottom: 10px;
@@ -324,4 +315,17 @@ nav {
   }
 }
 
+@media (min-width: 900px) {
+  .pc {
+    display: flex;
+    
+    .goods-img {
+      flex: 1;
+    }
+
+    .email-form {
+      flex: 2;
+    }
+  }
+}
 </style>
