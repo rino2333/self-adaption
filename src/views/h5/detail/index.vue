@@ -90,7 +90,7 @@ const handleBuy = () => {
                         <span>
                           {{ wareInfo.name }}
                           <span class="small-tips tips-green">自动发货</span>
-                          <span class="small-tips tips-blue">库存(742)</span>
+                          <span class="small-tips tips-blue">库存({{ wareInfo.count }})</span>
                         </span>
                     </div>
                     <div class="price">

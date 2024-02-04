@@ -18,9 +18,5 @@
     }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
-  "references": [{ "path": "./tsconfig.node.json" }],
-  "exclude": [
-    // 其他路径...
-    "marquee"
-  ]
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

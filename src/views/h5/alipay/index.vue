@@ -51,7 +51,7 @@ const goAlipay = () => {
                 {{ route.query.amount }}</b> 元
             </div>
             <div class="hr-top"></div>
-            <qrcode-vue :value="route.query.url" size="200" level="H" />
+            <qrcode-vue :value="(route.query.url as string)" :size="200" level="H" />
         </div>
 
         <div class="mobile hr-top">

@@ -58,20 +58,22 @@ const changeTab = (index: number, id: string) => {
         <p class="card-title">
           <i class="fa fa-bullhorn"></i>  温馨提示                 
         </p>
-        <marquee style="color: red;">在本店购买的GPT账号在质保期间内都有售后，如有账号问题请联系本站客服。</marquee>
+        <div class="scroll-text">
+          <span class="scroll-content">在本店购买的GPT账号在质保期间内都有售后，如有账号问题请联系本站客服。</span>
+        </div>
       </div>
       <div class="card-block">
         <p>免责声明：本站提供的账号资源，且限用来专业知识技能学习、游戏下载、外贸交流、网络营销等，用户若擅自利用本站资源从事任何违反本国（地区）法律法规的活动，由此引起的一切后果与本站无关。
           <b>若本站销售的邮箱账号侵犯了贵司版权,请联系本站微信客服。&nbsp;</b>
         </p>
         <p>
-          <b><font color="#c24f4a">&nbsp; &nbsp;GPT客服小哥：create5000</font></b>
+          <b style="color: #c24f4a">;&nbsp; &nbsp;GPT客服小哥：create5000</b>
         </p>
         <p>
-          <b><font color="#c24f4a">&nbsp; &nbsp;GPT客服小妹：Asoul8000</font></b>
+          <b style="color: #c24f4a">&nbsp; &nbsp;GPT客服小妹：Asoul8000</b>
         </p>
         <p>
-          <b><font color="#c24f4a">&nbsp; &nbsp;人工在线时间：早9:00-凌晨2:00</font></b>
+          <b style="color: #c24f4a">&nbsp; &nbsp;人工在线时间：早9:00-凌晨2:00</b>
           <br>
         </p>
         <!-- <p>
@@ -146,6 +148,27 @@ article {
   background: rgba($color: #fff, $alpha: .2);
   box-shadow: 0 7px 29px 0 rgba(18, 52, 91, .11);
   border-radius: 6px;
+
+  .scroll-text {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .scroll-content {
+    color: red;
+    display: inline-block;
+    animation: scroll 10s linear infinite;
+  }
+
+  @keyframes scroll {
+    0% {
+    transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
 }
 
 nav {
