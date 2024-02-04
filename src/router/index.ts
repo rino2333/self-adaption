@@ -26,7 +26,7 @@ let routes = [
   },
   {
     path: '/alipay',
-    component: () => import("@/views/gpt/alipay/index.vue"),
+    component: () => import("@/views/h5/alipay/index.vue"),
   },
   {
     path: '/admin',
