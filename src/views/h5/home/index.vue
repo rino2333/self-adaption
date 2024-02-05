@@ -67,7 +67,7 @@ const changeTab = (index: number, id: string) => {
           <b>若本站销售的邮箱账号侵犯了贵司版权,请联系本站微信客服。&nbsp;</b>
         </p>
         <p>
-          <b style="color: #c24f4a">;&nbsp; &nbsp;GPT客服小哥：create5000</b>
+          <b style="color: #c24f4a">&nbsp; &nbsp;GPT客服小哥：create5000</b>
         </p>
         <p>
           <b style="color: #c24f4a">&nbsp; &nbsp;GPT客服小妹：Asoul8000</b>
