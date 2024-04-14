@@ -18,8 +18,8 @@ const isMobile = computed(() => {
   <div class="page" :class="{ 'mobile': isMobile }">
     <div class="main">
       <header class="flex-align-center">
-        <img src="@/assets/images/123.jpg" alt="" @click="router.push('/')">
-        一个gpt账号自助平台
+        <img src="@/assets/images/liuhu.jpg" alt="" @click="router.push('/')">
+        金山（宇宙最强GPT4.0）
       </header>
       <div 
         class="query-m" 
@@ -45,7 +45,7 @@ const isMobile = computed(() => {
   background-color: #6ea6f5;
   padding: 16px;
   overflow: auto;
-  background-image: url(@/assets/images/bg.jpg);
+  // background-image: url(@/assets/images/bg.jpg);
 
   .main {
     max-width: 1200px;
