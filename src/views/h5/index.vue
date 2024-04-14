@@ -42,7 +42,7 @@ const isMobile = computed(() => {
 .page {
   width: 100%;
   height: 100%;
-  background-color: #6ea6f5;
+  // background-color: #6ea6f5;
   padding: 16px;
   overflow: auto;
   // background-image: url(@/assets/images/bg.jpg);
