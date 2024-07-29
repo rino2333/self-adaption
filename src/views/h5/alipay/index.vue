@@ -20,6 +20,9 @@ timer = setInterval(() => {
                 cancelButtonText: "取消",
                 type: "success"
                 }).then(() => {
+                    if (route.query.orderId == '37') {
+                        localStorage.setItem('noFree', '1')
+                    }
                     router.push('/')
                 })
         }

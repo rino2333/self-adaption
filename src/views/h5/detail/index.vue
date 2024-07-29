@@ -28,6 +28,10 @@ getDetail()
 const disabled = ref(false)
 const mobile = ref('')
 const handleBuy = () => {
+  if (localStorage.getItem('noFree')) {
+    ElMessage.warning('该商品限购一次，快去看看其它商品吧')
+    return
+  }
   if (!mobile.value) {
     ElMessage.warning('请先输入邮箱！')
     return
@@ -45,7 +49,7 @@ const handleBuy = () => {
       if (resp.data) {
         let obj = JSON.parse(resp.data)
         var url = obj.alipay_trade_precreate_response.qr_code
-        router.push({ path: 'alipay', query: { id: res.data, url, amount: wareInfo.value.amount }})
+        router.push({ path: 'alipay', query: { id: res.data, url, amount: wareInfo.value.amount, orderId: id }})
       }
       // let aliSubmitDiv = document.getElementById("ali_submit_div") as HTMLElement;
       // aliSubmitDiv.innerHTML = resp.data;
