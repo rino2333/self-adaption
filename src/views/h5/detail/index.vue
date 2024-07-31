@@ -28,7 +28,7 @@ getDetail()
 const disabled = ref(false)
 const mobile = ref('')
 const handleBuy = () => {
-  if (localStorage.getItem('noFree')) {
+  if (localStorage.getItem('noFree') && id == '37') {
     ElMessage.warning('该商品限购一次，快去看看其它商品吧')
     return
   }
