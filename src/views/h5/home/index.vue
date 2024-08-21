@@ -59,7 +59,7 @@ const changeTab = (index: number, id: string) => {
           <i class="fa fa-bullhorn"></i>  温馨提示                 
         </p>
         <div class="scroll-text">
-          <span class="scroll-content">在本店购买的GPT账号在质保期间内都有售后，如有账号问题请联系本站客服。</span>
+          <span class="scroll-content">本店所有消费均可开发票，在本店购买的GPT账号在质保期间内都有售后，如有账号问题请联系本站客服。</span>
         </div>
       </div>
       <div class="card-block">
@@ -163,7 +163,7 @@ article {
 
   @keyframes scroll {
     0% {
-    transform: translateX(100%);
+    transform: translateX(40%);
     }
     100% {
       transform: translateX(-100%);
