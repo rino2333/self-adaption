@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { ref, reactive } from 'vue'
 import request from "/@/utils/request"
+import type { Value } from './OmniForm.vue' 
 
 interface Slot {
   name: string
@@ -18,18 +20,11 @@ export interface Pagination {
   layout?: string
 }
 
-export interface TableConfig {
-  columns: TableColumn[],
-	pagination?: {
-		pageSizes?: number[]
-		layout?: string
-	}
-}
-
 const props = withDefaults(defineProps<{
   api: string;
   columns: TableColumn[];
   pagination: Pagination;
+  queryData: Record<string, Value>
 }>(), {
   api: '', // 默认值为空字符串
   pagination: () => ({ // 可选部分，如果你需要默认值，可以提供
@@ -49,20 +44,43 @@ const page = reactive({
 
 const data = ref([])
 const fetchList = (query?: Object) => {
-  request({
-    url: props.api,
-    method: 'get',
-    params: query
-  }).then(res => {
-    data.value = res.data.records
-		page.total = res.data.total
-  })
+  const params = {
+    ...props.queryData
+  }
+  // request({
+  //   url: props.api,
+  //   method: 'get',
+  //   params
+  // }).then(res => {
+  //   data.value = res.data.records
+	// 	page.total = res.data.total
+  // })
+
+  data.value = [
+    {
+      "id": 94,
+      "code": "400100",
+      "enable": true,
+      "name": "湖北科技大学",
+      "address": "湖北武汉",
+      "contacts": "吴迪",
+      "contactsPhone": "18098761234",
+      "eduleveles": "高起专,专升本,高起本",
+      "photo": "",
+      "titles": "",
+      "principal": "吴迪"
+    }
+  ]
+  page.total = 2
 }
 fetchList()
 
 const handleSizeChange = () => {}
 const handleCurrentChange = () => {}
 
+defineExpose({
+  fetchList
+})
 </script>
 
 <template>
