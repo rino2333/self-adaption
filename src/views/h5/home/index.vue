@@ -69,9 +69,9 @@ const changeTab = (index: number, id: string) => {
         <p>
           <b style="color: #c24f4a">&nbsp; &nbsp;GPT客服小哥：create5000</b>
         </p>
-        <p>
+        <!-- <p>
           <b style="color: #c24f4a">&nbsp; &nbsp;GPT客服小妹：Asoul8000</b>
-        </p>
+        </p> -->
         <p>
           <b style="color: #c24f4a">&nbsp; &nbsp;人工在线时间：早9:00-凌晨2:00</b>
           <br>
